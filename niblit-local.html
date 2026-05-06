@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NibLit</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=Lora:ital,opsz,wght@0,6..72,400;1,6..72,400&family=DM+Sans:wght@300;400;500&display=swap');
+:root{--p:#3D1035;--pm:#5A2050;--pl:#7A4070;--c:#F2E4D0;--cd:#D8C4A8;--cf:#FAF5EE;--g:#C8A060;--gd:#9A7030;--serif:'EB Garamond',Georgia,serif;--body:'Lora',Georgia,serif;--sans:'DM Sans',sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;background:#000;}
+#app{height:100vh;max-width:430px;margin:0 auto;display:flex;flex-direction:column;font-family:var(--sans);background:var(--cf);color:var(--p);overflow:hidden;position:relative;}
+.pg{display:none;flex:1;flex-direction:column;overflow:hidden;}.pg.on{display:flex;}
+#pw{background:var(--p);align-items:center;justify-content:center;}
+.wi{display:flex;flex-direction:column;align-items:center;gap:18px;}
+.wico{width:120px;height:120px;}
+.ww{font-family:var(--serif);font-size:44px;color:var(--c);letter-spacing:-1px;font-weight:400;margin-top:-4px;}
+.wtw{height:24px;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.wt{font-size:14px;color:var(--cd);font-style:italic;opacity:0;transition:opacity .5s;text-align:center;}.wt.v{opacity:1;}
+.wds{display:flex;gap:7px;margin-top:4px;}
+.wd{width:7px;height:7px;border-radius:50%;background:var(--pl);animation:wp 1.5s infinite;}
+.wd:nth-child(2){animation-delay:.22s;}.wd:nth-child(3){animation-delay:.44s;}
+@keyframes wp{0%,80%,100%{opacity:.2}40%{opacity:1}}
+.w-cta{margin-top:8px;padding:10px 32px;background:var(--g);color:var(--p);border:none;border-radius:999px;font-size:14px;font-weight:500;cursor:pointer;font-family:var(--sans);}
+.topbar{background:var(--p);padding:11px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.tb-l{display:flex;align-items:center;gap:8px;}.tb-ico{width:24px;height:24px;}
+.tb-name{font-family:var(--serif);font-size:17px;color:var(--c);font-weight:400;}.tb-r{font-size:12px;color:var(--cd);}
+.sc{flex:1;overflow-y:auto;padding:14px 16px;}
+.sl{font-size:10px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;color:var(--p);margin-bottom:7px;margin-top:14px;}.sl:first-child{margin-top:0;}
+.cs{display:flex;flex-wrap:wrap;gap:5px;}
+.cp{padding:6px 12px;border-radius:999px;font-size:13px;cursor:pointer;border:0.5px solid var(--cd);color:var(--p);background:var(--cf);transition:all .15s;user-select:none;}
+.cp:hover{border-color:var(--pm);}.cp.on{background:var(--p);border-color:var(--p);color:var(--c);}
+.cp.sur{border-color:var(--g);color:var(--g);}.cp.sur.on{background:var(--g);border-color:var(--g);color:var(--p);font-weight:500;}
+.spw{margin-top:4px;}.sps{width:100%;accent-color:var(--g);cursor:pointer;}
+.spls{display:flex;justify-content:space-between;margin-top:2px;}
+.spl{font-size:9px;color:var(--pm);text-align:center;flex:1;}
+.spv{text-align:center;margin-top:5px;font-size:12px;font-weight:500;color:var(--g);}
+.spd{text-align:center;font-size:11px;color:var(--p);font-style:italic;margin-top:2px;}
+.ww2{margin-top:4px;border:0.5px solid var(--cd);border-radius:9px;overflow:hidden;}
+.wt2{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;cursor:pointer;background:var(--c);}
+.wt2l{display:flex;align-items:center;gap:7px;}.wst{color:var(--g);font-size:14px;}
+.wtt{font-size:12px;font-weight:500;color:var(--p);}.wts{font-size:11px;color:var(--p);margin-top:1px;}
+.wch{font-size:11px;color:var(--pm);transition:transform .18s;}.wch.op{transform:rotate(180deg);}
+.wb{border-top:0.5px solid var(--cd);background:var(--cf);}
+.wo{padding:7px 10px 3px;}
+.wop{padding:7px 10px;border-radius:7px;border:0.5px solid var(--cd);margin-bottom:6px;cursor:pointer;transition:all .15s;}
+.wop:hover{border-color:var(--pm);}.wop.on{background:var(--p);border-color:var(--p);}
+.wop.sur{border-color:var(--g);}.wop.sur.on{background:var(--g);border-color:var(--g);}
+.wot{font-size:12px;font-weight:500;color:var(--p);}.wop.on .wot{color:var(--c);}.wop.sur.on .wot{color:var(--p);}
+.wos{font-size:11px;color:var(--p);margin-top:1px;}.wop.on .wos{color:var(--cd);}.wop.sur.on .wos{color:var(--pm);}
+.wcu{padding:6px 10px 10px;display:flex;gap:6px;}
+.wci{flex:1;padding:6px 9px;font-size:11px;border:0.5px solid var(--cd);border-radius:6px;background:var(--cf);color:var(--p);font-family:var(--sans);}
+.wci::placeholder{color:var(--pl);}
+.wca{padding:6px 11px;background:var(--p);color:var(--c);border:none;border-radius:6px;font-size:11px;cursor:pointer;font-family:var(--sans);}
+.ca{padding:12px 16px;border-top:0.5px solid var(--cd);background:var(--cf);flex-shrink:0;}
+.cta{display:block;width:100%;padding:11px;background:var(--p);color:var(--c);border:none;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--sans);text-align:center;}
+.ss{font-size:10px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;color:var(--p);margin:14px 0 8px;}.ss:first-of-type{margin-top:0;}
+.si{font-size:12px;color:var(--p);line-height:1.6;margin-bottom:10px;}
+.tr{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:0.5px solid var(--cd);}
+.ti{flex:1;min-width:0;}.tl{font-size:12px;font-weight:500;color:var(--p);}.ts{font-size:11px;color:var(--p);margin-top:2px;}
+.tg{width:34px;height:20px;border-radius:999px;background:var(--cd);position:relative;cursor:pointer;border:none;flex-shrink:0;transition:background .18s;}
+.tg.on{background:var(--p);}.tg::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:white;transition:transform .18s;}
+.tg.on::after{transform:translateX(14px);}
+.fr{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:0.5px solid var(--cd);}
+.fb{display:flex;gap:5px;}
+.f1{padding:4px 11px;border-radius:5px;font-size:12px;border:0.5px solid var(--cd);cursor:pointer;background:var(--cf);color:var(--p);font-family:var(--sans);}
+.f1.on{background:var(--p);color:var(--c);border-color:var(--p);}
+.lr{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:0.5px solid var(--cd);}
+.shc{border:0.5px solid var(--cd);border-radius:9px;overflow:hidden;margin-bottom:8px;}
+.shh{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;cursor:pointer;background:var(--c);}
+.shn{font-size:12px;font-weight:500;color:var(--p);display:flex;align-items:center;gap:6px;}
+.shco{font-size:10px;color:var(--pm);background:var(--cf);border:0.5px solid var(--cd);border-radius:999px;padding:1px 7px;}
+.shco.hs{background:var(--p);color:var(--c);border-color:var(--p);}
+.shev{transition:transform .18s;color:var(--pm);font-size:11px;}.shev.op{transform:rotate(180deg);}
+.shi{border-top:0.5px solid var(--cd);}
+.shir{display:flex;align-items:center;justify-content:space-between;padding:8px 12px 8px 16px;border-bottom:0.5px solid var(--cd);}
+.shir:last-child{border-bottom:none;}.shin{font-size:12px;color:var(--p);}
+.ck{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--cd);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:white;}
+.ck.on{background:var(--p);border-color:var(--p);}.ck.on::after{content:'';display:block;width:4px;height:7px;border:2px solid white;border-top:none;border-left:none;transform:rotate(45deg) translate(-1px,-1px);}
+.ck.lk{background:var(--p);border-color:var(--p);cursor:default;opacity:.5;}.ck.lk::after{content:'';display:block;width:4px;height:7px;border:2px solid white;border-top:none;border-left:none;transform:rotate(45deg) translate(-1px,-1px);}
+.an{font-size:11px;color:var(--pm);font-style:italic;padding:5px 12px 7px 16px;}
+.cu{margin-top:10px;background:var(--c);border-radius:9px;padding:11px 13px;border:0.5px solid var(--cd);}
+.cul{font-size:9px;font-weight:500;letter-spacing:.7px;text-transform:uppercase;color:var(--p);margin-bottom:7px;}
+.cur{display:flex;gap:6px;margin-bottom:6px;}
+.cui{flex:1;padding:7px 9px;font-size:12px;border:0.5px solid var(--cd);border-radius:6px;background:white;color:var(--p);font-family:var(--sans);}
+.cui::placeholder{color:var(--pl);}
+.cua{padding:7px 11px;background:var(--p);color:var(--c);border:none;border-radius:6px;font-size:11px;cursor:pointer;font-family:var(--sans);}
+.ct{display:flex;flex-wrap:wrap;gap:4px;}
+.ctg{display:flex;align-items:center;gap:4px;background:var(--p);border-radius:999px;padding:3px 9px;font-size:11px;color:var(--c);}
+.ctr{cursor:pointer;opacity:.7;font-size:12px;line-height:1;}
+.rh{background:var(--p);padding:10px 16px 13px;flex-shrink:0;}
+.tbd{display:inline-flex;align-items:center;gap:5px;background:rgba(200,160,96,.15);border:0.5px solid var(--g);border-radius:4px;padding:4px 8px;margin-bottom:6px;}
+.tbt{font-size:10px;color:var(--g);}.en{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--g);margin-bottom:4px;}
+.et{font-family:var(--serif);font-size:19px;color:var(--c);line-height:1.2;font-style:italic;margin-bottom:2px;}.ec{font-size:10px;color:var(--cd);}
+.prw{padding:6px 16px 0;display:flex;align-items:center;gap:8px;background:var(--cf);flex-shrink:0;}
+.pt2{flex:1;height:1.5px;background:var(--cd);border-radius:2px;}.pf{height:100%;background:var(--pm);border-radius:2px;transition:width .6s;}
+.pl2{font-size:10px;color:var(--p);}
+.rw{position:relative;flex:1;display:flex;overflow:hidden;}
+.rs{flex:1;overflow-y:auto;background:var(--cf);}
+.cd2{text-align:center;padding:20px 16px 4px;color:var(--cd);letter-spacing:10px;font-size:12px;}
+.prose{padding:4px 20px 22px;font-family:var(--body);font-size:15px;line-height:1.95;color:var(--p);max-width:640px;margin:0 auto;}
+.prose p{margin-bottom:1em;}
+.dc::first-letter{font-family:var(--serif);font-size:3.8em;float:left;line-height:.75;margin:.05em .1em 0 0;color:var(--pm);font-style:italic;}
+.sb{text-align:center;color:var(--cd);letter-spacing:9px;font-size:12px;margin:1.2em 0;clear:both;}
+.hl{font-style:italic;font-family:var(--serif);font-size:15px;color:var(--pm);border-left:2.5px solid var(--g);padding:4px 0 4px 12px;margin:1.2em 0;line-height:1.6;}
+.ct2{text-align:center;padding:4px 0 18px;color:var(--cd);letter-spacing:10px;font-size:11px;}
+.tracker{width:0;background:var(--p);overflow:hidden;transition:width .28s;flex-shrink:0;display:flex;flex-direction:column;}
+.tracker.open{width:190px;}
+.tr-hdr{padding:12px 12px 8px;border-bottom:0.5px solid var(--pm);flex-shrink:0;}
+.tr-title{font-size:10px;font-weight:500;letter-spacing:.7px;text-transform:uppercase;color:var(--g);margin-bottom:2px;}
+.tr-sub{font-size:9px;color:var(--cd);}
+.tr-scroll{flex:1;overflow-y:auto;padding:8px 12px;}
+.t-sec{font-size:9px;font-weight:500;letter-spacing:.7px;text-transform:uppercase;color:var(--g);margin:9px 0 5px;}.t-sec:first-child{margin-top:0;}
+.t-row{display:flex;align-items:flex-start;gap:6px;margin-bottom:5px;}
+.t-lbl{font-size:9px;color:var(--cd);min-width:54px;flex-shrink:0;line-height:1.4;}
+.t-val{font-size:9px;color:var(--c);line-height:1.4;flex:1;}
+.t-bw{margin-bottom:7px;}.t-bl{font-size:9px;color:var(--cd);margin-bottom:3px;}
+.t-b{height:5px;background:var(--pm);border-radius:2px;overflow:hidden;}
+.t-bf{height:100%;background:var(--g);border-radius:2px;transition:width .4s;}
+.t-entry{font-size:9px;color:var(--cd);margin-bottom:5px;padding-bottom:5px;border-bottom:0.5px solid var(--pm);line-height:1.4;}
+.t-entry:last-child{border-bottom:none;}.t-entry span{color:var(--c);}
+.tr-btn{position:absolute;right:0;top:50%;transform:translateY(-50%);background:var(--p);border:0.5px solid var(--pm);border-right:none;border-radius:4px 0 0 4px;padding:10px 5px;cursor:pointer;z-index:5;transition:right .28s;}
+.tr-btn.open{right:190px;}.tr-btn-txt{font-size:9px;color:var(--cd);writing-mode:vertical-rl;letter-spacing:.5px;}
+.rf{padding:11px 16px 13px;border-top:0.5px solid var(--cd);background:var(--c);flex-shrink:0;}
+.nb{display:block;width:100%;padding:10px;background:var(--p);color:var(--c);border:none;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--sans);text-align:center;margin-bottom:8px;}
+.nb:hover{opacity:.88;}.nb:disabled{opacity:.38;cursor:not-allowed;}
+.rm{display:flex;align-items:center;justify-content:space-between;}
+.nl{font-size:12px;color:var(--p);cursor:pointer;text-decoration:underline;text-underline-offset:2px;}
+.hb{display:flex;align-items:center;gap:4px;cursor:pointer;border:none;background:none;font-size:12px;color:var(--p);font-family:var(--sans);padding:3px 0;}
+.hb.lv{color:#C04060;}.hi{width:16px;height:16px;transition:transform .2s;}.hb.lv .hi{transform:scale(1.25);}
+.ls{padding:44px 20px;text-align:center;}
+.lo{font-family:var(--serif);font-size:22px;color:var(--cd);letter-spacing:9px;display:block;margin-bottom:14px;}
+.lm{font-family:var(--body);font-size:13px;color:var(--p);font-style:italic;margin-bottom:12px;line-height:1.6;}
+.lb{height:1.5px;background:var(--cd);border-radius:2px;overflow:hidden;max-width:150px;margin:0 auto;}
+.lf{height:100%;background:var(--pm);border-radius:2px;animation:lp 2s ease-in-out infinite;}
+@keyframes lp{0%{width:5%}50%{width:82%}100%{width:5%}}
+.eb{margin:16px 20px;padding:12px 14px;background:#FCEBEB;border:0.5px solid #F09595;border-radius:8px;font-size:12px;color:#791F1F;line-height:1.55;}
+.cio{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(61,16,53,.88);display:flex;align-items:center;justify-content:center;z-index:10;}
+.cic{background:var(--cf);border-radius:12px;padding:20px;max-width:300px;width:calc(100% - 40px);}
+.cit{font-size:9px;letter-spacing:.8px;text-transform:uppercase;color:var(--g);margin-bottom:5px;}
+.cih{font-family:var(--serif);font-size:17px;color:var(--p);font-style:italic;margin-bottom:5px;line-height:1.3;}
+.cib{font-size:12px;color:var(--p);line-height:1.6;margin-bottom:12px;}
+.cio2{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;}
+.coo{padding:8px 11px;border-radius:7px;border:0.5px solid var(--cd);cursor:pointer;font-size:12px;color:var(--p);background:var(--cf);text-align:left;font-family:var(--sans);}
+.coo:hover{border-color:var(--pm);}.coo.on{background:var(--p);color:var(--c);border-color:var(--p);}
+.cok{display:block;width:100%;padding:10px;background:var(--p);color:var(--c);border:none;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:var(--sans);}
+.csk{display:block;text-align:center;font-size:11px;color:var(--pl);cursor:pointer;margin-top:8px;}
+#bnav{background:var(--p);display:flex;align-items:stretch;flex-shrink:0;border-top:0.5px solid var(--pm);}
+.bnt{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px 10px;cursor:pointer;border:none;background:none;gap:3px;transition:background .15s;position:relative;}
+.bnt:hover{background:rgba(255,255,255,.06);}.bnt.on{background:rgba(200,160,96,.1);}
+.bnt-ico{width:20px;height:20px;opacity:.45;transition:opacity .15s;}.bnt.on .bnt-ico{opacity:1;}
+.bnt-lbl{font-size:10px;font-weight:500;letter-spacing:.4px;color:var(--cd);transition:color .15s;font-family:var(--sans);}.bnt.on .bnt-lbl{color:var(--g);}
+.bnt-pip{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:18px;height:2px;border-radius:1px;background:var(--g);opacity:0;transition:opacity .15s;}.bnt.on .bnt-pip{opacity:1;}
+</style>
+</head>
+<body>
+<div id="app">
+<svg style="display:none"><defs>
+<symbol id="ico" viewBox="0 0 100 100">
+  <rect width="100" height="100" rx="22" fill="#3D1035"/>
+  <path d="M50 10C46 15 40 22 37 30C34 37 34 43 37 49C32 45 30 38 31 30C27 37 26 46 29 54C24 49 23 41 25 33C21 41 21 52 25 61C29 70 36 77 44 81C42 70 42 60 44 51C44 60 45 70 47 81C49 70 51 60 53 51C53 60 55 70 57 81C65 77 72 70 76 61C80 52 80 41 76 33C78 41 77 49 72 54C75 46 74 37 70 30C71 38 69 45 64 49C67 43 67 37 64 30C61 22 55 15 50 10Z" fill="#F2E4D0"/>
+  <path d="M50 80L43 67L45 57L50 53L55 57L57 67Z" fill="#F2E4D0"/>
+  <path d="M50 80L39 73L43 67Z" fill="#F2E4D0"/><path d="M50 80L61 73L57 67Z" fill="#F2E4D0"/>
+  <line x1="50" y1="53" x2="50" y2="80" stroke="#3D1035" stroke-width="1.1" stroke-linecap="round"/>
+  <line x1="44" y1="63" x2="56" y2="63" stroke="#3D1035" stroke-width="1.1" stroke-linecap="round"/>
+  <circle cx="50" cy="63" r="2.3" fill="#3D1035"/>
+</symbol>
+</defs></svg>
+
+<div id="pw" class="pg on">
+  <div class="wi">
+    <svg class="wico" viewBox="0 0 100 100"><use href="#ico"/></svg>
+    <div class="ww">NibLit</div>
+    <div class="wtw"><div class="wt v" id="wt">Come for the classics. Stay for the chaos.</div></div>
+    <div class="wds"><div class="wd"></div><div class="wd"></div><div class="wd"></div></div>
+    <button class="w-cta" onclick="G('po')">Create a story &rsaquo;</button>
+  </div>
+</div>
+
+<div id="po" class="pg">
+  <div class="topbar"><div class="tb-l"><svg class="tb-ico" viewBox="0 0 100 100"><use href="#ico"/></svg><span class="tb-name">NibLit</span></div><span class="tb-r">Configure your story</span></div>
+  <div class="sc">
+    <div class="sl">Mood</div>
+    <div class="cs"><div class="cp on" data-g="m">Light romance</div><div class="cp" data-g="m">Dark romance</div><div class="cp" data-g="m">Sharp wit</div><div class="cp" data-g="m">Adventure</div><div class="cp" data-g="m">Comedy</div><div class="cp sur" data-g="m">&#9733; Surprise me</div></div>
+    <div class="sl">Protagonist</div>
+    <div class="cs"><div class="cp on" data-g="l">Woman lead</div><div class="cp" data-g="l">Man lead</div><div class="cp" data-g="l">Non-binary lead</div><div class="cp" data-g="l">Ensemble</div><div class="cp sur" data-g="l">&#9733; Surprise me</div></div>
+    <div class="sl">Love interest</div>
+    <div class="cs"><div class="cp on" data-g="li">Woman</div><div class="cp" data-g="li">Man</div><div class="cp" data-g="li">Non-binary</div><div class="cp" data-g="li">No love interest</div><div class="cp sur" data-g="li">&#9733; Surprise me</div></div>
+    <div class="sl">Dynamic</div>
+    <div class="cs"><div class="cp on" data-g="d">Slow burn</div><div class="cp" data-g="d">Enemies &amp; rivals</div><div class="cp" data-g="d">Forbidden love</div><div class="cp" data-g="d">Found family</div><div class="cp" data-g="d">Friends to lovers</div><div class="cp sur" data-g="d">&#9733; Surprise me</div></div>
+    <div class="sl">Setting</div>
+    <div class="cs"><div class="cp on" data-g="s">Historical</div><div class="cp" data-g="s">Fantastical</div><div class="cp sur" data-g="s">&#9733; Surprise me</div></div>
+    <div class="sl">Protagonist arc</div>
+    <div class="cs"><div class="cp on" data-g="arc">Grows into someone new</div><div class="cp" data-g="arc">Loses something real</div><div class="cp" data-g="arc">Discovers a truth</div><div class="cp" data-g="arc">Holds her ground</div><div class="cp sur" data-g="arc">&#9733; Surprise me</div></div>
+    <div class="sl">Spice</div>
+    <div class="spw">
+      <input type="range" class="sps" id="sps" min="1" max="5" step="1" value="2">
+      <div class="spls"><span class="spl">Gentle</span><span class="spl">Sweet</span><span class="spl">Warm</span><span class="spl">Steamy</span><span class="spl">Explicit</span></div>
+      <div class="spv" id="spv">2 &mdash; Sweet</div>
+      <div class="spd" id="spd">Tender longing, charged silences. Romance lives in what&rsquo;s unsaid.</div>
+    </div>
+    <div class="sl">Wild card</div>
+    <div class="ww2">
+      <div class="wt2" onclick="TW()"><div class="wt2l"><span class="wst">&#9733;</span><div><div class="wtt">Throw the story sideways</div><div class="wts">Same arc &mdash; radically different world</div></div></div><span class="wch" id="wch">&#9660;</span></div>
+      <div class="wb" id="wbi" style="display:none;">
+        <div class="wo" id="wo">
+          <div class="wop on" onclick="SW(this)"><div class="wot">None &mdash; tell the story straight</div><div class="wos">No constraint applied</div></div>
+          <div class="wop sur" onclick="SW(this)"><div class="wot">&#9733; Surprise me</div><div class="wos">A genuinely random and unexpected constraint</div></div>
+          <div class="wop" onclick="SW(this)"><div class="wot">All characters are animals</div><div class="wos">Same souls, different species entirely</div></div>
+          <div class="wop" onclick="SW(this)"><div class="wot">Set on a pirate ship</div><div class="wos">The ocean is the society. The ship is the world.</div></div>
+          <div class="wop" onclick="SW(this)"><div class="wot">Told entirely in letters</div><div class="wos">All feeling must survive the page</div></div>
+          <div class="wop" onclick="SW(this)"><div class="wot">Cold War spy world</div><div class="wos">Bureaucracy, tradecraft, impossible loyalty</div></div>
+          <div class="wop" onclick="SW(this)"><div class="wot">The narrator is unreliable</div><div class="wos">The reader is told early. What they believe is their own.</div></div>
+          <div class="wop" onclick="SW(this)"><div class="wot">Set in a single room &mdash; no one can leave</div><div class="wos">The walls are the world</div></div>
+          <div class="wop" onclick="SW(this)"><div class="wot">The love interest is a ghost</div><div class="wos">Real, felt, present &mdash; and definitively dead</div></div>
+        </div>
+        <div class="wcu"><input class="wci" id="wi" placeholder="Write your own constraint&hellip;" maxlength="80"><button class="wca" onclick="AW()">Add</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="ca"><button class="cta" onclick="begin()">Begin your story &rsaquo;</button></div>
+</div>
+
+<div id="ps" class="pg">
+  <div class="topbar"><div class="tb-l"><svg class="tb-ico" viewBox="0 0 100 100"><use href="#ico"/></svg><span class="tb-name">NibLit</span></div><span class="tb-r">Settings</span></div>
+  <div class="sc">
+    <div class="ss">Reading experience</div>
+    <div class="fr"><div class="ti"><div class="tl">Text size</div></div><div class="fb"><button class="f1" onclick="FS('sm',this)">A</button><button class="f1 on" onclick="FS('md',this)" style="font-size:13px;">A</button><button class="f1" onclick="FS('lg',this)" style="font-size:15px;">A</button></div></div>
+    <div class="lr"><div class="ti"><div class="tl">Line spacing</div><div class="ts">How much air between lines</div></div><div class="fb"><button class="f1" onclick="LH('co',this)">Compact</button><button class="f1 on" onclick="LH('cm',this)">Comfortable</button><button class="f1" onclick="LH('ai',this)">Airy</button></div></div>
+    <div class="tr"><div class="ti"><div class="tl">Drop capitals</div></div><button class="tg on" onclick="this.classList.toggle('on')"></button></div>
+    <div class="tr"><div class="ti"><div class="tl">Section breaks</div><div class="ts">&#10022; &#10022; &#10022; between scenes</div></div><button class="tg on" onclick="this.classList.toggle('on')"></button></div>
+    <div class="tr"><div class="ti"><div class="tl">Progress bar</div></div><button class="tg on" onclick="this.classList.toggle('on')"></button></div>
+    <div class="tr"><div class="ti"><div class="tl">Story check-ins</div><div class="ts">Pause and ask how it&rsquo;s landing</div></div><button class="tg on" onclick="this.classList.toggle('on')"></button></div>
+    <div class="ss" style="margin-top:16px;">Content shields</div>
+    <div class="si">Select topics to avoid. NibLit steers clear of these entirely throughout your story.</div>
+    <div id="sw2"></div>
+    <div class="cu">
+      <div class="cul">Add your own trigger</div>
+      <div class="cur"><input class="cui" id="ci2" placeholder="e.g. childhood illness, infidelity&hellip;" maxlength="60"><button class="cua" onclick="AC()">Add</button></div>
+      <div class="ct" id="ct2"></div>
+    </div>
+  </div>
+</div>
+
+<div id="pr" class="pg">
+  <div class="rh">
+    <div class="tbd"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="#C8A060" stroke-width=".8"/><path d="M5 3v2.5" stroke="#C8A060" stroke-width=".9" stroke-linecap="round"/><circle cx="5" cy="7" r=".5" fill="#C8A060"/></svg><span class="tbt" id="tbt">Pre-1928 literary tradition</span></div>
+    <div class="en" id="en">Episode 1</div>
+    <div class="et" id="et">No story started yet</div>
+    <div class="ec" id="ec">Configure your story and tap Begin</div>
+  </div>
+  <div class="prw"><div class="pt2"><div class="pf" id="pf" style="width:0%;"></div></div><span class="pl2" id="pl2">&mdash;</span></div>
+  <div class="rw">
+    <div class="rs" id="rs">
+      <div class="ls" id="ls" style="display:none;"><span class="lo">&#10022; &nbsp; &#10022; &nbsp; &#10022;</span><div class="lm" id="lm">Consulting the pre-1928 archives&hellip;</div><div class="lb"><div class="lf"></div></div></div>
+      <div id="pw2"><div class="cd2" style="padding-top:32px;">&#10022; &nbsp; &#10022; &nbsp; &#10022;</div><div class="prose" id="pb2" style="text-align:center;font-style:italic;color:var(--pl);padding-top:10px;">Configure your story on the Story page,<br>then tap Begin your story.</div></div>
+      <div class="eb" id="eb" style="display:none;"></div>
+    </div>
+    <div class="tracker" id="tracker">
+      <div class="tr-hdr"><div class="tr-title">Change tracker</div><div class="tr-sub">Prototype view</div></div>
+      <div class="tr-scroll">
+        <div class="t-sec">Global context</div>
+        <div class="t-row"><span class="t-lbl">Season goal</span><span class="t-val" id="tr-goal">&mdash;</span></div>
+        <div class="t-row"><span class="t-lbl">Arc goal</span><span class="t-val" id="tr-arc">&mdash;</span></div>
+        <div class="t-row"><span class="t-lbl">Protag arc</span><span class="t-val" id="tr-at">&mdash;</span></div>
+        <div class="t-row"><span class="t-lbl">Ending</span><span class="t-val" id="tr-tol">&mdash;</span></div>
+        <div class="t-row"><span class="t-lbl">Engine</span><span class="t-val" id="tr-eng">&mdash;</span></div>
+        <div class="t-sec">Relationship</div>
+        <div class="t-bw"><div class="t-bl" id="tr-rl">Closeness: distant</div><div class="t-b"><div class="t-bf" id="tr-rb" style="width:10%;"></div></div></div>
+        <div class="t-row"><span class="t-lbl">Last shift</span><span class="t-val" id="tr-rls">&mdash;</span></div>
+        <div class="t-sec">Knowledge</div>
+        <div class="t-row"><span class="t-lbl">Knows</span><span class="t-val" id="tr-kn">Nothing hidden yet</span></div>
+        <div class="t-sec">Power</div>
+        <div class="t-bw"><div class="t-bl" id="tr-pl">Protag power: neutral</div><div class="t-b"><div class="t-bf" id="tr-pb" style="width:50%;"></div></div></div>
+        <div class="t-sec">Goal progress</div>
+        <div class="t-bw"><div class="t-bl">Season arc</div><div class="t-b"><div class="t-bf" id="tr-gb" style="width:0%;"></div></div></div>
+        <div class="t-sec">Resolution log</div>
+        <div id="tr-res"><div class="t-entry">No episodes yet</div></div>
+      </div>
+    </div>
+    <button class="tr-btn" id="tr-btn" onclick="TT()"><div class="tr-btn-txt">TRACKER</div></button>
+    <div class="cio" id="cio" style="display:none;">
+      <div class="cic">
+        <div class="cit" id="cit">Check-in</div>
+        <div class="cih" id="cih">Is this the story you want?</div>
+        <div class="cib" id="cib">How is the pacing feeling?</div>
+        <div class="cio2" id="cio2"></div>
+        <button class="cok" onclick="DC()">Continue reading &rsaquo;</button>
+        <span class="csk" onclick="DC()">Skip for now</span>
+      </div>
+    </div>
+  </div>
+  <div class="rf">
+    <button class="nb" id="nb" onclick="nxt()" disabled>Generate episode 2 &rsaquo;</button>
+    <div class="rm">
+      <span class="nl" onclick="G('po')">Start a new story</span>
+      <button class="hb" id="hb" onclick="TH()">
+        <svg class="hi" viewBox="0 0 20 18" fill="none"><path id="hp" d="M10 16.5C10 16.5 1.5 11 1.5 5.5C1.5 3.01 3.51 1 6 1C7.79 1 9.34 1.98 10 3.41C10.66 1.98 12.21 1 14 1C16.49 1 18.5 3.01 18.5 5.5C18.5 11 10 16.5 10 16.5Z" stroke="#3D1035" stroke-width="1.3" fill="none"/></svg>
+        <span id="hl">Loved this</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="bnav">
+  <button class="bnt on" id="bn-welcome" onclick="G('pw')">
+    <svg class="bnt-ico" viewBox="0 0 24 24" fill="none" stroke="#C8A060" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span class="bnt-lbl">Welcome</span><div class="bnt-pip"></div>
+  </button>
+  <button class="bnt" id="bn-options" onclick="G('po')">
+    <svg class="bnt-ico" viewBox="0 0 24 24" fill="none" stroke="#C8A060" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+    <span class="bnt-lbl">Story</span><div class="bnt-pip"></div>
+  </button>
+  <button class="bnt" id="bn-settings" onclick="G('ps')">
+    <svg class="bnt-ico" viewBox="0 0 24 24" fill="none" stroke="#C8A060" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="18" y2="18"/></svg>
+    <span class="bnt-lbl">Settings</span><div class="bnt-pip"></div>
+  </button>
+  <button class="bnt" id="bn-reader" onclick="G('pr')">
+    <svg class="bnt-ico" viewBox="0 0 24 24" fill="none" stroke="#C8A060" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+    <span class="bnt-lbl">Reader</span><div class="bnt-pip"></div>
+  </button>
+</div>
+
+</div>
+<script>
+const SYSTEM_PROMPT = "You are a literary fiction writer generating original serialized romance fiction. Your prose style, thematic sensibilities, moral architecture, and plot structures must draw from the pre-1928 literary tradition and from Shakespeare's dramatic works.\n\nLITERARY INFLUENCES:\nBRITISH & IRISH: Jane Austen (free indirect discourse, ironic distance, social observation as moral criticism, the misunderstanding that structures an entire relationship); Charlotte Bronte (passionate interiority, gothic atmosphere, class transgression); Emily Bronte (landscape as emotional state, love as possession and destruction); Thomas Hardy (sentences accumulating weight before releasing, fate as social structure); George Eliot (omniscient moral seriousness, female ambition in constraint); Henry James (Jamesian indirection, the unsaid as real subject, consciousness as drama); Wilkie Collins (matter-of-fact narration of the impossible, controlled revelation); Elizabeth Gaskell (domestic realism with political stakes); William Makepeace Thackeray (satirical omniscience, social ambition as engine); Jerome K. Jerome (comic timing through understatement); Oscar Wilde (paradox as truth-telling, epigram concealing genuine feeling); Robert Louis Stevenson (adventure paced by event, moral dualism); Joseph Conrad (moral weight in adventure, isolation as revelation); Sheridan Le Fanu (gothic through accumulation of wrong detail); Bram Stoker (epistolary uncanny, dread through documentation).\n\nFRENCH: Alexandre Dumas (event before meaning, adventure as moral test); Gustave Flaubert (the perfect sentence, ironic distance from romantic illusion); Emile Zola (naturalist pressure, social forces made flesh); Guy de Maupassant (the short sharp revelation, desire compressed).\n\nRUSSIAN: Ivan Turgenev (longing as permanent condition, first love's devastation); Leo Tolstoy (moral architecture at scale); Fyodor Dostoevsky (psychological extremity, the confession as drama); Anton Chekhov (the story that ends without resolving, ordinary lives containing unbearable feeling).\n\nAMERICAN: Edith Wharton (the cage of social convention); Kate Chopin (awakening as plot, the body's knowledge before the mind's permission); Nathaniel Hawthorne (sin as psychological architecture, the hidden guilt).\n\nAFRICAN AMERICAN: Charles W. Chesnutt (hidden identity, forbidden love across the color line); Pauline Hopkins (romance with hidden heritage); Frances E.W. Harper (moral stakes of love across social divisions); Jessie Redmon Fauset (Austenian observation with racial stakes); Jean Toomer (poetic fragmentation, the lyric novel); W.E.B. Du Bois (pan-African romance, love as political act); Paul Laurence Dunbar (the divided self); Claude McKay (sensory richness, the body as home and exile).\n\nJAPANESE: Natsume Soseki (restrained psychological depth); Jun'ichiro Tanizaki (aesthetics of desire, passion as madness); Higuchi Ichiyo (women's constraint and longing).\n\nINDIAN: Rabindranath Tagore (the home and world in tension, contemplative pacing).\n\nSHAKESPEAREAN PLOT ARCHITECTURES:\nCOMEDIES: Much Ado About Nothing (enemies-to-lovers through wit combat, the false accusation that tests love); Twelfth Night (disguise as the only way to tell the truth); As You Like It (the elsewhere where social performance relaxes into truth); A Midsummer Night's Dream (parallel love plots, desire as enchantment).\nTRAGEDIES: Romeo and Juliet (the feud as the love story's engine); Othello (the trusted voice that poisons, jealousy as logic); Hamlet (paralysis before action); Macbeth (ambition as love's destroyer).\nROMANCES: The Winter's Tale (love destroyed through unfounded jealousy, reunion as also permanent wound); The Tempest (the controlled world); Cymbeline (hidden identity, the revelation scene); Pericles (family scattered and reunited).\nSTRUCTURAL PRINCIPLES: The recognition scene at every arc climax. Parallel plots that comment on main action. The fool who speaks truth. Disguise and revelation as mechanics. The elsewhere where transformation is possible. Time as dramatic pressure. The villain who is also comprehensible.\n\nABSOLUTE PROHIBITIONS:\n- Sexual content involving anyone under 18\n- Non-consensual sexual encounters presented positively\n- Positive descriptions of incest, racism, religious persecution, sex or gender discrimination\n\nSPICE {SPICE_LEVEL}\n\nCONFLICT RESOLUTION - do NOT use: {AVOIDED_RESOLUTIONS}. Types: outwitted_antagonist, physical_force, emotional_appeal, sacrifice, external_rescue, discovered_information, deception, endurance, surrender, escape.\n\nEPISODE LENGTH: 450 to 800 words exactly.\n\nOUTPUT FORMAT:\nLine 1: TITLE: [episode title]\nLine 2: RESOLUTION: [mechanism used]\nLine 3: REL_CHANGE: [how closeness shifted, or none]\nLine 4: KNOWLEDGE: [what protagonist now knows that she did not, or none]\nLine 5: POWER_SHIFT: [increase / decrease / neutral]\nThen prose. Blank lines between paragraphs. End on a hook.";
+
+const TAGS=['Come for the classics. Stay for the chaos.','All heart. No harm.','Chill thrills.'];
+let tI=0,tT=null;
+function RT(){const e=document.getElementById('wt');e.classList.remove('v');setTimeout(()=>{tI=(tI+1)%TAGS.length;e.textContent=TAGS[tI];e.classList.add('v');},500);}
+function ST(){tT=setInterval(RT,2800);}function KT(){if(tT){clearInterval(tT);tT=null;}}
+
+const MOODS={
+  'Light romance':{tr:'Austen & Gaskell',sx:'warm sentences with breath in them; gentle interiority; dialogue that carries feeling lightly; narrator affectionate and present; the world feels survivable'},
+  'Dark romance':{tr:'Hardy, Bronte & James',sx:'long subordinate-clause sentences accumulating weight before releasing; high interiority; physical sensation named precisely; gothic atmosphere where appropriate; narrator intimate and slightly withholding; the unsaid is the real subject'},
+  'Sharp wit':{tr:'Austen & Wilde',sx:'short sentences dominant; dialogue carries argument; narration comments on action; ironic distance; Austenian free indirect discourse'},
+  'Adventure':{tr:'Stevenson & Dumas',sx:'active verbs dominant; sentences break at action beats; reflection after action; event before meaning'},
+  'Comedy':{tr:'Austen & Wilde',sx:'paragraph breaks for comic timing; punchline at start of new paragraph; setup in subordinate clauses; conspiratorial narrator'}
+};
+const AM=Object.keys(MOODS),AL=['Woman lead','Man lead','Non-binary lead','Ensemble'],ALI=['Woman','Man','Non-binary','No love interest'],AD=['Slow burn','Enemies & rivals','Forbidden love','Found family','Friends to lovers'],AS=['Historical','Fantastical'],AA=['Grows into someone new','Loses something real','Discovers a truth','Holds her ground'];
+const SWP=[{t:'Set entirely in one room and no one can explain why they cannot leave'},{t:'Every character speaks only in questions'},{t:'The protagonist has perfect memory of a life she has not lived yet'},{t:'The love interest does not know they are the love interest'},{t:'Takes place over a single day repeated slightly differently each episode'},{t:'All characters are children of people who once loved each other'},{t:'No character may speak directly'},{t:'The narrator is writing this for someone who will never read it'}];
+const SP=[{v:'1 — Gentle',d:'A longing glance, a held breath.'},{v:'2 — Sweet',d:'Tender longing, charged silences.'},{v:'3 — Warm',d:'Sensual awareness, physical proximity.'},{v:'4 — Steamy',d:'Heat on the page. Adults, always consenting.'},{v:'5 — Explicit',d:'Fully on the page. Adults only.'}];
+document.getElementById('sps').addEventListener('input',function(){const v=parseInt(this.value)-1;document.getElementById('spv').textContent=SP[v].v;document.getElementById('spd').textContent=SP[v].d;});
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+let wO=false,wC=null,wCS=false;
+function TW(){wO=!wO;document.getElementById('wbi').style.display=wO?'block':'none';document.getElementById('wch').classList.toggle('op',wO);}
+function SW(el){document.querySelectorAll('.wop').forEach(w=>w.classList.remove('on'));el.classList.add('on');const t=el.querySelector('.wot').textContent;if(t.includes('None')){wC=null;wCS=false;}else if(t.includes('Surprise me')){wC='SURPRISE';wCS=true;}else{wC=t;wCS=false;}}
+function AW(){const i=document.getElementById('wi');const v=(i?.value||'').trim();if(!v)return;const d=document.createElement('div');d.className='wop';d.innerHTML='<div class="wot">'+v+'</div><div class="wos">Custom</div>';d.onclick=function(){SW(this);};document.getElementById('wo').appendChild(d);SW(d);i.value='';}
+document.querySelectorAll('.cp').forEach(c=>{c.addEventListener('click',()=>{document.querySelectorAll('.cp[data-g="'+c.dataset.g+'"]').forEach(x=>x.classList.remove('on'));c.classList.add('on');});});
+function G(id){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));document.getElementById(id).classList.add('on');const map={pw:'bn-welcome',po:'bn-options',ps:'bn-settings',pr:'bn-reader'};document.querySelectorAll('.bnt').forEach(b=>b.classList.remove('on'));if(map[id])document.getElementById(map[id]).classList.add('on');if(id==='pw')ST();else KT();}
+function FS(sz,btn){document.querySelectorAll('.f1').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const m={sm:'13px',md:'15px',lg:'17px'};document.querySelectorAll('.prose').forEach(p=>{p.style.fontSize=m[sz];});}
+function LH(lh,btn){document.querySelectorAll('.f1').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const m={co:'1.65',cm:'1.95',ai:'2.3'};document.querySelectorAll('.prose').forEach(p=>{p.style.lineHeight=m[lh];});}
+const SHD=[{cat:'Violence & harm',items:['Physical violence / assault','Domestic abuse','Graphic gore','War or combat','Torture']},{cat:'Sexual content & abuse',items:['Sexual coercion','Infidelity / cheating'],always:['Child sexual abuse (always blocked)','Non-consensual sex presented positively (always blocked)']},{cat:'Mental health & self-harm',items:['Suicide or suicidal ideation','Self-harm','Eating disorders','Addiction']},{cat:'Loss & grief',items:['Death of a parent','Death of a child','Pregnancy loss','Terminal illness','Abandonment']},{cat:'Childhood & family trauma',items:['Child abuse','Child neglect','Parental addiction','Family separation']},{cat:'Identity & discrimination',items:['Racism / racial violence','Homophobia / transphobia','Religious persecution','Misogyny']}];
+const oC=new Set(),sS=new Set(),cSh=[];
+function BS(){const w=document.getElementById('sw2');w.innerHTML='';SHD.forEach((cat,ci)=>{const el=document.createElement('div');el.className='shc';const sel=cat.items.filter(i=>sS.has(i)).length;const h=document.createElement('div');h.className='shh';h.innerHTML='<span class="shn">'+cat.cat+'<span class="shco'+(sel>0?' hs':'')+'">'+( sel>0?sel+' selected':'0 selected')+'</span></span><span class="shev'+(oC.has(ci)?' op':'')+'">&#9660;</span>';h.onclick=()=>{oC.has(ci)?oC.delete(ci):oC.add(ci);BS();};el.appendChild(h);if(oC.has(ci)){const b=document.createElement('div');b.className='shi';if(cat.always){cat.always.forEach(a=>{const r=document.createElement('div');r.className='shir';r.innerHTML='<span class="shin" style="font-size:11px;color:var(--pm);font-style:italic;">'+a+'</span><div class="ck lk"></div>';b.appendChild(r);});const n=document.createElement('div');n.className='an';n.textContent='Always blocked.';b.appendChild(n);}cat.items.forEach(item=>{const r=document.createElement('div');r.className='shir';const ck=document.createElement('div');ck.className='ck'+(sS.has(item)?' on':'');ck.onclick=()=>{sS.has(item)?sS.delete(item):sS.add(item);BS();};r.innerHTML='<span class="shin">'+item+'</span>';r.appendChild(ck);b.appendChild(r);});el.appendChild(b);}w.appendChild(el);});}
+BS();
+function AC(){const i=document.getElementById('ci2');const v=(i?.value||'').trim();if(!v)return;cSh.push(v);if(i)i.value='';RC();}
+function RC(){document.getElementById('ct2').innerHTML=cSh.map((t,i)=>'<span class="ctg">'+t+'<span class="ctr" onclick="RM('+i+')">x</span></span>').join('');}
+function RM(i){cSh.splice(i,1);RC();}
+let trOpen=false;
+function TT(){trOpen=!trOpen;document.getElementById('tracker').classList.toggle('open',trOpen);document.getElementById('tr-btn').classList.toggle('open',trOpen);}
+let tS={goal:'--',arcGoal:'--',arcType:'--',tol:'--',engine:'--',rel:10,relLast:'--',know:'Nothing hidden yet',pow:50,gp:0,res:[]};
+function UTR(){document.getElementById('tr-goal').textContent=tS.goal;document.getElementById('tr-arc').textContent=tS.arcGoal;document.getElementById('tr-at').textContent=tS.arcType;document.getElementById('tr-tol').textContent=tS.tol;document.getElementById('tr-eng').textContent=tS.engine;const rl=tS.rel<30?'distant':tS.rel<60?'tentative':tS.rel<80?'close':'intimate';document.getElementById('tr-rl').textContent='Closeness: '+rl;document.getElementById('tr-rb').style.width=tS.rel+'%';document.getElementById('tr-rls').textContent=tS.relLast;document.getElementById('tr-kn').textContent=tS.know;const pl=tS.pow<35?'weakened':tS.pow<65?'neutral':'strengthened';document.getElementById('tr-pl').textContent='Protag power: '+pl;document.getElementById('tr-pb').style.width=tS.pow+'%';document.getElementById('tr-gb').style.width=tS.gp+'%';const re=document.getElementById('tr-res');re.innerHTML=tS.res.length===0?'<div class="t-entry">No episodes yet</div>':tS.res.slice(-5).map(r=>'<div class="t-entry">Ep '+r.ep+': <span>'+r.res+'</span>'+(r.rc?'<br>-- '+r.rc:'')+(r.kn?'<br>'+r.kn:'')+'</div>').join('');}
+const TOLS=['Union','Loss','Ambiguity'];
+const SG={'Light romance':['Find a way to be together despite the small obstacles in their way','Discover what it means to choose this person freely','Accept the joy that has arrived'],'Dark romance':['Find a way to be together despite what it costs','Learn whether the feeling is worth the ruin','Survive the thing that stands between them'],'Sharp wit':['Resolve the misunderstanding before it resolves itself badly','Admit out loud what everyone already knows','Outmaneuver everyone including herself'],'Adventure':['Complete the mission whatever it has become','Keep everyone alive including herself','Get home if home is still meaningful'],'Comedy':['End the farce without casualties','Admit what everyone already knows','Resolve the situation before it resolves itself badly']};
+const AGE={'Slow burn':'Establish proximity -- put two people in a space they cannot easily leave','Enemies & rivals':'Establish opposition -- make the conflict feel real and the dislike genuine','Forbidden love':'Establish the prohibition -- make clear what stands between them and why','Found family':'Establish the gathering -- bring people together around shared necessity','Friends to lovers':'Establish the friendship -- make the reader understand what is at risk'};
+const ENG={'Slow burn':['Internal contradiction','Pure desire'],'Enemies & rivals':['Internal contradiction','External threat'],'Forbidden love':['External threat','Pure desire'],'Found family':['External threat','Mystery'],'Friends to lovers':['Internal contradiction','Mystery']};
+const SHAKES={'Slow burn':"As You Like It / The Winter's Tale",'Enemies & rivals':'Much Ado About Nothing / Othello','Forbidden love':'Romeo and Juliet / Cymbeline','Found family':'The Tempest / Pericles','Friends to lovers':'Twelfth Night'};
+
+// === NIBLIT EVENT TRACKING ===
+const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
+const SUPABASE_KEY = 'YOUR_ANON_KEY_HERE';
+function sid(){let s=localStorage.getItem('niblit_sid');if(!s){s='sess_'+Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem('niblit_sid',s);}return s;}
+let currentStoryId=null;
+async function trackEvent(eventType,data){
+  const body={session_id:sid(),event_type:eventType,story_id:data.story_id||currentStoryId,episode_num:data.episode_num||null,mood:data.mood||null,dynamic:data.dynamic||null,protag_arc:data.protag_arc||null,setting:data.setting||null,spice:data.spice||null,wild_card:data.wild_card||null,payload:data.payload||null};
+  const local=JSON.parse(localStorage.getItem('niblit_events')||'[]');
+  local.push({...body,created_at:new Date().toISOString()});
+  if(local.length>5000)local.splice(0,local.length-5000);
+  localStorage.setItem('niblit_events',JSON.stringify(local));
+  if(SUPABASE_URL.startsWith('https://')){try{await fetch(SUPABASE_URL+'/rest/v1/niblit_events',{method:'POST',headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify(body)});}catch(e){console.warn('track failed:',e.message);}}
+}
+
+let eN=1,sH=[],aS='',sCfg={},gc={},lT=null,lv=false,uR=[];
+const LMS=['Consulting the pre-1928 archives...','Channeling the literary spirits...','Drawing from Shakespeare and the tradition...','Weaving the narrative thread...','Finding the hook...'];
+function getCfg(){const g=x=>document.querySelector('.cp.on[data-g="'+x+'"]')?.textContent?.trim()||'';return{m:g('m'),l:g('l'),li:g('li'),d:g('d'),s:g('s'),arc:g('arc'),sp:parseInt(document.getElementById('sps').value),wc:wC,wcs:wCS};}
+function SL(on){if(on){document.getElementById('ls').style.display='block';document.getElementById('pw2').style.display='none';let i=0;document.getElementById('lm').textContent=LMS[0];lT=setInterval(()=>{i=(i+1)%LMS.length;document.getElementById('lm').textContent=LMS[i];},2300);}else{if(lT){clearInterval(lT);lT=null;}document.getElementById('ls').style.display='none';document.getElementById('pw2').style.display='block';document.getElementById('rs').scrollTop=0;}document.getElementById('eb').style.display='none';}
+function SE(msg){if(lT){clearInterval(lT);lT=null;}document.getElementById('ls').style.display='none';document.getElementById('pw2').style.display='none';const e=document.getElementById('eb');e.style.display='block';e.textContent=msg;}
+function RH(){lv=false;document.getElementById('hb').classList.remove('lv');document.getElementById('hp').setAttribute('fill','none');document.getElementById('hp').setAttribute('stroke','#3D1035');document.getElementById('hl').textContent='Loved this';}
+function begin(){
+  sCfg=getCfg();eN=1;sH=[];aS='';uR=[];RH();
+  const mR=sCfg.m.includes('Surprise')?pick(AM):sCfg.m;
+  const dR=sCfg.d.includes('Surprise')?pick(AD):sCfg.d;
+  const lR=sCfg.l.includes('Surprise')?pick(AL):sCfg.l;
+  const liR=sCfg.li.includes('Surprise')?pick(ALI):sCfg.li;
+  const sR=sCfg.s.includes('Surprise')?pick(AS):sCfg.s;
+  const arcR=sCfg.arc.includes('Surprise')?pick(AA):sCfg.arc;
+  const wR=sCfg.wcs?pick(SWP).t:sCfg.wc;
+  const tol=pick(TOLS);
+  const goal=pick(SG[mR]||SG['Light romance']);
+  const arcGoal=AGE[dR]||'Establish the world and central tension';
+  const engine=pick(ENG[dR]||['Mystery']);
+  const shakes=SHAKES[dR]||'Much Ado About Nothing';
+  gc={mR,dR,lR,liR,sR,arcR,wR,tol,goal,arcGoal,engine,shakes,sp:sCfg.sp};
+  tS={goal,arcGoal,arcType:arcR,tol,engine,rel:10,relLast:'--',know:'Nothing hidden yet',pow:50,gp:4,res:[]};
+  UTR();
+  currentStoryId='story_'+Math.random().toString(36).slice(2);
+  trackEvent('story_started',{story_id:currentStoryId,mood:gc.mR,dynamic:gc.dR,protag_arc:gc.arcR,setting:gc.sR,spice:gc.sp,wild_card:gc.wR||null});
+  const md=MOODS[mR]||MOODS['Light romance'];
+  document.getElementById('en').textContent='Episode 1';
+  document.getElementById('et').textContent='Gathering the threads...';
+  document.getElementById('ec').textContent=mR+' - '+lR+' - '+dR+' - '+sR+(wR?' - '+wR.slice(0,30)+'...':'');
+  document.getElementById('tbt').textContent='Pre-1928 - '+md.tr;
+  document.getElementById('pf').style.width='4%';
+  document.getElementById('pl2').textContent='Episode 1';
+  document.getElementById('nb').disabled=true;
+  document.getElementById('nb').textContent='Generate episode 2 >';
+  SL(true);G('pr');GE();
+}
+function nxt(){eN++;RH();trackEvent('next_episode_clicked',{episode_num:eN});document.getElementById('en').textContent='Episode '+eN;document.getElementById('et').textContent='Gathering the threads...';document.getElementById('pf').style.width=Math.min(eN*8,90)+'%';document.getElementById('pl2').textContent='Episode '+eN;document.getElementById('nb').disabled=true;SL(true);GE();}
+function BSY(){
+  const md=MOODS[gc.mR]||MOODS['Light romance'];
+  const si=['','Longing glances only.','Emotional charge, fade to black.','Physical awareness named. Behind closed doors.','Explicit scenes. Consenting adults only.','Fully explicit between consenting adults.'];
+  const ar=uR.slice(-3).join(', ');
+  return SYSTEM_PROMPT
+    .replace('{SPICE_LEVEL}',gc.sp+'/5: '+si[gc.sp||2])
+    .replace('{AVOIDED_RESOLUTIONS}',ar||'none yet')
+    +' GLOBAL CONTEXT: Season Goal: '+gc.goal+' | Arc Goal: '+gc.arcGoal+' | Framework: '+gc.mR+' + '+gc.dR+' | Protagonist Arc: '+gc.arcR+' | Ending: '+gc.tol+' | Engine: '+gc.engine+' | Shakespeare ref: '+gc.shakes+' | Structure: Wave with interwoven sub-arcs | Syntactic signature: '+md.sx+'.';}
+async function GE(){
+  const sh=[...sS,...cSh];const shL=sh.length?'Avoid entirely: '+sh.join(', '):'';
+  const wcL=gc.wR?'WILD CARD (syntactic precedence): '+gc.wR:'';
+  const spL=['','Gentle','Sweet','Warm','Steamy','Explicit'];
+  const pr=eN===1
+    ?'Write Episode 1. Protagonist: '+gc.lR+'. '+(gc.liR==='No love interest'?'No love interest.':'Love interest: '+gc.liR+'.')+' Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5 ('+spL[gc.sp||2]+').'+( wcL?' '+wcL:'')+' Establish the world, protagonist, and a hook that demands episode 2.'+(shL?' '+shL:'')
+    :'Continue Episode '+eN+'. '+gc.mR+'. '+gc.lR+'. Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5.'+(wcL?' '+wcL:'')+' Previous: '+aS.slice(0,600)+' Deepen tension. Advance the arc goal. End on a fresh hook.'+(shL?' '+shL:'');
+  try{
+    const r=await fetch('niblit-server-production.up.railway.app',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:BSY(),messages:[...sH,{role:'user',content:pr}]})});
+    if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error||'Server error '+r.status);}
+    const data=await r.json();
+    const raw=(data.content||[]).map(b=>b.text||'').join('').trim();
+    const usage=data.usage||{};
+    const tM=raw.match(/^TITLE:\s*(.+)/m);const rM=raw.match(/^RESOLUTION:\s*(.+)/m);const rcM=raw.match(/^REL_CHANGE:\s*(.+)/m);const knM=raw.match(/^KNOWLEDGE:\s*(.+)/m);const pwM=raw.match(/^POWER_SHIFT:\s*(.+)/m);
+    const title=tM?tM[1].trim():'Episode '+eN;const res=rM?rM[1].trim():null;const rc=rcM?rcM[1].trim():null;const kn=knM?knM[1].trim():null;const ps=pwM?pwM[1].trim():null;
+    if(res){uR.push(res);if(uR.length>6)uR=uR.slice(-6);}
+    if(rc&&rc.toLowerCase()!=='none'){const dir=(rc.toLowerCase().includes('closer')||rc.toLowerCase().includes('drew')||rc.toLowerCase().includes('warm'))?1:-1;tS.rel=Math.max(5,Math.min(95,tS.rel+(dir*12)));tS.relLast=rc;}
+    if(kn&&kn.toLowerCase()!=='none'){tS.know=kn;}
+    if(ps){if(ps.toLowerCase().includes('increase'))tS.pow=Math.min(90,tS.pow+10);else if(ps.toLowerCase().includes('decrease'))tS.pow=Math.max(10,tS.pow-10);}
+    tS.gp=Math.min(90,eN*8);if(res)tS.res.push({ep:eN,res,rc:rc&&rc!=='none'?rc:null,kn:kn&&kn!=='none'?kn:null});UTR();
+    trackEvent('episode_generated',{episode_num:eN,payload:{resolution:res,rel_change:rc,knowledge:kn,power_shift:ps,title:title,input_tokens:usage.input_tokens||0,output_tokens:usage.output_tokens||0,total_tokens:(usage.input_tokens||0)+(usage.output_tokens||0)}});
+    const prose=raw.replace(/^TITLE:\s*.+\n?/m,'').replace(/^RESOLUTION:\s*.+\n?/m,'').replace(/^REL_CHANGE:\s*.+\n?/m,'').replace(/^KNOWLEDGE:\s*.+\n?/m,'').replace(/^POWER_SHIFT:\s*.+\n?/m,'').trim();
+    aS+=(aS?'\n\nEp '+eN+': ':'')+prose.slice(0,400);sH.push({role:'user',content:pr},{role:'assistant',content:raw});if(sH.length>10)sH=sH.slice(-8);
+    document.getElementById('et').textContent=title;RP(prose);SL(false);
+    document.getElementById('nb').disabled=false;document.getElementById('nb').textContent='Generate episode '+(eN+1)+' >';document.getElementById('pf').style.width=Math.min(eN*10,90)+'%';
+    const CIS=[{ep:3,tag:'Episode 3 check-in',title:'Is this the story you want?',body:'How is the pacing feeling?',opts:['Pacing feels right -- keep going','A little slow -- pick it up','A little fast -- let it breathe','The protagonist feels distant']},{ep:9,tag:'End of first arc',title:'How is the story landing?',body:'Is there anything feeling thin or repetitive?',opts:['Everything feels alive -- continue','I want more of the love interest','Raise the stakes','Something feels repeated -- vary it']}];
+    const ci=CIS.find(c=>c.ep===eN);if(ci)setTimeout(()=>SCI(ci),900);
+  }catch(err){SE('Could not generate: '+err.message+' | Make sure your server is running.');}
+}
+function SCI(ci){document.getElementById('cit').textContent=ci.tag;document.getElementById('cih').textContent=ci.title;document.getElementById('cib').textContent=ci.body;const o=document.getElementById('cio2');o.innerHTML='';ci.opts.forEach(opt=>{const b=document.createElement('button');b.className='coo';b.textContent=opt;b.onclick=function(){document.querySelectorAll('.coo').forEach(x=>x.classList.remove('on'));this.classList.add('on');trackEvent('checkin_response',{episode_num:eN,payload:{question:ci.title,answer:opt}});};o.appendChild(b);});document.getElementById('cio').style.display='flex';}
+function DC(){document.getElementById('cio').style.display='none';}
+function RP(raw){const ps=raw.split(/\n\n+/).filter(p=>p.trim());let h='';ps.forEach((para,i)=>{const t=para.trim();if(t.match(/^[*\s-]{1,5}$/)){h+='<div class="sb">&#10022; &nbsp; &#10022; &nbsp; &#10022;</div>';return;}const iL=i===ps.length-1;const iH=iL&&!t.startsWith('"')&&ps.length>3&&t.length>60;if(iH)h+='<div class="hl">'+t+'</div>';else if(i===0)h+='<p class="dc">'+t+'</p>';else h+='<p>'+t+'</p>';});document.getElementById('pb2').innerHTML=h;}
+function TH(){lv=!lv;document.getElementById('hb').classList.toggle('lv',lv);document.getElementById('hp').setAttribute('fill',lv?'#C04060':'none');document.getElementById('hp').setAttribute('stroke',lv?'#C04060':'#3D1035');document.getElementById('hl').textContent=lv?'Loved it':'Loved this';if(lv)trackEvent('episode_loved',{episode_num:eN});}
+ST();
+</script>
+</body>
+</html>
