@@ -459,7 +459,7 @@ async function GE(){
     ?'Write Episode 1. Protagonist: '+gc.lR+'. '+(gc.liR==='No love interest'?'No love interest.':'Love interest: '+gc.liR+'.')+' Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5 ('+spL[gc.sp||2]+').'+( wcL?' '+wcL:'')+' Establish the world, protagonist, and a hook that demands episode 2.'+(shL?' '+shL:'')
     :'Continue Episode '+eN+'. '+gc.mR+'. '+gc.lR+'. Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5.'+(wcL?' '+wcL:'')+' Previous: '+aS.slice(0,600)+' Deepen tension. Advance the arc goal. End on a fresh hook.'+(shL?' '+shL:'');
   try{
-    const r=await fetch('niblit-server-production.up.railway.app/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:BSY(),messages:[...sH,{role:'user',content:pr}]})});
+    const r=await fetch('https://niblit-server-production.up.railway.app/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:BSY(),messages:[...sH,{role:'user',content:pr}]})});
     if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error||'Server error '+r.status);}
     const data=await r.json();
     const raw=(data.content||[]).map(b=>b.text||'').join('').trim();
