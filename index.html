@@ -324,18 +324,37 @@ body{font-family:var(--sans);background:#000;color:var(--c);}
 #ps::-webkit-scrollbar{display:none;}
 .settings-header{margin-bottom:22px;}
 .settings-title{font-family:var(--serif);font-size:32px;font-weight:500;margin-bottom:4px;letter-spacing:-.3px;}
-.settings-subtitle{font-size:12.5px;font-style:italic;opacity:.7;font-family:var(--body);}
+.settings-subtitle{font-size:13px;font-style:italic;opacity:.88;font-family:var(--body);}
 .settings-section{margin-bottom:32px;}
 .settings-section-title{font-size:11px;letter-spacing:1.8px;text-transform:uppercase;
-  font-weight:500;opacity:.7;margin-bottom:14px;color:#D9A55A;}
-.settings-section-desc{font-size:12.5px;font-style:italic;opacity:.7;
+  font-weight:600;opacity:1;margin-bottom:14px;color:#D9A55A;}
+.settings-section-desc{font-size:12.5px;font-style:italic;opacity:.85;
   font-family:var(--body);line-height:1.55;margin-bottom:16px;}
 .settings-row{display:flex;align-items:center;justify-content:space-between;gap:14px;
   padding:14px 0;border-bottom:0.5px solid rgba(242,220,181,.1);}
 .settings-row.no-toggle{border-bottom:none;padding-bottom:6px;}
 .settings-row-label{flex:1;min-width:0;}
 .settings-row-title{font-size:15px;font-family:var(--body);margin-bottom:2px;}
-.settings-row-desc{font-size:11.5px;opacity:.6;font-style:italic;font-family:var(--body);line-height:1.4;}
+.settings-row-desc{font-size:11.5px;opacity:.78;font-style:italic;font-family:var(--body);line-height:1.4;}
+
+/* Custom shield input */
+.custom-shield-section{margin-top:18px;padding-top:18px;border-top:0.5px solid rgba(242,220,181,.15);}
+.custom-shield-label{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;
+  font-weight:500;opacity:.85;margin-bottom:10px;color:#D9A55A;}
+.custom-shield-input-row{display:flex;gap:8px;margin-bottom:12px;}
+.custom-shield-input-row input{flex:1;padding:11px 14px;border-radius:10px;
+  border:0.5px solid rgba(242,220,181,.3);background:rgba(0,0,0,.25);color:var(--c);
+  font-size:13.5px;font-family:var(--body);outline:none;transition:border-color .15s;}
+.custom-shield-input-row input:focus{border-color:#D9A55A;}
+.custom-shield-input-row input::placeholder{color:rgba(242,220,181,.45);font-style:italic;}
+.custom-shield-add{background:#D9A55A;color:#4E1B4F;border:none;padding:11px 18px;
+  border-radius:10px;font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;
+  letter-spacing:.3px;transition:transform .15s;}
+.custom-shield-add:hover{transform:translateY(-1px);}
+.shield-remove{position:absolute;left:14px;width:22px;height:22px;border-radius:6px;
+  border:1.5px solid #D9A55A;background:#D9A55A;color:#4E1B4F;font-weight:bold;cursor:pointer;
+  font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;}
+.shield-row.custom{padding-left:48px;}
 
 /* Toggle switch */
 .toggle{position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0;}
@@ -355,6 +374,14 @@ body{font-family:var(--sans);background:#000;color:var(--c);}
   opacity:.6;transition:all .2s;letter-spacing:.2px;}
 .settings-segments button.on{background:#D9A55A;color:#4E1B4F;opacity:1;font-weight:600;}
 .settings-segments button:hover:not(.on){opacity:.85;}
+
+.spacing-preview{background:rgba(0,0,0,.22);border-radius:10px;padding:14px 16px;
+  margin:8px 0 18px;border-left:2px solid #D9A55A;}
+.spacing-preview p{font-family:var(--body);font-size:14px;color:var(--c);
+  margin:0;font-style:italic;transition:line-height .2s;}
+.spacing-preview.ls-tight p{line-height:1.55;}
+.spacing-preview.ls-regular p{line-height:1.85;}
+.spacing-preview.ls-relaxed p{line-height:2.15;}
 
 /* Shield rows */
 .shield-row{display:flex;align-items:center;gap:12px;padding:11px 14px;
@@ -501,6 +528,9 @@ body{font-family:var(--sans);background:#000;color:var(--c);}
         <button data-val="regular" onclick="setPref('lineSpacing','regular')">Regular</button>
         <button data-val="relaxed" onclick="setPref('lineSpacing','relaxed')">Relaxed</button>
       </div>
+      <div class="spacing-preview" id="spacing-preview">
+        <p>She turned the letter over in her hands, reading the address one more time. The ink had bled where her thumb pressed against the seal, and she thought, not for the first time, that perhaps some things were better left unopened.</p>
+      </div>
 
       <div class="settings-row">
         <div class="settings-row-label">
@@ -529,6 +559,16 @@ body{font-family:var(--sans);background:#000;color:var(--c);}
       <div class="settings-section-title">Content shields</div>
       <div class="settings-section-desc">Topics you would rather not encounter. Selected topics will be excluded from your stories entirely — the model is instructed to never include them in any capacity.</div>
       <div id="shields-list"></div>
+
+      <div class="custom-shield-section">
+        <div class="custom-shield-label">Your own:</div>
+        <div class="custom-shield-input-row">
+          <input type="text" id="custom-shield-input" placeholder="Topic to avoid..." maxlength="80"
+                 onkeypress="if(event.key==='Enter'){event.preventDefault();addCustomShield();}">
+          <button class="custom-shield-add" onclick="addCustomShield()">Add</button>
+        </div>
+        <div id="custom-shields-list"></div>
+      </div>
     </div>
   </div>
 
@@ -607,15 +647,7 @@ const SUPABASE_ANON_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXB
 const RAILWAY_URL        = 'https://niblit-server-production.up.railway.app';
 // ════════════════════════════════════════════════════════════════
 
-const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-    detectSessionInUrl: true,
-    storage: window.localStorage,
-    flowType: 'pkce'
-  }
-});
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ─── Story data ──────────────────────────────────────────────────
 const SYSTEM_PROMPT = "You are a literary fiction writer generating original serialized romance fiction. Your prose style, thematic sensibilities, moral architecture, and plot structures must draw from the pre-1928 literary tradition and from Shakespeare's dramatic works.\n\nLITERARY INFLUENCES:\nBRITISH & IRISH: Jane Austen (free indirect discourse, ironic distance, social observation as moral criticism, the misunderstanding that structures an entire relationship); Charlotte Bronte (passionate interiority, gothic atmosphere, class transgression); Emily Bronte (landscape as emotional state, love as possession and destruction); Thomas Hardy (sentences accumulating weight before releasing, fate as social structure); George Eliot (omniscient moral seriousness, female ambition in constraint); Henry James (Jamesian indirection, the unsaid as real subject, consciousness as drama); Wilkie Collins (matter-of-fact narration of the impossible, controlled revelation); Elizabeth Gaskell (domestic realism with political stakes); William Makepeace Thackeray (satirical omniscience, social ambition as engine); Jerome K. Jerome (comic timing through understatement); Oscar Wilde (paradox as truth-telling, epigram concealing genuine feeling); Robert Louis Stevenson (adventure paced by event, moral dualism); Joseph Conrad (moral weight in adventure, isolation as revelation); Sheridan Le Fanu (gothic through accumulation of wrong detail); Bram Stoker (epistolary uncanny, dread through documentation).\n\nFRENCH: Alexandre Dumas (event before meaning, adventure as moral test); Gustave Flaubert (the perfect sentence, ironic distance from romantic illusion); Emile Zola (naturalist pressure, social forces made flesh); Guy de Maupassant (the short sharp revelation, desire compressed).\n\nRUSSIAN: Ivan Turgenev (longing as permanent condition, first love's devastation); Leo Tolstoy (moral architecture at scale); Fyodor Dostoevsky (psychological extremity, the confession as drama); Anton Chekhov (the story that ends without resolving, ordinary lives containing unbearable feeling).\n\nAMERICAN: Edith Wharton (the cage of social convention); Kate Chopin (awakening as plot, the body's knowledge before the mind's permission); Nathaniel Hawthorne (sin as psychological architecture, the hidden guilt).\n\nAFRICAN AMERICAN: Charles W. Chesnutt (hidden identity, forbidden love across the color line); Pauline Hopkins (romance with hidden heritage); Frances E.W. Harper (moral stakes of love across social divisions); Jessie Redmon Fauset (Austenian observation with racial stakes); Jean Toomer (poetic fragmentation, the lyric novel); W.E.B. Du Bois (pan-African romance, love as political act); Paul Laurence Dunbar (the divided self); Claude McKay (sensory richness, the body as home and exile).\n\nJAPANESE: Natsume Soseki (restrained psychological depth); Jun'ichiro Tanizaki (aesthetics of desire, passion as madness); Higuchi Ichiyo (women's constraint and longing).\n\nINDIAN: Rabindranath Tagore (the home and world in tension, contemplative pacing).\n\nSHAKESPEAREAN PLOT ARCHITECTURES:\nCOMEDIES: Much Ado About Nothing (enemies-to-lovers through wit combat, the false accusation that tests love); Twelfth Night (disguise as the only way to tell the truth); As You Like It (the elsewhere where social performance relaxes into truth); A Midsummer Night's Dream (parallel love plots, desire as enchantment).\nTRAGEDIES: Romeo and Juliet (the feud as the love story's engine); Othello (the trusted voice that poisons, jealousy as logic); Hamlet (paralysis before action); Macbeth (ambition as love's destroyer).\nROMANCES: The Winter's Tale (love destroyed through unfounded jealousy, reunion as also permanent wound); The Tempest (the controlled world); Cymbeline (hidden identity, the revelation scene); Pericles (family scattered and reunited).\nSTRUCTURAL PRINCIPLES: The recognition scene at every arc climax. Parallel plots that comment on main action. The fool who speaks truth. Disguise and revelation as mechanics. The elsewhere where transformation is possible. Time as dramatic pressure. The villain who is also comprehensible.\n\nSAVE THE CAT GENRE FRAMEWORK:\nYour story follows a Save the Cat genre structure mapped to its mood:\n- Light romance → Buddy Love (two characters who need each other to become whole; the obstacle is internal)\n- Dark romance → Buddy Love + Monster in the House (the obstacle is structural, threatening, sometimes existential)\n- Sharp wit → Buddy Love + The Fool Triumphant (a witty protagonist who outwits a more powerful establishment as part of the love story)\n- Adventure → Golden Fleece + Buddy Love (a journey reshapes the protagonist while love quietly grows)\n\nEPISODE BEAT TARGETS (current beat injected per call):\n- Eps 1-2: Opening Image + Setup. Establish protagonist, world, theme. Hint at what will disrupt this.\n- Eps 3-4: Catalyst + Debate. The thing that changes everything arrives. Protagonist resists, then commits.\n- Ep 5: Break Into Two. Protagonist enters the new situation. B Story (the love interest) emerges as central.\n- Eps 6-7: Fun and Games. Deliver what the configuration promised. The premise is fully alive on the page.\n- Ep 8: Midpoint. False victory or false defeat. The stakes flip.\n- Eps 9-10: Bad Guys Close In. External pressure mounts. Allies become ambiguous.\n- Ep 11: All Is Lost. The deepest defeat. Something dies — literally or symbolically.\n- Ep 12: Dark Night of the Soul. Interiority and reckoning. Protagonist alone with the loss.\n- Ep 13: Break Into Three. New resolve. Hope returns earned, not given.\n- Eps 14-15: Finale. The five-point climax (gather team, execute plan, high-tower surprise, dig deep, execute new plan).\n- Ep 16+: Earned resolution. Final image transforms the opening image. Then second arc begins.\n\nPROFESSION & MILIEU VARIATION:\nAvoid defaulting to: cartographers, mapmakers, librarians, governesses, ladies of the manor, manor houses, country estates, gothic mansions, old libraries, ancestral homes. These are overused in literary AI fiction.\n\nInstead vary protagonist professions widely. Possible: musicians, scientists, doctors, sailors, journalists, teachers, scholars, merchants, artists, herbalists, soldiers, diplomats, midwives, blacksmiths, weavers, telegraph operators, photographers, nurses, translators, archaeologists, performers, couriers, factory workers, farmers, dressmakers, watchmakers, chemists, navigators, monks, lighthouse keepers.\n\nVary settings beyond manor houses: coastal towns, market squares, harbor districts, ships at sea, mountain villages, university courtyards, traveling caravans, factory floors, immigrant neighborhoods, tea houses, theater backstages, monasteries, embassies, hospitals, military camps, convents, opium dens, music halls, train cars, mountain passes, desert oases, river deltas.\n\nGround each story in a specific, unexpected milieu. Repetition of profession or setting across stories is a failure of imagination.\n\nCHARACTER NAMES & CULTURAL CONTEXT:\nVary character names widely across stories. Do NOT default to:\n- Austenian names: Elizabeth, Jane, Eleanor, Catherine, Marianne, Emma, Anne\n- Brontëan names: Catherine, Heathcliff, Helen, Rochester\n- Standard period romance names: Cordelia, Beatrice, Theodore, Edmund, Henry, Charlotte, Edward\n\nDraw names from the actual demographic and geographic range of the pre-1928 world. Match names to the story's specific cultural and geographic context:\n- African American (1860s-1920s): Phillis, Octavia, Lavinia, Booker, Frederick, Ida, Augustus, Cora\n- South Asian (Bengali, Tamil, Punjabi, etc.): Kamala, Indira, Aarav, Ravi, Meera, Anjali, Rohan\n- East Asian (Japanese, Chinese, Korean): Mei, Hiroshi, Yuki, Akira, Lin, Wen, Ji-ho, Hana\n- Eastern European (Polish, Russian, Czech): Stanislav, Magdalena, Wojciech, Anya, Mikhail, Klara\n- Mediterranean (Italian, Spanish, Greek, Portuguese): Sofia, Matteo, Salvatore, Inés, Constantinos, Beatriz\n- Latin American: Esperanza, Rafael, Isabela, Mateo, Lucía, Tomás\n- Middle Eastern / North African: Nasreen, Khalil, Layla, Rashid, Yasmin, Tariq, Farida\n- Irish, Scottish, Welsh: Niamh, Eilidh, Cadan, Bronwen, Padraig, Siobhan\n- Caribbean: Soraya, Jacinta, Esperanza, Anansi (where contextually appropriate)\n- For Fantastical settings: invent or draw from less-overused traditions (Welsh, Old Norse, invented compounds)\n\nMatch names to the geographic and cultural context implied by the story. Do not import English/Anglo names into a Bengal-set or Hokkaido-set or New Orleans-set story. The name should feel inevitable for THIS character in THIS setting — not generic.\n\nABSOLUTE PROHIBITIONS:\n- Sexual content involving anyone under 18\n- Non-consensual sexual encounters presented positively\n- Positive descriptions of incest, racism, religious persecution, sex or gender discrimination\n\nSPICE {SPICE_LEVEL}\n\nCONFLICT RESOLUTION - do NOT use: {AVOIDED_RESOLUTIONS}. Types: outwitted_antagonist, physical_force, emotional_appeal, sacrifice, external_rescue, discovered_information, deception, endurance, surrender, escape.\n\nEPISODE LENGTH: 350 to 650 words. Aim for 500 words. Shorter episodes feel tighter and end on stronger hooks.\n\nOUTPUT FORMAT (STRICT — follow exactly, no markdown formatting):\nLine 1: STORY_TITLE: [overall title for the entire serialized story — only output on Episode 1, omit on subsequent episodes]\nLine 2: TITLE: [episode title — different each episode]\nLine 3: RESOLUTION: [mechanism used, lowercase from the resolution list]\nLine 4: REL_CHANGE: [how closeness shifted, or none]\nLine 5: KNOWLEDGE: [what protagonist now knows that she did not, or none]\nLine 6: POWER_SHIFT: [increase / decrease / neutral]\n\nThen the prose. Blank lines between paragraphs. End on a hook line.\n\nDO NOT use markdown formatting (no ** asterisks, no headers, no italics tags). Each label must appear EXACTLY as written above — uppercase, no decoration. The structured fields are parsed by regex; deviation breaks the system.\n\nThe STORY_TITLE should be evocative, literary, and reflect the entire arc — not just episode 1. Think of it as the title of a novel, not a chapter.\n\nWord count target: 500 words (range 350-650). Tight, focused episodes. Stay under 650 words to ensure clean endings.";
@@ -705,14 +737,16 @@ function G(id){
   document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
   document.getElementById(id).classList.add('on');
   const showChrome = id !== 'pl';
-  // Option A: hide global chrome on reader so it doesn't collide with in-reader actions
-  const showOnReader = id !== 'pr';
-  document.getElementById('topbar').classList.toggle('hidden', !showChrome || !showOnReader);
-  document.getElementById('bnav').classList.toggle('hidden', !showChrome || !showOnReader);
+  // Topbar only on carousel (avoids logo overlap on library/settings, and clutter on reader)
+  const showTopbar = id === 'pc';
+  // Bottom nav hidden on reader (focused reading mode) and login
+  const showBnav = showChrome && id !== 'pr';
+  document.getElementById('topbar').classList.toggle('hidden', !showTopbar);
+  document.getElementById('bnav').classList.toggle('hidden', !showBnav);
   document.querySelectorAll('.bnt').forEach(b=>b.classList.remove('on'));
   if(id==='pc') document.getElementById('nav-story')?.classList.add('on');
   if(id==='plib'){ document.getElementById('nav-library')?.classList.add('on'); loadLibrary(); trackEvent('library_opened', {}); }
-  if(id==='ps') document.getElementById('nav-settings')?.classList.add('on');
+  if(id==='ps'){ document.getElementById('nav-settings')?.classList.add('on'); populateSettingsUI(); }
   if(id==='pl'){ document.getElementById('topbar').classList.add('hidden'); document.getElementById('bnav').classList.add('hidden'); }
 }
 
@@ -1450,6 +1484,26 @@ function toggleShield(shieldId){
   saveUserPrefs();
 }
 
+function addCustomShield(){
+  const inp = document.getElementById('custom-shield-input');
+  if(!inp) return;
+  const val = inp.value.trim();
+  if(!val) return;
+  if(!userPrefs.customShields) userPrefs.customShields = [];
+  if(userPrefs.customShields.includes(val)){ inp.value=''; return; }
+  userPrefs.customShields.push(val);
+  inp.value = '';
+  populateSettingsUI();
+  saveUserPrefs();
+}
+
+function removeCustomShield(idx){
+  if(!userPrefs.customShields) return;
+  userPrefs.customShields.splice(idx, 1);
+  populateSettingsUI();
+  saveUserPrefs();
+}
+
 function applyReadingPrefs(){
   const prose = document.getElementById('prose');
   if(prose){
@@ -1457,6 +1511,12 @@ function applyReadingPrefs(){
     prose.classList.remove('ls-tight','ls-regular','ls-relaxed');
     prose.classList.add('ls-' + (userPrefs.lineSpacing || 'regular'));
     prose.classList.toggle('no-breaks', !userPrefs.sectionBreaks);
+  }
+  // Update the in-settings live preview so users can SEE the change
+  const preview = document.getElementById('spacing-preview');
+  if(preview){
+    preview.classList.remove('ls-tight','ls-regular','ls-relaxed');
+    preview.classList.add('ls-' + (userPrefs.lineSpacing || 'regular'));
   }
 }
 
@@ -1467,7 +1527,7 @@ function populateSettingsUI(){
   document.querySelectorAll('#pref-spacing button').forEach(b => {
     b.classList.toggle('on', b.dataset.val === (userPrefs.lineSpacing || 'regular'));
   });
-  // Render shields list
+  // Render preset shields list
   const list = document.getElementById('shields-list');
   if(list){
     list.innerHTML = SHIELDS.map(s => {
@@ -1478,12 +1538,27 @@ function populateSettingsUI(){
       '</div>';
     }).join('');
   }
+  // Render custom shields
+  const customList = document.getElementById('custom-shields-list');
+  if(customList){
+    const items = userPrefs.customShields || [];
+    customList.innerHTML = items.map((s, i) =>
+      '<div class="shield-row on custom">' +
+        '<button class="shield-remove" onclick="removeCustomShield(' + i + ')" aria-label="Remove">\u00d7</button>' +
+        '<div class="shield-label">' + escapeHtml(s) + '</div>' +
+      '</div>'
+    ).join('');
+  }
 }
 
 function buildShieldPrompt(){
   const active = SHIELDS.filter(s => userPrefs.shields.includes(s.id));
-  if(!active.length) return '';
-  return ' MUST AVOID ENTIRELY (do not include in any capacity, even by allusion): ' + active.map(s => s.avoid).join('; ') + '.';
+  const phrases = active.map(s => s.avoid);
+  if(userPrefs.customShields && userPrefs.customShields.length){
+    phrases.push(...userPrefs.customShields);
+  }
+  if(!phrases.length) return '';
+  return ' MUST AVOID ENTIRELY (do not include in any capacity, even by allusion): ' + phrases.join('; ') + '.';
 }
 
 // ─── Initialization ──────────────────────────────────────────────
