@@ -318,6 +318,65 @@ body{font-family:var(--sans);background:#000;color:var(--c);}
 .r-btn.secondary{background:transparent;color:#4E1B4F;border:0.5px solid rgba(78,27,79,.3);}
 .r-btn.secondary:hover{background:rgba(78,27,79,.06);}
 
+/* Settings page */
+#ps{flex-direction:column;background:linear-gradient(165deg,#3D1547 0%,#4E1B4F 60%,#2A0F2C 100%);
+  color:var(--c);padding:64px 22px 80px;overflow-y:auto;}
+#ps::-webkit-scrollbar{display:none;}
+.settings-header{margin-bottom:22px;}
+.settings-title{font-family:var(--serif);font-size:32px;font-weight:500;margin-bottom:4px;letter-spacing:-.3px;}
+.settings-subtitle{font-size:12.5px;font-style:italic;opacity:.7;font-family:var(--body);}
+.settings-section{margin-bottom:32px;}
+.settings-section-title{font-size:11px;letter-spacing:1.8px;text-transform:uppercase;
+  font-weight:500;opacity:.7;margin-bottom:14px;color:#D9A55A;}
+.settings-section-desc{font-size:12.5px;font-style:italic;opacity:.7;
+  font-family:var(--body);line-height:1.55;margin-bottom:16px;}
+.settings-row{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:14px 0;border-bottom:0.5px solid rgba(242,220,181,.1);}
+.settings-row.no-toggle{border-bottom:none;padding-bottom:6px;}
+.settings-row-label{flex:1;min-width:0;}
+.settings-row-title{font-size:15px;font-family:var(--body);margin-bottom:2px;}
+.settings-row-desc{font-size:11.5px;opacity:.6;font-style:italic;font-family:var(--body);line-height:1.4;}
+
+/* Toggle switch */
+.toggle{position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;
+  background:rgba(242,220,181,.2);border-radius:24px;transition:background .2s;}
+.toggle-slider::before{position:absolute;content:'';height:18px;width:18px;left:3px;bottom:3px;
+  background:var(--c);border-radius:50%;transition:transform .2s;}
+.toggle input:checked + .toggle-slider{background:#D9A55A;}
+.toggle input:checked + .toggle-slider::before{transform:translateX(20px);background:#4E1B4F;}
+
+/* Segmented control (line spacing) */
+.settings-segments{display:flex;gap:0;background:rgba(0,0,0,.28);border-radius:12px;
+  padding:4px;margin-bottom:6px;border-bottom:0.5px solid rgba(242,220,181,.1);}
+.settings-segments button{flex:1;background:transparent;border:none;color:var(--c);
+  padding:9px;border-radius:8px;cursor:pointer;font-family:var(--sans);font-size:13px;
+  opacity:.6;transition:all .2s;letter-spacing:.2px;}
+.settings-segments button.on{background:#D9A55A;color:#4E1B4F;opacity:1;font-weight:600;}
+.settings-segments button:hover:not(.on){opacity:.85;}
+
+/* Shield rows */
+.shield-row{display:flex;align-items:center;gap:12px;padding:11px 14px;
+  background:rgba(0,0,0,.25);border:0.5px solid rgba(242,220,181,.1);
+  border-radius:10px;margin-bottom:8px;cursor:pointer;transition:all .15s;user-select:none;}
+.shield-row:hover{background:rgba(0,0,0,.35);border-color:rgba(217,165,90,.3);}
+.shield-row.on{border-color:#D9A55A;background:rgba(217,165,90,.13);}
+.shield-checkbox{width:22px;height:22px;border-radius:6px;border:1.5px solid rgba(242,220,181,.4);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;
+  font-weight:bold;font-size:13px;color:transparent;}
+.shield-row.on .shield-checkbox{background:#D9A55A;border-color:#D9A55A;color:#4E1B4F;}
+.shield-label{font-size:14px;font-family:var(--body);flex:1;}
+
+/* Reading-pref classes on prose */
+.prose.no-dropcaps p.dc:first-letter{font-family:inherit;font-size:inherit;line-height:inherit;
+  float:none;margin:0;color:inherit;font-weight:inherit;}
+.prose.ls-tight{line-height:1.55;}
+.prose.ls-regular{line-height:1.85;}
+.prose.ls-relaxed{line-height:2.15;}
+.sect-break{text-align:center;color:#D9A55A;margin:1.4em 0;font-size:18px;letter-spacing:6px;}
+.prose.no-breaks .sect-break{display:none;}
+
 /* Heart button on reader */
 .r-btn.heart{flex:0 0 50px;padding:14px;background:transparent;
   border:0.5px solid rgba(78,27,79,.3);color:#4E1B4F;width:50px;
@@ -410,6 +469,69 @@ body{font-family:var(--sans);background:#000;color:var(--c);}
     </div>
   </div>
 
+  <!-- ── SETTINGS ─────────────────────────────── -->
+  <div id="ps" class="pg">
+    <div class="settings-header">
+      <div class="settings-title">Settings</div>
+      <div class="settings-subtitle">Reading preferences and content shields.</div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">Reading</div>
+
+      <div class="settings-row">
+        <div class="settings-row-label">
+          <div class="settings-row-title">Drop capitals</div>
+          <div class="settings-row-desc">The decorative oversized first letter that opens each episode.</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="pref-dropcaps" onchange="setPref('dropCaps', this.checked)">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="settings-row no-toggle">
+        <div class="settings-row-label">
+          <div class="settings-row-title">Line spacing</div>
+          <div class="settings-row-desc">Tight conserves space. Relaxed gives prose more room to breathe.</div>
+        </div>
+      </div>
+      <div class="settings-segments" id="pref-spacing">
+        <button data-val="tight" onclick="setPref('lineSpacing','tight')">Tight</button>
+        <button data-val="regular" onclick="setPref('lineSpacing','regular')">Regular</button>
+        <button data-val="relaxed" onclick="setPref('lineSpacing','relaxed')">Relaxed</button>
+      </div>
+
+      <div class="settings-row">
+        <div class="settings-row-label">
+          <div class="settings-row-title">Section breaks</div>
+          <div class="settings-row-desc">Show ornamental dividers between scenes (✦ ✦ ✦).</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="pref-breaks" onchange="setPref('sectionBreaks', this.checked)">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="settings-row">
+        <div class="settings-row-label">
+          <div class="settings-row-title">Check-in questions</div>
+          <div class="settings-row-desc">Periodic prompts asking how the story is landing for you.</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="pref-checkins" onchange="setPref('checkins', this.checked)">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">Content shields</div>
+      <div class="settings-section-desc">Topics you would rather not encounter. Selected topics will be excluded from your stories entirely — the model is instructed to never include them in any capacity.</div>
+      <div id="shields-list"></div>
+    </div>
+  </div>
+
   <!-- ── READER ───────────────────────────────── -->
   <div id="pr" class="pg">
     <div class="rh">
@@ -443,6 +565,10 @@ body{font-family:var(--sans);background:#000;color:var(--c);}
     <button class="bnt" id="nav-library" onclick="G('plib')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
       Library
+    </button>
+    <button class="bnt" id="nav-settings" onclick="G('ps')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Settings
     </button>
     <button class="bnt" onclick="logout()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
@@ -481,7 +607,15 @@ const SUPABASE_ANON_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXB
 const RAILWAY_URL        = 'https://niblit-server-production.up.railway.app';
 // ════════════════════════════════════════════════════════════════
 
-const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true,
+    storage: window.localStorage,
+    flowType: 'pkce'
+  }
+});
 
 // ─── Story data ──────────────────────────────────────────────────
 const SYSTEM_PROMPT = "You are a literary fiction writer generating original serialized romance fiction. Your prose style, thematic sensibilities, moral architecture, and plot structures must draw from the pre-1928 literary tradition and from Shakespeare's dramatic works.\n\nLITERARY INFLUENCES:\nBRITISH & IRISH: Jane Austen (free indirect discourse, ironic distance, social observation as moral criticism, the misunderstanding that structures an entire relationship); Charlotte Bronte (passionate interiority, gothic atmosphere, class transgression); Emily Bronte (landscape as emotional state, love as possession and destruction); Thomas Hardy (sentences accumulating weight before releasing, fate as social structure); George Eliot (omniscient moral seriousness, female ambition in constraint); Henry James (Jamesian indirection, the unsaid as real subject, consciousness as drama); Wilkie Collins (matter-of-fact narration of the impossible, controlled revelation); Elizabeth Gaskell (domestic realism with political stakes); William Makepeace Thackeray (satirical omniscience, social ambition as engine); Jerome K. Jerome (comic timing through understatement); Oscar Wilde (paradox as truth-telling, epigram concealing genuine feeling); Robert Louis Stevenson (adventure paced by event, moral dualism); Joseph Conrad (moral weight in adventure, isolation as revelation); Sheridan Le Fanu (gothic through accumulation of wrong detail); Bram Stoker (epistolary uncanny, dread through documentation).\n\nFRENCH: Alexandre Dumas (event before meaning, adventure as moral test); Gustave Flaubert (the perfect sentence, ironic distance from romantic illusion); Emile Zola (naturalist pressure, social forces made flesh); Guy de Maupassant (the short sharp revelation, desire compressed).\n\nRUSSIAN: Ivan Turgenev (longing as permanent condition, first love's devastation); Leo Tolstoy (moral architecture at scale); Fyodor Dostoevsky (psychological extremity, the confession as drama); Anton Chekhov (the story that ends without resolving, ordinary lives containing unbearable feeling).\n\nAMERICAN: Edith Wharton (the cage of social convention); Kate Chopin (awakening as plot, the body's knowledge before the mind's permission); Nathaniel Hawthorne (sin as psychological architecture, the hidden guilt).\n\nAFRICAN AMERICAN: Charles W. Chesnutt (hidden identity, forbidden love across the color line); Pauline Hopkins (romance with hidden heritage); Frances E.W. Harper (moral stakes of love across social divisions); Jessie Redmon Fauset (Austenian observation with racial stakes); Jean Toomer (poetic fragmentation, the lyric novel); W.E.B. Du Bois (pan-African romance, love as political act); Paul Laurence Dunbar (the divided self); Claude McKay (sensory richness, the body as home and exile).\n\nJAPANESE: Natsume Soseki (restrained psychological depth); Jun'ichiro Tanizaki (aesthetics of desire, passion as madness); Higuchi Ichiyo (women's constraint and longing).\n\nINDIAN: Rabindranath Tagore (the home and world in tension, contemplative pacing).\n\nSHAKESPEAREAN PLOT ARCHITECTURES:\nCOMEDIES: Much Ado About Nothing (enemies-to-lovers through wit combat, the false accusation that tests love); Twelfth Night (disguise as the only way to tell the truth); As You Like It (the elsewhere where social performance relaxes into truth); A Midsummer Night's Dream (parallel love plots, desire as enchantment).\nTRAGEDIES: Romeo and Juliet (the feud as the love story's engine); Othello (the trusted voice that poisons, jealousy as logic); Hamlet (paralysis before action); Macbeth (ambition as love's destroyer).\nROMANCES: The Winter's Tale (love destroyed through unfounded jealousy, reunion as also permanent wound); The Tempest (the controlled world); Cymbeline (hidden identity, the revelation scene); Pericles (family scattered and reunited).\nSTRUCTURAL PRINCIPLES: The recognition scene at every arc climax. Parallel plots that comment on main action. The fool who speaks truth. Disguise and revelation as mechanics. The elsewhere where transformation is possible. Time as dramatic pressure. The villain who is also comprehensible.\n\nSAVE THE CAT GENRE FRAMEWORK:\nYour story follows a Save the Cat genre structure mapped to its mood:\n- Light romance → Buddy Love (two characters who need each other to become whole; the obstacle is internal)\n- Dark romance → Buddy Love + Monster in the House (the obstacle is structural, threatening, sometimes existential)\n- Sharp wit → Buddy Love + The Fool Triumphant (a witty protagonist who outwits a more powerful establishment as part of the love story)\n- Adventure → Golden Fleece + Buddy Love (a journey reshapes the protagonist while love quietly grows)\n\nEPISODE BEAT TARGETS (current beat injected per call):\n- Eps 1-2: Opening Image + Setup. Establish protagonist, world, theme. Hint at what will disrupt this.\n- Eps 3-4: Catalyst + Debate. The thing that changes everything arrives. Protagonist resists, then commits.\n- Ep 5: Break Into Two. Protagonist enters the new situation. B Story (the love interest) emerges as central.\n- Eps 6-7: Fun and Games. Deliver what the configuration promised. The premise is fully alive on the page.\n- Ep 8: Midpoint. False victory or false defeat. The stakes flip.\n- Eps 9-10: Bad Guys Close In. External pressure mounts. Allies become ambiguous.\n- Ep 11: All Is Lost. The deepest defeat. Something dies — literally or symbolically.\n- Ep 12: Dark Night of the Soul. Interiority and reckoning. Protagonist alone with the loss.\n- Ep 13: Break Into Three. New resolve. Hope returns earned, not given.\n- Eps 14-15: Finale. The five-point climax (gather team, execute plan, high-tower surprise, dig deep, execute new plan).\n- Ep 16+: Earned resolution. Final image transforms the opening image. Then second arc begins.\n\nPROFESSION & MILIEU VARIATION:\nAvoid defaulting to: cartographers, mapmakers, librarians, governesses, ladies of the manor, manor houses, country estates, gothic mansions, old libraries, ancestral homes. These are overused in literary AI fiction.\n\nInstead vary protagonist professions widely. Possible: musicians, scientists, doctors, sailors, journalists, teachers, scholars, merchants, artists, herbalists, soldiers, diplomats, midwives, blacksmiths, weavers, telegraph operators, photographers, nurses, translators, archaeologists, performers, couriers, factory workers, farmers, dressmakers, watchmakers, chemists, navigators, monks, lighthouse keepers.\n\nVary settings beyond manor houses: coastal towns, market squares, harbor districts, ships at sea, mountain villages, university courtyards, traveling caravans, factory floors, immigrant neighborhoods, tea houses, theater backstages, monasteries, embassies, hospitals, military camps, convents, opium dens, music halls, train cars, mountain passes, desert oases, river deltas.\n\nGround each story in a specific, unexpected milieu. Repetition of profession or setting across stories is a failure of imagination.\n\nCHARACTER NAMES & CULTURAL CONTEXT:\nVary character names widely across stories. Do NOT default to:\n- Austenian names: Elizabeth, Jane, Eleanor, Catherine, Marianne, Emma, Anne\n- Brontëan names: Catherine, Heathcliff, Helen, Rochester\n- Standard period romance names: Cordelia, Beatrice, Theodore, Edmund, Henry, Charlotte, Edward\n\nDraw names from the actual demographic and geographic range of the pre-1928 world. Match names to the story's specific cultural and geographic context:\n- African American (1860s-1920s): Phillis, Octavia, Lavinia, Booker, Frederick, Ida, Augustus, Cora\n- South Asian (Bengali, Tamil, Punjabi, etc.): Kamala, Indira, Aarav, Ravi, Meera, Anjali, Rohan\n- East Asian (Japanese, Chinese, Korean): Mei, Hiroshi, Yuki, Akira, Lin, Wen, Ji-ho, Hana\n- Eastern European (Polish, Russian, Czech): Stanislav, Magdalena, Wojciech, Anya, Mikhail, Klara\n- Mediterranean (Italian, Spanish, Greek, Portuguese): Sofia, Matteo, Salvatore, Inés, Constantinos, Beatriz\n- Latin American: Esperanza, Rafael, Isabela, Mateo, Lucía, Tomás\n- Middle Eastern / North African: Nasreen, Khalil, Layla, Rashid, Yasmin, Tariq, Farida\n- Irish, Scottish, Welsh: Niamh, Eilidh, Cadan, Bronwen, Padraig, Siobhan\n- Caribbean: Soraya, Jacinta, Esperanza, Anansi (where contextually appropriate)\n- For Fantastical settings: invent or draw from less-overused traditions (Welsh, Old Norse, invented compounds)\n\nMatch names to the geographic and cultural context implied by the story. Do not import English/Anglo names into a Bengal-set or Hokkaido-set or New Orleans-set story. The name should feel inevitable for THIS character in THIS setting — not generic.\n\nABSOLUTE PROHIBITIONS:\n- Sexual content involving anyone under 18\n- Non-consensual sexual encounters presented positively\n- Positive descriptions of incest, racism, religious persecution, sex or gender discrimination\n\nSPICE {SPICE_LEVEL}\n\nCONFLICT RESOLUTION - do NOT use: {AVOIDED_RESOLUTIONS}. Types: outwitted_antagonist, physical_force, emotional_appeal, sacrifice, external_rescue, discovered_information, deception, endurance, surrender, escape.\n\nEPISODE LENGTH: 350 to 650 words. Aim for 500 words. Shorter episodes feel tighter and end on stronger hooks.\n\nOUTPUT FORMAT (STRICT — follow exactly, no markdown formatting):\nLine 1: STORY_TITLE: [overall title for the entire serialized story — only output on Episode 1, omit on subsequent episodes]\nLine 2: TITLE: [episode title — different each episode]\nLine 3: RESOLUTION: [mechanism used, lowercase from the resolution list]\nLine 4: REL_CHANGE: [how closeness shifted, or none]\nLine 5: KNOWLEDGE: [what protagonist now knows that she did not, or none]\nLine 6: POWER_SHIFT: [increase / decrease / neutral]\n\nThen the prose. Blank lines between paragraphs. End on a hook line.\n\nDO NOT use markdown formatting (no ** asterisks, no headers, no italics tags). Each label must appear EXACTLY as written above — uppercase, no decoration. The structured fields are parsed by regex; deviation breaks the system.\n\nThe STORY_TITLE should be evocative, literary, and reflect the entire arc — not just episode 1. Think of it as the title of a novel, not a chapter.\n\nWord count target: 500 words (range 350-650). Tight, focused episodes. Stay under 650 words to ensure clean endings.";
@@ -500,6 +634,21 @@ const ENG={'Slow burn':['Internal contradiction','Pure desire'],'Enemies & rival
 const SHAKES={'Slow burn':"As You Like It / The Winter's Tale",'Enemies & rivals':'Much Ado About Nothing / Othello','Forbidden love':'Romeo and Juliet / Cymbeline','Friends to lovers':'Twelfth Night'};
 
 const STORY_LIMIT = 5;
+// Curated profession pool — actively rotated per story to break the cartographer/librarian default
+const PROFESSIONS = [
+  'musician','scientist','doctor','sailor','journalist','teacher','merchant',
+  'artist','herbalist','soldier','diplomat','dressmaker','watchmaker',
+  'photographer','lighthouse keeper','poet','pharmacist','translator',
+  'astronomer','botanist','seamstress','blacksmith','printmaker','apothecary',
+  'innkeeper','engineer','glassblower','perfumer','clockmaker','illustrator',
+  'navigator','bookbinder'
+];
+function pickProfession(activeShields){
+  let pool = PROFESSIONS.slice();
+  if(activeShields && activeShields.includes('war')) pool = pool.filter(p => p!=='soldier' && p!=='navigator');
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+
 const WILDCARDS = [
   'involves a wedding',
   'involves a stolen letter',
@@ -556,11 +705,14 @@ function G(id){
   document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
   document.getElementById(id).classList.add('on');
   const showChrome = id !== 'pl';
-  document.getElementById('topbar').classList.toggle('hidden', !showChrome);
-  document.getElementById('bnav').classList.toggle('hidden', !showChrome);
+  // Option A: hide global chrome on reader so it doesn't collide with in-reader actions
+  const showOnReader = id !== 'pr';
+  document.getElementById('topbar').classList.toggle('hidden', !showChrome || !showOnReader);
+  document.getElementById('bnav').classList.toggle('hidden', !showChrome || !showOnReader);
   document.querySelectorAll('.bnt').forEach(b=>b.classList.remove('on'));
   if(id==='pc') document.getElementById('nav-story')?.classList.add('on');
   if(id==='plib'){ document.getElementById('nav-library')?.classList.add('on'); loadLibrary(); trackEvent('library_opened', {}); }
+  if(id==='ps') document.getElementById('nav-settings')?.classList.add('on');
   if(id==='pl'){ document.getElementById('topbar').classList.add('hidden'); document.getElementById('bnav').classList.add('hidden'); }
 }
 
@@ -584,10 +736,11 @@ async function sendMagicLink(){
 }
 async function logout(){ await sb.auth.signOut(); G('pl'); }
 
-sb.auth.onAuthStateChange((event,session)=>{
+sb.auth.onAuthStateChange(async (event,session)=>{
   currentSession=session;
   if(session && document.getElementById('pl').classList.contains('on')){
     G('pc');
+    await loadUserPrefs();
     trackEvent('signed_in', { event: event });
   }
   if(!session && !document.getElementById('pl').classList.contains('on')) G('pl');
@@ -831,6 +984,7 @@ function buildConfigFromScope(scope){
   cfg.engine = pick(ENG[cfg.dR]||['Internal contradiction']);
   cfg.shakes = SHAKES[cfg.dR]||'As You Like It';
   cfg.tol = pick(['Union','Loss','Ambiguity']);
+  cfg.profession = pickProfession(userPrefs.shields);
   return cfg;
 }
 
@@ -896,9 +1050,10 @@ function parseResponse(raw){
 function renderProse(text){
   const paras = text.split(/\n\n+/);
   document.getElementById('prose').innerHTML = paras.map((para,i)=>
-    para.trim()==='*' ? '<div style="text-align:center;color:#D9A55A;margin:1.4em 0;font-size:18px;letter-spacing:6px;">&#10022; &#10022; &#10022;</div>'
+    para.trim()==='*' ? '<div class="sect-break">&#10022; &#10022; &#10022;</div>'
     : `<p${i===0?' class="dc"':''}>${escapeHtml(para.trim())}</p>`
   ).join('');
+  applyReadingPrefs();
 }
 function escapeHtml(s){ return s.replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
@@ -931,6 +1086,7 @@ async function letFateDecide(){
   cfg.engine = pick(ENG[cfg.dR]||['Internal contradiction']);
   cfg.shakes = SHAKES[cfg.dR]||'As You Like It';
   cfg.tol = pick(['Union','Loss','Ambiguity']);
+  cfg.profession = pickProfession(userPrefs.shields);
   await startStoryFromConfig(cfg);
 }
 
@@ -947,8 +1103,8 @@ async function startStoryFromConfig(cfg){
   const{data:userData}=await sb.auth.getUser();
   const{data:storyRow,error}=await sb.from('stories').insert({
     user_id:userData.user.id,
-    config: { mood:cfg.mR, dynamic:cfg.dR, protagonist:cfg.lR, loveInterest:cfg.liR, setting:cfg.sR, arc:cfg.arcR, wildCard:cfg.wR, spice:cfg.sp },
-    global_context: { goal:cfg.goal, arcGoal:cfg.arcGoal, engine:cfg.engine, shakes:cfg.shakes, tol:cfg.tol }
+    config: { mood:cfg.mR, dynamic:cfg.dR, protagonist:cfg.lR, loveInterest:cfg.liR, setting:cfg.sR, arc:cfg.arcR, wildCard:cfg.wR, spice:cfg.sp, profession:cfg.profession },
+    global_context: { goal:cfg.goal, arcGoal:cfg.arcGoal, engine:cfg.engine, shakes:cfg.shakes, tol:cfg.tol, profession:cfg.profession }
   }).select().single();
   if(error){
     hideLoading();
@@ -985,9 +1141,11 @@ async function runEpisode(){
   const wcL = gc.wR ? 'WILD CARD (syntactic precedence): '+gc.wR : '';
   const spL = ['','Gentle','Sweet','Warm','Steamy','Explicit'];
   const sh=[...sS,...cSh]; const shL=sh.length?'Avoid entirely: '+sh.join(', '):'';
+  const profL = gc.profession ? 'PROTAGONIST\'S PROFESSION (MANDATORY, do not change): '+gc.profession+'. Do not use a cartographer, mapmaker, librarian, or governess.' : '';
+  const userShield = buildShieldPrompt();
   const prompt = eN===1
-    ? 'Write Episode 1. Protagonist: '+gc.lR+'. Love interest: '+gc.liR+'. Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5 ('+spL[gc.sp||2]+').'+(wcL?' '+wcL:'')+' Establish the world, protagonist, and a hook that demands episode 2.'+(shL?' '+shL:'')
-    : 'Continue Episode '+eN+'. '+gc.mR+'. '+gc.lR+'. Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5.'+(wcL?' '+wcL:'')+' Previous: '+aS.slice(0,600)+' Deepen tension. Advance the arc goal. End on a fresh hook.'+(shL?' '+shL:'');
+    ? 'Write Episode 1. '+profL+' Protagonist: '+gc.lR+'. Love interest: '+gc.liR+'. Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5 ('+spL[gc.sp||2]+').'+(wcL?' '+wcL:'')+' Establish the world, protagonist, and a hook that demands episode 2.'+(shL?' '+shL:'')+userShield
+    : 'Continue Episode '+eN+'. '+gc.mR+'. '+gc.lR+'. Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5.'+(wcL?' '+wcL:'')+(profL?' '+profL:'')+' Previous: '+aS.slice(0,600)+' Deepen tension. Advance the arc goal. End on a fresh hook.'+(shL?' '+shL:'')+userShield;
 
   try{
     const data = await generateEpisode(prompt);
@@ -1138,7 +1296,8 @@ async function resumeStory(storyId){
     sR:c.setting, arcR:c.arc, wR:c.wildCard, sp:c.spice,
     goal:story.global_context?.goal||'', arcGoal:story.global_context?.arcGoal||'',
     engine:story.global_context?.engine||'', shakes:story.global_context?.shakes||'',
-    tol:story.global_context?.tol||''
+    tol:story.global_context?.tol||'',
+    profession: story.global_context?.profession || c.profession || pickProfession(userPrefs.shields)
   };
   sH = episodes.flatMap(ep=>[
     {role:'user', content:'(prior episode '+ep.episode_num+')'},
@@ -1227,6 +1386,7 @@ const CHECKINS = {
 
 function showCheckinIfDue(){
   const el = document.getElementById('checkin');
+  if(!userPrefs.checkins){ el.style.display = 'none'; return; }
   const ci = CHECKINS[eN];
   if(!ci){ el.style.display = 'none'; return; }
   el.style.display = 'block';
@@ -1255,13 +1415,89 @@ async function answerCheckin(question, answer){
   });
 }
 
+// ─── User preferences (reading + shields) ────────────────────────
+async function loadUserPrefs(){
+  if(!currentSession) return;
+  try{
+    const {data} = await sb.from('profiles').select('preferences').eq('id', currentSession.user.id).single();
+    if(data && data.preferences){
+      userPrefs = Object.assign({}, DEFAULT_PREFS, data.preferences);
+    }
+  }catch(e){ console.error('loadUserPrefs failed', e); }
+  applyReadingPrefs();
+  populateSettingsUI();
+}
+
+async function saveUserPrefs(){
+  if(!currentSession) return;
+  try{
+    await sb.from('profiles').update({ preferences: userPrefs }).eq('id', currentSession.user.id);
+  }catch(e){ console.error('saveUserPrefs failed', e); }
+}
+
+function setPref(key, value){
+  userPrefs[key] = value;
+  applyReadingPrefs();
+  populateSettingsUI();
+  saveUserPrefs();
+}
+
+function toggleShield(shieldId){
+  const idx = userPrefs.shields.indexOf(shieldId);
+  if(idx === -1) userPrefs.shields.push(shieldId);
+  else userPrefs.shields.splice(idx, 1);
+  populateSettingsUI();
+  saveUserPrefs();
+}
+
+function applyReadingPrefs(){
+  const prose = document.getElementById('prose');
+  if(prose){
+    prose.classList.toggle('no-dropcaps', !userPrefs.dropCaps);
+    prose.classList.remove('ls-tight','ls-regular','ls-relaxed');
+    prose.classList.add('ls-' + (userPrefs.lineSpacing || 'regular'));
+    prose.classList.toggle('no-breaks', !userPrefs.sectionBreaks);
+  }
+}
+
+function populateSettingsUI(){
+  const dc = document.getElementById('pref-dropcaps'); if(dc) dc.checked = !!userPrefs.dropCaps;
+  const br = document.getElementById('pref-breaks');   if(br) br.checked = !!userPrefs.sectionBreaks;
+  const ci = document.getElementById('pref-checkins'); if(ci) ci.checked = !!userPrefs.checkins;
+  document.querySelectorAll('#pref-spacing button').forEach(b => {
+    b.classList.toggle('on', b.dataset.val === (userPrefs.lineSpacing || 'regular'));
+  });
+  // Render shields list
+  const list = document.getElementById('shields-list');
+  if(list){
+    list.innerHTML = SHIELDS.map(s => {
+      const on = userPrefs.shields.includes(s.id);
+      return '<div class="shield-row' + (on?' on':'') + '" onclick="toggleShield(\'' + s.id + '\')">' +
+        '<div class="shield-checkbox">\u2713</div>' +
+        '<div class="shield-label">' + escapeHtml(s.label) + '</div>' +
+      '</div>';
+    }).join('');
+  }
+}
+
+function buildShieldPrompt(){
+  const active = SHIELDS.filter(s => userPrefs.shields.includes(s.id));
+  if(!active.length) return '';
+  return ' MUST AVOID ENTIRELY (do not include in any capacity, even by allusion): ' + active.map(s => s.avoid).join('; ') + '.';
+}
+
 // ─── Initialization ──────────────────────────────────────────────
 (async function init(){
   applyTheme(0);
   setTimeout(()=>swipeHint.classList.add('hidden'),4000);
   const{data:{session}}=await sb.auth.getSession();
   currentSession=session;
-  if(session) G('pc'); else G('pl');
+  if(session){
+    await loadUserPrefs();
+    G('pc');
+  } else {
+    G('pl');
+  }
 })();
 </script>
 
