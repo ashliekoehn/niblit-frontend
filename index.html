@@ -388,6 +388,14 @@ const MOODS={
   'Adventure':{tr:'Stevenson & Dumas',sx:'active verbs dominant; sentences break at action beats; reflection after action; event before meaning'}
 };
 const AM=Object.keys(MOODS),AL=['Woman lead','Man lead','Non-binary lead'],ALI=['Woman','Man','Non-binary'],AD=['Slow burn','Enemies & rivals','Forbidden love','Friends to lovers'],AS=['Historical','Fantastical'],AA=['Grows into someone new','Loses something real','Discovers a truth','Holds her ground'];
+const PROFESSIONS=[
+  'musician','scientist','doctor','sailor','journalist','teacher',
+  'merchant','artist','herbalist','soldier','diplomat','dressmaker',
+  'watchmaker','photographer','lighthouse keeper','poet','pharmacist',
+  'translator','astronomer','botanist','seamstress','blacksmith',
+  'printmaker','apothecary','innkeeper','engineer','glassblower',
+  'perfumer','clockmaker','illustrator','bookbinder','telegraph operator'
+];
 const SWP=[{t:'Set entirely in one room and no one can explain why they cannot leave'},{t:'Every character speaks only in questions'},{t:'The protagonist has perfect memory of a life she has not lived yet'},{t:'The love interest does not know they are the love interest'},{t:'Takes place over a single day repeated slightly differently each episode'},{t:'All characters are children of people who once loved each other'},{t:'No character may speak directly'},{t:'The narrator is writing this for someone who will never read it'}];
 const SP=[{v:'1 — Gentle',d:'A longing glance, a held breath.'},{v:'2 — Sweet',d:'Tender longing, charged silences.'},{v:'3 — Warm',d:'Sensual awareness, physical proximity.'},{v:'4 — Steamy',d:'Heat on the page. Adults, always consenting.'},{v:'5 — Explicit',d:'Fully on the page. Adults only.'}];
 document.getElementById('sps').addEventListener('input',function(){
@@ -542,6 +550,8 @@ async function resumeStory(id){
   if(e2){ alert('Could not load episodes: ' + e2.message); return; }
   currentStoryId = id;
   gc = story.global_context || {};
+  if(!gc.profession && story.config && story.config.profession) gc.profession = story.config.profession;
+  if(!gc.profession) gc.profession = pick(PROFESSIONS);
   tS = {
     goal: gc.goal || '—', arcGoal: gc.arcGoal || '—',
     arcType: gc.arcR || '—', tol: gc.tol || '—', engine: gc.engine || '—',
@@ -579,6 +589,20 @@ async function resumeStory(id){
   document.getElementById('nb').textContent = 'Generate episode ' + eN + ' ›';
   G('pr');
   trackEvent('story_resumed', { resumed_id: id, at_episode: eN - 1 });
+  // Load loved state for the last episode shown
+  if(episodes.length && currentSession){
+    try{
+      const lastEpId = episodes[episodes.length - 1].id;
+      window._currentEpisodeId = lastEpId;
+      const {data: loved} = await sb.from('loved_episodes')
+        .select('id').eq('episode_id', lastEpId).maybeSingle();
+      lv = !!loved;
+      document.getElementById('hb').classList.toggle('lv', lv);
+      document.getElementById('hp').setAttribute('fill', lv ? '#B73960' : 'none');
+      document.getElementById('hp').setAttribute('stroke', lv ? '#B73960' : '#3D1035');
+      document.getElementById('hl').textContent = lv ? 'Loved it' : 'Loved this';
+    }catch(e){ console.warn('loved state load failed:', e.message); }
+  }
 }
 
 async function confirmDelete(id, title){
@@ -595,7 +619,7 @@ const LMS=['Consulting the pre-1928 archives...','Channeling the literary spirit
 function getCfg(){const g=x=>document.querySelector('.cp.on[data-g="'+x+'"]')?.textContent?.trim()||'';return{m:g('m'),l:g('l'),li:g('li'),d:g('d'),s:g('s'),arc:g('arc'),sp:parseInt(document.getElementById('sps').value),wc:wC,wcs:wCS};}
 function SL(on){if(on){document.getElementById('ls').style.display='block';document.getElementById('pw2').style.display='none';let i=0;document.getElementById('lm').textContent=LMS[0];lT=setInterval(()=>{i=(i+1)%LMS.length;document.getElementById('lm').textContent=LMS[i];},2300);}else{if(lT){clearInterval(lT);lT=null;}document.getElementById('ls').style.display='none';document.getElementById('pw2').style.display='block';document.getElementById('rs').scrollTop=0;}document.getElementById('eb').style.display='none';}
 function SE(msg){if(lT){clearInterval(lT);lT=null;}document.getElementById('ls').style.display='none';document.getElementById('pw2').style.display='none';const e=document.getElementById('eb');e.style.display='block';e.textContent=msg;}
-function RH(){lv=false;document.getElementById('hb').classList.remove('lv');document.getElementById('hp').setAttribute('fill','none');document.getElementById('hp').setAttribute('stroke','#3D1035');document.getElementById('hl').textContent='Loved this';}
+function RH(){lv=false;window._currentEpisodeId=null;document.getElementById('hb').classList.remove('lv');document.getElementById('hp').setAttribute('fill','none');document.getElementById('hp').setAttribute('stroke','#3D1035');document.getElementById('hl').textContent='Loved this';}
 async function begin(){
   sCfg=getCfg();eN=1;sH=[];aS='';uR=[];RH();window._storyTitle=null;document.getElementById('st').style.display='none';document.getElementById('st').textContent='';
   const mR=sCfg.m.includes('Surprise')?pick(AM):sCfg.m;
@@ -610,14 +634,26 @@ async function begin(){
   const arcGoal=AGE[dR]||'Establish the world and central tension';
   const engine=pick(ENG[dR]||['Mystery']);
   const shakes=SHAKES[dR]||'Much Ado About Nothing';
-  gc={mR,dR,lR,liR,sR,arcR,wR,tol,goal,arcGoal,engine,shakes,sp:sCfg.sp};
+  const profession=pick(PROFESSIONS);
+  gc={mR,dR,lR,liR,sR,arcR,wR,tol,goal,arcGoal,engine,shakes,sp:sCfg.sp,profession};
   tS={goal,arcGoal,arcType:arcR,tol,engine,rel:10,relLast:'--',know:'Nothing hidden yet',pow:50,gp:4,res:[]};
   UTR();
+  // 5-story limit check
+  if(currentSession){
+    const {count} = await sb.from('stories')
+      .select('id', {count:'exact', head:true});
+    if(count !== null && count >= 5){
+      alert('You have 5 stories saved — that’s the current limit.\n\nDelete a story from your Library to make room for a new one.');
+      G('pli');
+      return;
+    }
+  }
+
   // Save story to Supabase
   if(currentSession){
     const {data, error} = await sb.from('stories').insert({
       user_id: currentSession.user.id,
-      config: { mood:mR, dynamic:dR, protagonist:lR, loveInterest:liR, setting:sR, arc:arcR, wildCard:wR, spice:sCfg.sp },
+      config: { mood:mR, dynamic:dR, protagonist:lR, loveInterest:liR, setting:sR, arc:arcR, wildCard:wR, spice:sCfg.sp, profession:profession },
       global_context: gc
     }).select().single();
     if(error){ SE('Could not save story: '+error.message); return; }
@@ -663,10 +699,11 @@ function BSY(){
 async function GE(){
   const sh=[...sS,...cSh];const shL=sh.length?'Avoid entirely: '+sh.join(', '):'';
   const wcL=gc.wR?'WILD CARD (syntactic precedence): '+gc.wR:'';
+  const profL=gc.profession?"PROTAGONIST'S PROFESSION (mandatory — do not change): "+gc.profession+". Do not use a cartographer, mapmaker, librarian, or governess.":'';
   const spL=['','Gentle','Sweet','Warm','Steamy','Explicit'];
   const pr=eN===1
-    ?'Write Episode 1. Protagonist: '+gc.lR+'. '+(gc.liR==='No love interest'?'No love interest.':'Love interest: '+gc.liR+'.')+' Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5 ('+spL[gc.sp||2]+').'+( wcL?' '+wcL:'')+' Establish the world, protagonist, and a hook that demands episode 2.'+(shL?' '+shL:'')
-    :'Continue Episode '+eN+'. '+gc.mR+'. '+gc.lR+'. Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5.'+(wcL?' '+wcL:'')+' Previous: '+aS.slice(0,600)+' Deepen tension. Advance the arc goal. End on a fresh hook.'+(shL?' '+shL:'');
+    ?'Write Episode 1. '+(profL?' '+profL:'')+' Protagonist: '+gc.lR+'. '+(gc.liR==='No love interest'?'No love interest.':'Love interest: '+gc.liR+'.')+' Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5 ('+spL[gc.sp||2]+').'+( wcL?' '+wcL:'')+' Establish the world, protagonist, and a hook that demands episode 2.'+(shL?' '+shL:'')
+    :'Continue Episode '+eN+'. '+gc.mR+'. '+gc.lR+'. Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5.'+(profL?' '+profL:'')+(wcL?' '+wcL:'')+' Previous: '+aS.slice(0,600)+' Deepen tension. Advance the arc goal. End on a fresh hook.'+(shL?' '+shL:'');
   try{
     const r=await fetch('https://niblit-server-production.up.railway.app/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:BSY(),messages:[...sH,{role:'user',content:pr}]})});
     if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error||'Server error '+r.status);}
@@ -693,11 +730,12 @@ async function GE(){
         let cleanProse = raw;
         ['STORY_TITLE','STORY TITLE','TITLE','EPISODE_TITLE','EPISODE TITLE','RESOLUTION','REL_CHANGE','REL CHANGE','KNOWLEDGE','POWER_SHIFT','POWER SHIFT'].forEach(f=>{cleanProse=stripField(cleanProse,f);});
         cleanProse = cleanProse.trim();
-        await sb.from('episodes').insert({
+        const {data: epRow} = await sb.from('episodes').insert({
           story_id: currentStoryId, episode_num: eN, title: title, prose: cleanProse,
           resolution: res, rel_change: rc, knowledge: kn, power_shift: ps,
           input_tokens: usage.input_tokens || 0, output_tokens: usage.output_tokens || 0
-        });
+        }).select().single();
+        window._currentEpisodeId = epRow ? epRow.id : null;
         await sb.from('stories').update({
           last_episode_num: eN, updated_at: new Date().toISOString(),
           story_title: window._storyTitle || null
@@ -714,10 +752,62 @@ async function GE(){
     const ci=CIS.find(c=>c.ep===eN);if(ci)setTimeout(()=>SCI(ci),900);
   }catch(err){SE('Could not generate: '+err.message+' | Make sure your server is running.');}
 }
-function SCI(ci){document.getElementById('cit').textContent=ci.tag;document.getElementById('cih').textContent=ci.title;document.getElementById('cib').textContent=ci.body;const o=document.getElementById('cio2');o.innerHTML='';ci.opts.forEach(opt=>{const b=document.createElement('button');b.className='coo';b.textContent=opt;b.onclick=function(){document.querySelectorAll('.coo').forEach(x=>x.classList.remove('on'));this.classList.add('on');trackEvent('checkin_response',{episode_num:eN,payload:{question:ci.title,answer:opt}});};o.appendChild(b);});document.getElementById('cio').style.display='flex';}
+function SCI(ci){
+  document.getElementById('cit').textContent=ci.tag;
+  document.getElementById('cih').textContent=ci.title;
+  document.getElementById('cib').textContent=ci.body;
+  const o=document.getElementById('cio2');
+  o.innerHTML='';
+  ci.opts.forEach(opt=>{
+    const b=document.createElement('button');
+    b.className='coo';
+    b.textContent=opt;
+    b.onclick=async function(){
+      document.querySelectorAll('.coo').forEach(x=>x.classList.remove('on'));
+      this.classList.add('on');
+      trackEvent('checkin_response',{episode_num:eN,question:ci.title,answer:opt});
+      if(currentSession && currentStoryId){
+        try{
+          await sb.from('checkin_responses').insert({
+            user_id: currentSession.user.id,
+            story_id: currentStoryId,
+            episode_num: eN,
+            question: ci.title,
+            answer: opt
+          });
+        }catch(e){ console.warn('checkin save failed:', e.message); }
+      }
+    };
+    o.appendChild(b);
+  });
+  document.getElementById('cio').style.display='flex';
+}
 function DC(){document.getElementById('cio').style.display='none';}
 function RP(raw){const ps=raw.split(/\n\n+/).filter(p=>p.trim());let h='';ps.forEach((para,i)=>{const t=para.trim();if(t.match(/^[*\s-]{1,5}$/)){h+='<div class="sb">&#10022; &nbsp; &#10022; &nbsp; &#10022;</div>';return;}const iL=i===ps.length-1;const iH=iL&&!t.startsWith('"')&&ps.length>3&&t.length>60;if(iH)h+='<div class="hl">'+t+'</div>';else if(i===0)h+='<p class="dc">'+t+'</p>';else h+='<p>'+t+'</p>';});document.getElementById('pb2').innerHTML=h;}
-function TH(){lv=!lv;document.getElementById('hb').classList.toggle('lv',lv);document.getElementById('hp').setAttribute('fill',lv?'#B73960':'none');document.getElementById('hp').setAttribute('stroke',lv?'#B73960':'#3D1035');document.getElementById('hl').textContent=lv?'Loved it':'Loved this';if(lv)trackEvent('episode_loved',{episode_num:eN});}
+async function TH(){
+  lv=!lv;
+  document.getElementById('hb').classList.toggle('lv',lv);
+  document.getElementById('hp').setAttribute('fill',lv?'#B73960':'none');
+  document.getElementById('hp').setAttribute('stroke',lv?'#B73960':'#3D1035');
+  document.getElementById('hl').textContent=lv?'Loved it':'Loved this';
+  if(!currentSession || !window._currentEpisodeId) return;
+  if(lv){
+    try{
+      await sb.from('loved_episodes').insert({
+        user_id: currentSession.user.id,
+        episode_id: window._currentEpisodeId
+      });
+    }catch(e){ console.warn('love save failed:', e.message); }
+    trackEvent('episode_loved', {episode_num:eN, episode_id:window._currentEpisodeId});
+  } else {
+    try{
+      await sb.from('loved_episodes').delete()
+        .eq('user_id', currentSession.user.id)
+        .eq('episode_id', window._currentEpisodeId);
+    }catch(e){ console.warn('unlove failed:', e.message); }
+    trackEvent('episode_unloved', {episode_num:eN, episode_id:window._currentEpisodeId});
+  }
+}
 // ─── Init: check session and route accordingly ────────────
 (async function init(){
   try{
