@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NibLit</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=Lora:ital,opsz,wght@0,6..72,400;1,6..72,400&family=DM+Sans:wght@300;400;500&display=swap');
 :root{--p:#4E1B4F;--pm:#6B2870;--pl:#9C6BA8;--c:#F2DCB5;--cd:#D9C194;--cf:#FAF1DB;--g:#D9A55A;--gd:#A87A38;--t:#4A8A7E;--tl:#DFEAE5;--serif:'EB Garamond',Georgia,serif;--body:'Lora',Georgia,serif;--sans:'DM Sans',sans-serif;}
@@ -150,6 +151,31 @@ html,body{height:100%;overflow:hidden;background:#000;}
 .coo:hover{border-color:var(--pm);}.coo.on{background:var(--p);color:var(--c);border-color:var(--p);}
 .cok{display:block;width:100%;padding:10px;background:var(--p);color:var(--c);border:none;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:var(--sans);}
 .csk{display:block;text-align:center;font-size:11px;color:var(--pl);cursor:pointer;margin-top:8px;}
+/* Login page */
+#pl{background:var(--p);align-items:center;justify-content:center;color:var(--c);padding:24px;}
+.li{display:flex;flex-direction:column;align-items:center;gap:14px;max-width:300px;width:100%;}
+.lw{font-family:var(--serif);font-size:44px;color:var(--c);letter-spacing:-1px;font-weight:400;margin-bottom:4px;}
+.lst{font-size:13px;font-style:italic;color:var(--cd);text-align:center;line-height:1.55;margin-bottom:6px;}
+.lin{width:100%;padding:11px 14px;border-radius:8px;border:0.5px solid rgba(242,220,181,.3);background:rgba(0,0,0,.25);color:var(--c);font-size:14px;font-family:var(--sans);outline:none;}
+.lin:focus{border-color:var(--g);}
+.lin::placeholder{color:var(--pl);}
+.lbt{padding:11px 28px;background:var(--g);color:var(--p);border:none;border-radius:999px;font-size:14px;font-weight:500;cursor:pointer;font-family:var(--sans);width:100%;transition:transform .15s;}
+.lbt:hover:not(:disabled){transform:translateY(-1px);}
+.lbt:disabled{opacity:.55;cursor:not-allowed;}
+.lms{font-size:12px;font-style:italic;color:var(--g);text-align:center;min-height:18px;line-height:1.45;}
+
+/* Library page */
+.lc{background:var(--c);border:0.5px solid var(--cd);border-radius:9px;padding:13px 14px;margin-bottom:10px;transition:border-color .15s;}
+.lc:hover{border-color:var(--pm);}
+.lct{font-family:var(--serif);font-size:16px;font-weight:500;color:var(--p);margin-bottom:3px;line-height:1.25;}
+.lcm{font-size:10px;color:var(--pm);letter-spacing:.6px;text-transform:uppercase;margin-bottom:7px;font-weight:500;}
+.lcd{font-size:12px;color:var(--p);font-style:italic;margin-bottom:9px;line-height:1.45;}
+.lca{display:flex;gap:6px;align-items:center;justify-content:space-between;}
+.lcc{padding:7px 15px;background:var(--p);color:var(--c);border:none;border-radius:6px;font-size:12px;cursor:pointer;font-family:var(--sans);font-weight:500;}
+.lcdl{background:none;border:none;color:var(--pm);font-size:18px;cursor:pointer;opacity:.55;padding:4px 10px;line-height:1;}
+.lcdl:hover{opacity:1;color:#993556;}
+.lem{text-align:center;padding:40px 20px;color:var(--pm);font-style:italic;font-size:13px;line-height:1.6;}
+
 #bnav{background:var(--p);display:flex;align-items:stretch;flex-shrink:0;border-top:0.5px solid var(--pm);}
 .bnt{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px 10px;cursor:pointer;border:none;background:none;gap:3px;transition:background .15s;position:relative;}
 .bnt:hover{background:rgba(255,255,255,.06);}.bnt.on{background:rgba(217,165,90,.11);}
@@ -172,7 +198,17 @@ html,body{height:100%;overflow:hidden;background:#000;}
 </symbol>
 </defs></svg>
 
-<div id="pw" class="pg on">
+<div id="pl" class="pg on">
+  <div class="li">
+    <div class="lw">NibLit</div>
+    <div class="lst">Sign in with your email —<br>we&rsquo;ll send you a magic link.</div>
+    <input type="email" id="le" class="lin" placeholder="your@email.com" autocomplete="email">
+    <button class="lbt" id="lbn" onclick="sendMagic()">Send magic link</button>
+    <div class="lms" id="lms"></div>
+  </div>
+</div>
+
+<div id="pw" class="pg">
   <div class="wi">
     <div class="ww">NibLit</div>
     <div class="wtw"><div class="wt v" id="wt">Come for the classics. Stay for the chaos.</div></div>
@@ -244,6 +280,8 @@ html,body{height:100%;overflow:hidden;background:#000;}
       <div class="cur"><input class="cui" id="ci2" placeholder="e.g. childhood illness, infidelity&hellip;" maxlength="60"><button class="cua" onclick="AC()">Add</button></div>
       <div class="ct" id="ct2"></div>
     </div>
+    <div class="ss" style="margin-top:18px;">Account</div>
+    <div class="tr"><div class="ti"><div class="tl">Sign out</div><div class="ts">Your stories stay saved in your library.</div></div><button class="f1" onclick="signOut()">Sign out</button></div>
   </div>
 </div>
 
@@ -308,10 +346,21 @@ html,body{height:100%;overflow:hidden;background:#000;}
   </div>
 </div>
 
+<div id="pli" class="pg">
+  <div class="topbar"><div class="tb-l"><svg class="tb-ico" viewBox="0 0 100 100"><use href="#ico"/></svg><span class="tb-name">NibLit</span></div><span class="tb-r">Your library</span></div>
+  <div class="sc">
+    <div id="liblist"></div>
+  </div>
+</div>
+
 <div id="bnav" style="display:none;">
   <button class="bnt" id="bn-options" onclick="G('po')">
     <svg class="bnt-ico" viewBox="0 0 24 24" fill="none" stroke="#C8A060" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
     <span class="bnt-lbl">Story</span><div class="bnt-pip"></div>
+  </button>
+  <button class="bnt" id="bn-library" onclick="G('pli')">
+    <svg class="bnt-ico" viewBox="0 0 24 24" fill="none" stroke="#C8A060" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+    <span class="bnt-lbl">Library</span><div class="bnt-pip"></div>
   </button>
   <button class="bnt" id="bn-settings" onclick="G('ps')">
     <svg class="bnt-ico" viewBox="0 0 24 24" fill="none" stroke="#C8A060" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="18" y2="18"/></svg>
@@ -357,7 +406,7 @@ function TW(){wO=!wO;document.getElementById('wbi').style.display=wO?'block':'no
 function SW(el){document.querySelectorAll('.wop').forEach(w=>w.classList.remove('on'));el.classList.add('on');const t=el.querySelector('.wot').textContent;if(t.includes('None')){wC=null;wCS=false;}else if(t.includes('Surprise me')){wC='SURPRISE';wCS=true;}else{wC=t;wCS=false;}}
 function AW(){const i=document.getElementById('wi');const v=(i?.value||'').trim();if(!v)return;const d=document.createElement('div');d.className='wop';d.innerHTML='<div class="wot">'+v+'</div><div class="wos">Custom</div>';d.onclick=function(){SW(this);};document.getElementById('wo').appendChild(d);SW(d);i.value='';}
 document.querySelectorAll('.cp').forEach(c=>{c.addEventListener('click',()=>{document.querySelectorAll('.cp[data-g="'+c.dataset.g+'"]').forEach(x=>x.classList.remove('on'));c.classList.add('on');});});
-function G(id){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));document.getElementById(id).classList.add('on');const map={po:'bn-options',ps:'bn-settings',pr:'bn-reader'};document.querySelectorAll('.bnt').forEach(b=>b.classList.remove('on'));if(map[id]){const b=document.getElementById(map[id]);if(b)b.classList.add('on');}document.getElementById('bnav').style.display=id==='pw'?'none':'flex';if(id==='pw')ST();else KT();}
+function G(id){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));document.getElementById(id).classList.add('on');const map={po:'bn-options',pli:'bn-library',ps:'bn-settings',pr:'bn-reader'};document.querySelectorAll('.bnt').forEach(b=>b.classList.remove('on'));if(map[id]){const b=document.getElementById(map[id]);if(b)b.classList.add('on');}document.getElementById('bnav').style.display=(id==='pw'||id==='pl')?'none':'flex';if(id==='pli')loadLibrary();if(id==='pw')ST();else KT();}
 function FS(sz,btn){document.querySelectorAll('.f1').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const m={sm:'13px',md:'15px',lg:'17px'};document.querySelectorAll('.prose').forEach(p=>{p.style.fontSize=m[sz];});}
 function LH(lh,btn){document.querySelectorAll('.f1').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const m={co:'1.65',cm:'1.95',ai:'2.3'};document.querySelectorAll('.prose').forEach(p=>{p.style.lineHeight=m[lh];});}
 const SHD=[{cat:'Violence & harm',items:['Physical violence / assault','Domestic abuse','Graphic gore','War or combat','Torture']},{cat:'Sexual content & abuse',items:['Sexual coercion','Infidelity / cheating'],always:['Child sexual abuse (always blocked)','Non-consensual sex presented positively (always blocked)']},{cat:'Mental health & self-harm',items:['Suicide or suicidal ideation','Self-harm','Eating disorders','Addiction']},{cat:'Loss & grief',items:['Death of a parent','Death of a child','Pregnancy loss','Terminal illness','Abandonment']},{cat:'Childhood & family trauma',items:['Child abuse','Child neglect','Parental addiction','Family separation']},{cat:'Identity & discrimination',items:['Racism / racial violence','Homophobia / transphobia','Religious persecution','Misogyny']}];
@@ -388,18 +437,157 @@ const AGE={'Slow burn':'Establish proximity -- put two people in a space they ca
 const ENG={'Slow burn':['Internal contradiction','Pure desire'],'Enemies & rivals':['Internal contradiction','External threat'],'Forbidden love':['External threat','Pure desire'],'Friends to lovers':['Internal contradiction','Mystery']};
 const SHAKES={'Slow burn':"As You Like It / The Winter's Tale",'Enemies & rivals':'Much Ado About Nothing / Othello','Forbidden love':'Romeo and Juliet / Cymbeline','Friends to lovers':'Twelfth Night'};
 
-// === NIBLIT EVENT TRACKING ===
+// ════════════════════════════════════════════════════════════════
+// SUPABASE CONFIGURATION — UPDATE THESE TWO VALUES
+// ════════════════════════════════════════════════════════════════
 const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
 const SUPABASE_KEY = 'YOUR_ANON_KEY_HERE';
-function sid(){let s=localStorage.getItem('niblit_sid');if(!s){s='sess_'+Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem('niblit_sid',s);}return s;}
-let currentStoryId=null;
-async function trackEvent(eventType,data){
-  const body={session_id:sid(),event_type:eventType,story_id:data.story_id||currentStoryId,episode_num:data.episode_num||null,mood:data.mood||null,dynamic:data.dynamic||null,protag_arc:data.protag_arc||null,setting:data.setting||null,spice:data.spice||null,wild_card:data.wild_card||null,payload:data.payload||null};
-  const local=JSON.parse(localStorage.getItem('niblit_events')||'[]');
-  local.push({...body,created_at:new Date().toISOString()});
-  if(local.length>5000)local.splice(0,local.length-5000);
-  localStorage.setItem('niblit_events',JSON.stringify(local));
-  if(SUPABASE_URL.startsWith('https://')){try{await fetch(SUPABASE_URL+'/rest/v1/niblit_events',{method:'POST',headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify(body)});}catch(e){console.warn('track failed:',e.message);}}
+// ════════════════════════════════════════════════════════════════
+
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let currentSession = null;
+let currentStoryId = null;
+
+async function trackEvent(eventType, data){
+  if(!currentSession) return;
+  try{
+    await sb.from('events').insert({
+      user_id: currentSession.user.id,
+      story_id: currentStoryId,
+      event_type: eventType,
+      event_data: data
+    });
+  }catch(e){ console.warn('track failed:', e.message); }
+}
+
+// ─── Auth ─────────────────────────────────────────────
+async function sendMagic(){
+  const email = document.getElementById('le').value.trim();
+  if(!email || !email.includes('@')){
+    document.getElementById('lms').textContent = 'Please enter a valid email.';
+    return;
+  }
+  const btn = document.getElementById('lbn');
+  btn.disabled = true; btn.textContent = 'Sending...';
+  const {error} = await sb.auth.signInWithOtp({
+    email,
+    options: { emailRedirectTo: window.location.origin + window.location.pathname }
+  });
+  if(error){
+    document.getElementById('lms').textContent = 'Error: ' + error.message;
+    btn.disabled = false; btn.textContent = 'Send magic link';
+  } else {
+    document.getElementById('lms').textContent = 'Check your email! Click the link to sign in.';
+    btn.textContent = 'Sent';
+  }
+}
+
+async function signOut(){
+  await sb.auth.signOut();
+  currentStoryId = null;
+  location.reload();
+}
+
+sb.auth.onAuthStateChange((event, session) => {
+  currentSession = session;
+  if(event === 'SIGNED_IN'){
+    if(document.getElementById('pl').classList.contains('on')) G('pw');
+  }
+  if(event === 'SIGNED_OUT'){
+    G('pl');
+  }
+});
+
+function escapeHtml(s){
+  return String(s == null ? '' : s).replace(/[&<>"\']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"\'":'&#39;'}[c]));
+}
+
+// ─── Library ──────────────────────────────────────────
+async function loadLibrary(){
+  if(!currentSession) return;
+  const list = document.getElementById('liblist');
+  list.innerHTML = '<div class="lem">Loading…</div>';
+  const {data: stories, error} = await sb.from('stories')
+    .select('id, story_title, config, last_episode_num, updated_at')
+    .order('updated_at', {ascending: false});
+  if(error){
+    list.innerHTML = '<div class="lem">Could not load: ' + escapeHtml(error.message) + '</div>';
+    return;
+  }
+  if(!stories || stories.length === 0){
+    list.innerHTML = '<div class="lem">No stories yet.<br>Start one from the Story tab — it&rsquo;ll appear here.</div>';
+    return;
+  }
+  list.innerHTML = stories.map(s => {
+    const cfg = s.config || {};
+    const ep = s.last_episode_num || 0;
+    const title = s.story_title || 'Untitled story';
+    const titleJs = title.replace(/\\/g, '\\\\').replace(/\'/g, "\\'");
+    return '<div class="lc">' +
+      '<div class="lct">' + escapeHtml(title) + '</div>' +
+      '<div class="lcm">' + escapeHtml(cfg.mood || 'Story') + (ep ? ' · ' + ep + ' episode' + (ep === 1 ? '' : 's') : ' · not yet started') + '</div>' +
+      (cfg.dynamic || cfg.setting ? '<div class="lcd">' + escapeHtml([cfg.dynamic, cfg.setting].filter(Boolean).join(' · ')) + '</div>' : '') +
+      '<div class="lca">' +
+        '<button class="lcc" onclick="resumeStory(\'' + s.id + '\')">' + (ep ? 'Continue reading' : 'Begin') + '</button>' +
+        '<button class="lcdl" onclick="confirmDelete(\'' + s.id + '\', \'' + titleJs + '\')" aria-label="Delete">×</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+async function resumeStory(id){
+  const {data: story, error: e1} = await sb.from('stories').select('*').eq('id', id).single();
+  if(e1){ alert('Could not load story: ' + e1.message); return; }
+  const {data: episodes, error: e2} = await sb.from('episodes').select('*').eq('story_id', id).order('episode_num', {ascending: true});
+  if(e2){ alert('Could not load episodes: ' + e2.message); return; }
+  currentStoryId = id;
+  gc = story.global_context || {};
+  tS = {
+    goal: gc.goal || '—', arcGoal: gc.arcGoal || '—',
+    arcType: gc.arcR || '—', tol: gc.tol || '—', engine: gc.engine || '—',
+    rel: 10, relLast: '—', know: 'Restored from library', pow: 50,
+    gp: Math.min(90, (story.last_episode_num || 0) * 8), res: []
+  };
+  episodes.forEach(ep => {
+    if(ep.resolution){ tS.res.push({ep: ep.episode_num, res: ep.resolution, rc: ep.rel_change, kn: ep.knowledge}); uR.push(ep.resolution); }
+  });
+  if(uR.length > 6) uR = uR.slice(-6);
+  eN = (story.last_episode_num || 0) + 1;
+  sH = episodes.flatMap(ep => [
+    { role: 'user', content: '(prior episode ' + ep.episode_num + ')' },
+    { role: 'assistant', content: ep.prose }
+  ]);
+  if(sH.length > 10) sH = sH.slice(-8);
+  aS = episodes.map(ep => 'Ep ' + ep.episode_num + ': ' + (ep.prose || '').slice(0, 400)).join('\n\n');
+  window._storyTitle = story.story_title || null;
+  // Update UI
+  const stEl = document.getElementById('st');
+  if(window._storyTitle){ stEl.textContent = window._storyTitle; stEl.style.display = 'block'; }
+  else { stEl.style.display = 'none'; }
+  if(episodes.length){
+    const last = episodes[episodes.length - 1];
+    document.getElementById('en').textContent = 'Episode ' + last.episode_num;
+    document.getElementById('et').textContent = last.title || 'Episode ' + last.episode_num;
+    document.getElementById('ec').textContent = (story.config && story.config.mood ? story.config.mood : '') + ' · continued from your library';
+    RP(last.prose || '');
+  } else {
+    document.getElementById('en').textContent = 'Episode 1';
+    document.getElementById('et').textContent = 'Gathering the threads…';
+  }
+  UTR();
+  document.getElementById('nb').disabled = false;
+  document.getElementById('nb').textContent = 'Generate episode ' + eN + ' ›';
+  G('pr');
+  trackEvent('story_resumed', { resumed_id: id, at_episode: eN - 1 });
+}
+
+async function confirmDelete(id, title){
+  if(!confirm('Delete "' + title + '"? All episodes will be lost. This cannot be undone.')) return;
+  try{ await sb.from('events').delete().eq('story_id', id); }catch(e){}
+  const {error} = await sb.from('stories').delete().eq('id', id);
+  if(error){ alert('Could not delete: ' + error.message); return; }
+  if(currentStoryId === id) currentStoryId = null;
+  loadLibrary();
 }
 
 let eN=1,sH=[],aS='',sCfg={},gc={},lT=null,lv=false,uR=[];
@@ -408,8 +596,8 @@ function getCfg(){const g=x=>document.querySelector('.cp.on[data-g="'+x+'"]')?.t
 function SL(on){if(on){document.getElementById('ls').style.display='block';document.getElementById('pw2').style.display='none';let i=0;document.getElementById('lm').textContent=LMS[0];lT=setInterval(()=>{i=(i+1)%LMS.length;document.getElementById('lm').textContent=LMS[i];},2300);}else{if(lT){clearInterval(lT);lT=null;}document.getElementById('ls').style.display='none';document.getElementById('pw2').style.display='block';document.getElementById('rs').scrollTop=0;}document.getElementById('eb').style.display='none';}
 function SE(msg){if(lT){clearInterval(lT);lT=null;}document.getElementById('ls').style.display='none';document.getElementById('pw2').style.display='none';const e=document.getElementById('eb');e.style.display='block';e.textContent=msg;}
 function RH(){lv=false;document.getElementById('hb').classList.remove('lv');document.getElementById('hp').setAttribute('fill','none');document.getElementById('hp').setAttribute('stroke','#3D1035');document.getElementById('hl').textContent='Loved this';}
-function begin(){
-  sCfg=getCfg();eN=1;sH=[];aS='';uR=[];RH();window._storyTitle=null;document.getElementById('st').style.display='none';document.getElementById('st').textContent='';window._storyTitle=null;document.getElementById('st').style.display='none';document.getElementById('st').textContent='';
+async function begin(){
+  sCfg=getCfg();eN=1;sH=[];aS='';uR=[];RH();window._storyTitle=null;document.getElementById('st').style.display='none';document.getElementById('st').textContent='';
   const mR=sCfg.m.includes('Surprise')?pick(AM):sCfg.m;
   const dR=sCfg.d.includes('Surprise')?pick(AD):sCfg.d;
   const lR=sCfg.l.includes('Surprise')?pick(AL):sCfg.l;
@@ -425,8 +613,19 @@ function begin(){
   gc={mR,dR,lR,liR,sR,arcR,wR,tol,goal,arcGoal,engine,shakes,sp:sCfg.sp};
   tS={goal,arcGoal,arcType:arcR,tol,engine,rel:10,relLast:'--',know:'Nothing hidden yet',pow:50,gp:4,res:[]};
   UTR();
-  currentStoryId='story_'+Math.random().toString(36).slice(2);
-  trackEvent('story_started',{story_id:currentStoryId,mood:gc.mR,dynamic:gc.dR,protag_arc:gc.arcR,setting:gc.sR,spice:gc.sp,wild_card:gc.wR||null});
+  // Save story to Supabase
+  if(currentSession){
+    const {data, error} = await sb.from('stories').insert({
+      user_id: currentSession.user.id,
+      config: { mood:mR, dynamic:dR, protagonist:lR, loveInterest:liR, setting:sR, arc:arcR, wildCard:wR, spice:sCfg.sp },
+      global_context: gc
+    }).select().single();
+    if(error){ SE('Could not save story: '+error.message); return; }
+    currentStoryId = data.id;
+  } else {
+    currentStoryId = 'story_'+Math.random().toString(36).slice(2);
+  }
+  trackEvent('story_started',{mood:gc.mR,dynamic:gc.dR,protag_arc:gc.arcR,setting:gc.sR,spice:gc.sp,wild_card:gc.wR||null});
   const md=MOODS[mR]||MOODS['Light romance'];
   document.getElementById('en').textContent='Episode 1';
   document.getElementById('et').textContent='Gathering the threads...';
@@ -486,7 +685,25 @@ async function GE(){
     if(kn&&kn.toLowerCase()!=='none'){tS.know=kn;}
     if(ps){if(ps.toLowerCase().includes('increase'))tS.pow=Math.min(90,tS.pow+10);else if(ps.toLowerCase().includes('decrease'))tS.pow=Math.max(10,tS.pow-10);}
     tS.gp=Math.min(90,eN*8);if(res)tS.res.push({ep:eN,res,rc:rc&&rc!=='none'?rc:null,kn:kn&&kn!=='none'?kn:null});UTR();
-    trackEvent('episode_generated',{episode_num:eN,payload:{resolution:res,rel_change:rc,knowledge:kn,power_shift:ps,title:title,input_tokens:usage.input_tokens||0,output_tokens:usage.output_tokens||0,total_tokens:(usage.input_tokens||0)+(usage.output_tokens||0)}});
+    trackEvent('episode_generated',{episode_num:eN,resolution:res,rel_change:rc,knowledge:kn,power_shift:ps,title:title,input_tokens:usage.input_tokens||0,output_tokens:usage.output_tokens||0,total_tokens:(usage.input_tokens||0)+(usage.output_tokens||0)});
+    // Save episode + update story metadata in Supabase
+    if(currentSession && currentStoryId && currentStoryId.length > 20){
+      try{
+        const stripField=(str,field)=>str.replace(new RegExp('^\\s*\\*?\\*?'+field+'\\*?\\*?\\s*:\\s*.+\\n?','gim'),'');
+        let cleanProse = raw;
+        ['STORY_TITLE','STORY TITLE','TITLE','EPISODE_TITLE','EPISODE TITLE','RESOLUTION','REL_CHANGE','REL CHANGE','KNOWLEDGE','POWER_SHIFT','POWER SHIFT'].forEach(f=>{cleanProse=stripField(cleanProse,f);});
+        cleanProse = cleanProse.trim();
+        await sb.from('episodes').insert({
+          story_id: currentStoryId, episode_num: eN, title: title, prose: cleanProse,
+          resolution: res, rel_change: rc, knowledge: kn, power_shift: ps,
+          input_tokens: usage.input_tokens || 0, output_tokens: usage.output_tokens || 0
+        });
+        await sb.from('stories').update({
+          last_episode_num: eN, updated_at: new Date().toISOString(),
+          story_title: window._storyTitle || null
+        }).eq('id', currentStoryId);
+      }catch(e){ console.warn('save episode failed:', e.message); }
+    }
     const stripField=(str,field)=>str.replace(new RegExp('^\\s*\\*?\\*?'+field+'\\*?\\*?\\s*:\\s*.+\\n?','gim'),'');
     let prose=raw;['STORY_TITLE','STORY TITLE','TITLE','EPISODE_TITLE','EPISODE TITLE','RESOLUTION','REL_CHANGE','REL CHANGE','KNOWLEDGE','POWER_SHIFT','POWER SHIFT'].forEach(f=>{prose=stripField(prose,f);});prose=prose.trim();
     aS+=(aS?'\n\nEp '+eN+': ':'')+prose.slice(0,400);sH.push({role:'user',content:pr},{role:'assistant',content:raw});if(sH.length>10)sH=sH.slice(-8);
@@ -501,7 +718,18 @@ function SCI(ci){document.getElementById('cit').textContent=ci.tag;document.getE
 function DC(){document.getElementById('cio').style.display='none';}
 function RP(raw){const ps=raw.split(/\n\n+/).filter(p=>p.trim());let h='';ps.forEach((para,i)=>{const t=para.trim();if(t.match(/^[*\s-]{1,5}$/)){h+='<div class="sb">&#10022; &nbsp; &#10022; &nbsp; &#10022;</div>';return;}const iL=i===ps.length-1;const iH=iL&&!t.startsWith('"')&&ps.length>3&&t.length>60;if(iH)h+='<div class="hl">'+t+'</div>';else if(i===0)h+='<p class="dc">'+t+'</p>';else h+='<p>'+t+'</p>';});document.getElementById('pb2').innerHTML=h;}
 function TH(){lv=!lv;document.getElementById('hb').classList.toggle('lv',lv);document.getElementById('hp').setAttribute('fill',lv?'#B73960':'none');document.getElementById('hp').setAttribute('stroke',lv?'#B73960':'#3D1035');document.getElementById('hl').textContent=lv?'Loved it':'Loved this';if(lv)trackEvent('episode_loved',{episode_num:eN});}
-ST();
+// ─── Init: check session and route accordingly ────────────
+(async function init(){
+  try{
+    const {data: {session}} = await sb.auth.getSession();
+    currentSession = session;
+    if(session){ G('pw'); }
+    else{ G('pl'); }
+  }catch(e){
+    console.error('Init failed:', e);
+    G('pl');
+  }
+})();
 </script>
 </body>
 </html>
