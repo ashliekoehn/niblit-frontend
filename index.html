@@ -337,7 +337,7 @@ html,body{height:100%;overflow:hidden;background:#000;}
   <div class="rf">
     <button class="nb" id="nb" onclick="nxt()" disabled>Generate episode 2 &rsaquo;</button>
     <div class="rm">
-      <span class="nl" onclick="G('po')">Start a new story</span>
+      <span class="nl" onclick="startNewStory()">Start a new story</span>
       <button class="hb" id="hb" onclick="TH()">
         <svg class="hi" viewBox="0 0 20 18" fill="none"><path id="hp" d="M10 16.5C10 16.5 1.5 11 1.5 5.5C1.5 3.01 3.51 1 6 1C7.79 1 9.34 1.98 10 3.41C10.66 1.98 12.21 1 14 1C16.49 1 18.5 3.01 18.5 5.5C18.5 11 10 16.5 10 16.5Z" stroke="#4E1B4F" stroke-width="1.3" fill="none"/></svg>
         <span id="hl">Loved this</span>
@@ -414,7 +414,7 @@ function TW(){wO=!wO;document.getElementById('wbi').style.display=wO?'block':'no
 function SW(el){document.querySelectorAll('.wop').forEach(w=>w.classList.remove('on'));el.classList.add('on');const t=el.querySelector('.wot').textContent;if(t.includes('None')){wC=null;wCS=false;}else if(t.includes('Surprise me')){wC='SURPRISE';wCS=true;}else{wC=t;wCS=false;}}
 function AW(){const i=document.getElementById('wi');const v=(i?.value||'').trim();if(!v)return;const d=document.createElement('div');d.className='wop';d.innerHTML='<div class="wot">'+v+'</div><div class="wos">Custom</div>';d.onclick=function(){SW(this);};document.getElementById('wo').appendChild(d);SW(d);i.value='';}
 document.querySelectorAll('.cp').forEach(c=>{c.addEventListener('click',()=>{document.querySelectorAll('.cp[data-g="'+c.dataset.g+'"]').forEach(x=>x.classList.remove('on'));c.classList.add('on');});});
-function G(id){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));document.getElementById(id).classList.add('on');const map={po:'bn-options',pli:'bn-library',ps:'bn-settings',pr:'bn-reader'};document.querySelectorAll('.bnt').forEach(b=>b.classList.remove('on'));if(map[id]){const b=document.getElementById(map[id]);if(b)b.classList.add('on');}document.getElementById('bnav').style.display=(id==='pw'||id==='pl')?'none':'flex';if(id==='pli')loadLibrary();if(id==='pw')ST();else KT();}
+function G(id){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));document.getElementById(id).classList.add('on');const map={po:'bn-options',pli:'bn-library',ps:'bn-settings',pr:'bn-reader'};document.querySelectorAll('.bnt').forEach(b=>b.classList.remove('on'));if(map[id]){const b=document.getElementById(map[id]);if(b)b.classList.add('on');}document.getElementById('bnav').style.display=(id==='pw'||id==='pl')?'none':'flex';if(id==='pli'){loadLibrary();trackEvent('library_opened',{});}if(id==='ps')trackEvent('settings_opened',{});if(id==='pw')ST();else KT();}
 function FS(sz,btn){document.querySelectorAll('.f1').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const m={sm:'13px',md:'15px',lg:'17px'};document.querySelectorAll('.prose').forEach(p=>{p.style.fontSize=m[sz];});}
 function LH(lh,btn){document.querySelectorAll('.f1').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const m={co:'1.65',cm:'1.95',ai:'2.3'};document.querySelectorAll('.prose').forEach(p=>{p.style.lineHeight=m[lh];});}
 const SHD=[{cat:'Violence & harm',items:['Physical violence / assault','Domestic abuse','Graphic gore','War or combat','Torture']},{cat:'Sexual content & abuse',items:['Sexual coercion','Infidelity / cheating'],always:['Child sexual abuse (always blocked)','Non-consensual sex presented positively (always blocked)']},{cat:'Mental health & self-harm',items:['Suicide or suicidal ideation','Self-harm','Eating disorders','Addiction']},{cat:'Loss & grief',items:['Death of a parent','Death of a child','Pregnancy loss','Terminal illness','Abandonment']},{cat:'Childhood & family trauma',items:['Child abuse','Child neglect','Parental addiction','Family separation']},{cat:'Identity & discrimination',items:['Racism / racial violence','Homophobia / transphobia','Religious persecution','Misogyny']}];
@@ -436,7 +436,7 @@ function AC(){const i=document.getElementById('ci2');const v=(i?.value||'').trim
 function RC(){document.getElementById('ct2').innerHTML=cSh.map((t,i)=>'<span class="ctg">'+t+'<span class="ctr" onclick="RM('+i+')">x</span></span>').join('');}
 function RM(i){cSh.splice(i,1);RC();}
 let trOpen=false;
-function TT(){trOpen=!trOpen;document.getElementById('tracker').classList.toggle('open',trOpen);document.getElementById('tr-btn').classList.toggle('open',trOpen);}
+function TT(){trOpen=!trOpen;document.getElementById('tracker').classList.toggle('open',trOpen);document.getElementById('tr-btn').classList.toggle('open',trOpen);trackEvent('tracker_toggled',{open:trOpen,episode_num:eN});}
 let tS={goal:'--',arcGoal:'--',arcType:'--',tol:'--',engine:'--',rel:10,relLast:'--',know:'Nothing hidden yet',pow:50,gp:0,res:[]};
 function UTR(){document.getElementById('tr-goal').textContent=tS.goal;document.getElementById('tr-arc').textContent=tS.arcGoal;document.getElementById('tr-at').textContent=tS.arcType;document.getElementById('tr-tol').textContent=tS.tol;document.getElementById('tr-eng').textContent=tS.engine;const rl=tS.rel<30?'distant':tS.rel<60?'tentative':tS.rel<80?'close':'intimate';document.getElementById('tr-rl').textContent='Closeness: '+rl;document.getElementById('tr-rb').style.width=tS.rel+'%';document.getElementById('tr-rls').textContent=tS.relLast;document.getElementById('tr-kn').textContent=tS.know;const pl=tS.pow<35?'weakened':tS.pow<65?'neutral':'strengthened';document.getElementById('tr-pl').textContent='Protag power: '+pl;document.getElementById('tr-pb').style.width=tS.pow+'%';document.getElementById('tr-gb').style.width=tS.gp+'%';const re=document.getElementById('tr-res');re.innerHTML=tS.res.length===0?'<div class="t-entry">No episodes yet</div>':tS.res.slice(-5).map(r=>'<div class="t-entry">Ep '+r.ep+': <span>'+r.res+'</span>'+(r.rc?'<br>-- '+r.rc:'')+(r.kn?'<br>'+r.kn:'')+'</div>').join('');}
 const TOLS=['Union','Loss','Ambiguity'];
@@ -499,6 +499,7 @@ async function signOut(){
 sb.auth.onAuthStateChange((event, session) => {
   currentSession = session;
   if(event === 'SIGNED_IN'){
+    trackEvent('signed_in', {method:'magic_link'});
     if(document.getElementById('pl').classList.contains('on')) G('pw');
   }
   if(event === 'SIGNED_OUT'){
@@ -611,6 +612,7 @@ async function confirmDelete(id, title){
   const {error} = await sb.from('stories').delete().eq('id', id);
   if(error){ alert('Could not delete: ' + error.message); return; }
   if(currentStoryId === id) currentStoryId = null;
+  trackEvent('story_deleted', {deleted_story_id: id});
   loadLibrary();
 }
 
@@ -643,6 +645,7 @@ async function begin(){
     const {count} = await sb.from('stories')
       .select('id', {count:'exact', head:true});
     if(count !== null && count >= 5){
+      trackEvent('story_limit_hit', {});
       alert('You have 5 stories saved — that’s the current limit.\n\nDelete a story from your Library to make room for a new one.');
       G('pli');
       return;
@@ -780,9 +783,11 @@ function SCI(ci){
     };
     o.appendChild(b);
   });
+  trackEvent('checkin_shown', {episode_num:eN, question:ci.title});
   document.getElementById('cio').style.display='flex';
 }
-function DC(){document.getElementById('cio').style.display='none';}
+function DC(){const wasVisible=document.getElementById('cio').style.display==='flex';document.getElementById('cio').style.display='none';if(wasVisible)trackEvent('checkin_dismissed',{episode_num:eN});}
+function startNewStory(){trackEvent('start_new_story',{from_episode:eN});G('po');}
 function RP(raw){const ps=raw.split(/\n\n+/).filter(p=>p.trim());let h='';ps.forEach((para,i)=>{const t=para.trim();if(t.match(/^[*\s-]{1,5}$/)){h+='<div class="sb">&#10022; &nbsp; &#10022; &nbsp; &#10022;</div>';return;}const iL=i===ps.length-1;const iH=iL&&!t.startsWith('"')&&ps.length>3&&t.length>60;if(iH)h+='<div class="hl">'+t+'</div>';else if(i===0)h+='<p class="dc">'+t+'</p>';else h+='<p>'+t+'</p>';});document.getElementById('pb2').innerHTML=h;}
 async function TH(){
   lv=!lv;
@@ -813,7 +818,7 @@ async function TH(){
   try{
     const {data: {session}} = await sb.auth.getSession();
     currentSession = session;
-    if(session){ G('pw'); }
+    if(session){ trackEvent('session_started', {}); G('pw'); }
     else{ G('pl'); }
   }catch(e){
     console.error('Init failed:', e);
