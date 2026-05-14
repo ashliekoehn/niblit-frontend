@@ -182,6 +182,95 @@ html,body{height:100%;overflow:hidden;background:#000;}
 .bnt-ico{width:20px;height:20px;opacity:.45;transition:opacity .15s;}.bnt.on .bnt-ico{opacity:1;}
 .bnt-lbl{font-size:10px;font-weight:500;letter-spacing:.4px;color:var(--cd);transition:color .15s;font-family:var(--sans);}.bnt.on .bnt-lbl{color:var(--g);}
 .bnt-pip{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:18px;height:2px;border-radius:1px;background:var(--g);opacity:0;transition:opacity .15s;}.bnt.on .bnt-pip{opacity:1;}
+
+/* ── Carousel page ───────────────────────────────────────── */
+#pc{background:#111;position:relative;overflow:hidden;}
+.carousel{display:flex;width:100%;height:100%;overflow-x:auto;overflow-y:hidden;
+  scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;}
+.carousel::-webkit-scrollbar{display:none;}
+.pane{flex:0 0 100%;height:100%;scroll-snap-align:start;overflow-y:auto;
+  padding:50px 18px 96px;scrollbar-width:none;}
+.pane::-webkit-scrollbar{display:none;}
+
+/* Mood palettes */
+.pane-lr{background:linear-gradient(165deg,#FCE3D2 0%,#F8CDB5 50%,#EDB69A 100%);color:#4E1B4F;}
+.pane-dr{background:linear-gradient(165deg,#2A0F2C 0%,#4E1B4F 55%,#380F38 100%);color:#F2DCB5;}
+.pane-sw{background:linear-gradient(165deg,#FBF0DA 0%,#F0DBB6 55%,#E5C695 100%);color:#4E1B4F;}
+.pane-adv{background:linear-gradient(165deg,#2D5F55 0%,#1F4F47 55%,#143832 100%);color:#F2DCB5;}
+.pane-sur{background:linear-gradient(135deg,#FCE3D2,#4E1B4F,#2D5F55,#4E1B4F);
+  background-size:300% 300%;animation:sursh 22s ease-in-out infinite;color:#F2DCB5;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 18px 96px;}
+@keyframes sursh{0%,100%{background-position:0% 0%}33%{background-position:100% 0%}66%{background-position:100% 100%}}
+
+/* Pane typography */
+.pane-eye{font-size:9px;letter-spacing:2px;text-transform:uppercase;opacity:.55;margin-bottom:5px;font-weight:500;}
+.pane-ttl{font-family:var(--serif);font-size:44px;line-height:.95;font-weight:400;letter-spacing:-1px;margin-bottom:8px;}
+.pane-tag{font-family:var(--body);font-size:13.5px;line-height:1.5;font-style:italic;opacity:.8;margin-bottom:22px;}
+.pane-lbl{font-size:9px;letter-spacing:1.2px;text-transform:uppercase;font-weight:500;opacity:.65;margin-bottom:8px;margin-top:16px;}
+
+/* Chips per palette */
+.pane-lr .cp,.pane-sw .cp{border-color:rgba(78,27,79,.28);color:#4E1B4F;background:rgba(255,255,255,.36);}
+.pane-lr .cp.on,.pane-sw .cp.on{background:#4E1B4F;color:#F2DCB5;border-color:#4E1B4F;}
+.pane-lr .cp.sur,.pane-sw .cp.sur{background:rgba(217,165,90,.18);border-color:#D9A55A;color:#A87A38;}
+.pane-lr .cp.sur.on,.pane-sw .cp.sur.on{background:#D9A55A;color:#4E1B4F;border-color:#D9A55A;}
+.pane-dr .cp,.pane-adv .cp{border-color:rgba(242,220,181,.28);color:#F2DCB5;background:rgba(0,0,0,.18);}
+.pane-dr .cp.on{background:#D9A55A;color:#2A0F2C;border-color:#D9A55A;}
+.pane-adv .cp.on{background:#D9A55A;color:#143832;border-color:#D9A55A;}
+.pane-dr .cp.sur,.pane-adv .cp.sur{background:rgba(217,165,90,.18);border-color:#D9A55A;color:#D9A55A;}
+.pane-dr .cp.sur.on,.pane-adv .cp.sur.on{background:#D9A55A;color:#2A0F2C;border-color:#D9A55A;}
+
+/* Begin button per pane */
+.pane-begin{display:block;width:100%;margin-top:20px;padding:12px 18px;
+  font-family:var(--serif);font-size:16px;font-weight:400;letter-spacing:.3px;
+  border-radius:10px;cursor:pointer;border:none;transition:opacity .15s;}
+.pane-begin:hover{opacity:.88;}
+.pane-lr .pane-begin,.pane-sw .pane-begin{background:#4E1B4F;color:#F2DCB5;}
+.pane-dr .pane-begin,.pane-adv .pane-begin{background:#D9A55A;color:#2A0F2C;}
+
+/* Pane spice */
+.pane-sps{width:100%;accent-color:#D9A55A;cursor:pointer;margin-bottom:4px;}
+.pane-spv{font-size:12px;font-weight:500;color:#D9A55A;text-align:center;margin-top:4px;}
+.pane-spd{font-size:11px;font-style:italic;opacity:.7;text-align:center;margin-top:2px;}
+.pane-spn{margin-top:8px;padding:7px 10px;border-radius:7px;font-size:11px;
+  line-height:1.5;text-align:center;background:rgba(217,165,90,.18);
+  border:0.5px solid #D9A55A;color:#A87A38;opacity:0;max-height:0;overflow:hidden;
+  transition:opacity .3s,max-height .3s,padding .3s,margin-top .3s;}
+.pane-spn.v{opacity:1;max-height:80px;margin-top:8px;padding:7px 10px;}
+.pane-dr .pane-spn,.pane-adv .pane-spn{color:#D9A55A;}
+
+/* Wild card custom input */
+.pane-wci{display:none;width:100%;margin-top:8px;padding:7px 10px;border-radius:7px;
+  border:0.5px solid;background:rgba(0,0,0,.1);font-size:12px;color:inherit;
+  font-family:var(--sans);outline:none;}
+.pane-wci.v{display:block;}
+.pane-lr .pane-wci,.pane-sw .pane-wci{border-color:rgba(78,27,79,.35);color:#4E1B4F;background:rgba(255,255,255,.4);}
+.pane-dr .pane-wci,.pane-adv .pane-wci{border-color:rgba(242,220,181,.3);color:#F2DCB5;background:rgba(0,0,0,.22);}
+.pane-wci::placeholder{opacity:.5;}
+
+/* Page dots */
+.pdots{position:absolute;bottom:62px;left:50%;transform:translateX(-50%);
+  display:flex;gap:8px;z-index:12;align-items:center;
+  background:rgba(0,0,0,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  padding:7px 13px;border-radius:20px;border:0.5px solid rgba(255,255,255,.08);}
+.pdot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.45);
+  cursor:pointer;border:none;padding:0;transition:all .3s;}
+.pdot.active{width:28px;border-radius:4px;background:#F2DCB5;}
+
+/* Surprise Me pane */
+.fate-card{background:rgba(0,0,0,.3);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:0.5px solid rgba(255,255,255,.16);border-radius:20px;
+  padding:34px 22px 28px;text-align:center;max-width:310px;width:100%;}
+.fate-ico{font-size:18px;color:#D9A55A;margin-bottom:12px;letter-spacing:6px;
+  animation:fp 3s ease-in-out infinite;}
+@keyframes fp{0%,100%{opacity:.6;transform:scale(1);}50%{opacity:1;transform:scale(1.06);}}
+.fate-ttl{font-family:var(--serif);font-size:38px;line-height:1;font-weight:400;
+  margin-bottom:10px;color:#fff;}
+.fate-sub{font-family:var(--body);font-size:13px;line-height:1.55;font-style:italic;
+  opacity:.85;margin-bottom:22px;}
+.fate-btn{background:#D9A55A;color:#2A0F2C;padding:12px 28px;border-radius:999px;
+  border:none;cursor:pointer;font-family:var(--serif);font-size:16px;font-weight:400;
+  letter-spacing:.3px;transition:transform .18s;}
+.fate-btn:hover{transform:translateY(-2px);}
 </style>
 </head>
 <body>
@@ -213,7 +302,7 @@ html,body{height:100%;overflow:hidden;background:#000;}
     <div class="ww">NibLit</div>
     <div class="wtw"><div class="wt v" id="wt">Come for the classics. Stay for the chaos.</div></div>
     <div class="wds"><div class="wd"></div><div class="wd"></div><div class="wd"></div></div>
-    <button class="w-cta" onclick="G('po')">Create a story &rsaquo;</button>
+    <button class="w-cta" onclick="G('pc')">Create a story &rsaquo;</button>
   </div>
 </div>
 
@@ -260,6 +349,311 @@ html,body{height:100%;overflow:hidden;background:#000;}
     </div>
   </div>
   <div class="ca"><button class="cta" onclick="begin()">Begin your story &rsaquo;</button></div>
+</div>
+
+
+<div id="pc" class="pg">
+  <div class="carousel" id="pc-carousel">
+    <div class="pane pane-lr" data-mood="Light romance">
+      <div class="pane-eye">1 of 5</div>
+      <h1 class="pane-ttl">Light<br>romance</h1>
+      <p class="pane-tag">Tender hearts. Gentle obstacles.</p>
+
+      <div class="pane-lbl">Dynamic</div>
+      <div class="cs">
+        <div class="cp on" data-g="d">Slow burn</div>
+        <div class="cp" data-g="d">Enemies &amp; rivals</div>
+        <div class="cp" data-g="d">Forbidden love</div>
+        <div class="cp" data-g="d">Friends to lovers</div>
+        <div class="cp sur" data-g="d">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Protagonist</div>
+      <div class="cs">
+        <div class="cp on" data-g="l">Woman lead</div>
+        <div class="cp" data-g="l">Man lead</div>
+        <div class="cp" data-g="l">Non-binary lead</div>
+        <div class="cp sur" data-g="l">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Love interest</div>
+      <div class="cs">
+        <div class="cp on" data-g="li">Man</div>
+        <div class="cp" data-g="li">Woman</div>
+        <div class="cp" data-g="li">Non-binary</div>
+        <div class="cp sur" data-g="li">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Setting</div>
+      <div class="cs">
+        <div class="cp on" data-g="s">Historical</div>
+        <div class="cp" data-g="s">Fantastical</div>
+        <div class="cp sur" data-g="s">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Protagonist arc</div>
+      <div class="cs">
+        <div class="cp on" data-g="arc">Grows into someone new</div>
+        <div class="cp" data-g="arc">Loses something real</div>
+        <div class="cp" data-g="arc">Discovers a truth</div>
+        <div class="cp" data-g="arc">Holds her ground</div>
+        <div class="cp sur" data-g="arc">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Spice</div>
+      <input type="range" class="pane-sps" min="1" max="5" step="1" value="2">
+      <div class="spls"><span class="spl">Gentle</span><span class="spl">Sweet</span><span class="spl">Warm</span><span class="spl lk">Steamy</span><span class="spl lk">Explicit</span></div>
+      <div class="pane-spv">2 &mdash; Sweet</div>
+      <div class="pane-spd">Tender longing, charged silences.</div>
+      <div class="pane-spn">Spice 4&ndash;5 is coming soon. For now NibLit reaches up to Warm.</div>
+
+      <div class="pane-lbl">Wild card</div>
+      <div class="cs pane-wc-chips">
+        <div class="cp on" data-g="wc">None</div>
+        <div class="cp" data-g="wc">All characters are animals</div>
+        <div class="cp" data-g="wc">Set on a pirate ship</div>
+        <div class="cp" data-g="wc">Told entirely in letters</div>
+        <div class="cp" data-g="wc">Cold War spy world</div>
+        <div class="cp" data-g="wc">The narrator is unreliable</div>
+        <div class="cp" data-g="wc">Set in a single room — no one can leave</div>
+        <div class="cp" data-g="wc">The love interest is a ghost</div>
+        <div class="cp sur" data-g="wc">&#9733; Surprise me</div>
+        <div class="cp" data-g="wc">Custom</div>
+      </div>
+      <input class="pane-wci" placeholder="Write your own constraint&hellip;" maxlength="80">
+
+      <button class="pane-begin" onclick="begin()">Begin your story &rsaquo;</button>
+    </div>
+    <div class="pane pane-dr" data-mood="Dark romance">
+      <div class="pane-eye">2 of 5</div>
+      <h1 class="pane-ttl">Dark<br>romance</h1>
+      <p class="pane-tag">Where love costs something.</p>
+
+      <div class="pane-lbl">Dynamic</div>
+      <div class="cs">
+        <div class="cp on" data-g="d">Forbidden love</div>
+        <div class="cp" data-g="d">Slow burn</div>
+        <div class="cp" data-g="d">Enemies &amp; rivals</div>
+        <div class="cp" data-g="d">Friends to lovers</div>
+        <div class="cp sur" data-g="d">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Protagonist</div>
+      <div class="cs">
+        <div class="cp on" data-g="l">Woman lead</div>
+        <div class="cp" data-g="l">Man lead</div>
+        <div class="cp" data-g="l">Non-binary lead</div>
+        <div class="cp sur" data-g="l">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Love interest</div>
+      <div class="cs">
+        <div class="cp on" data-g="li">Man</div>
+        <div class="cp" data-g="li">Woman</div>
+        <div class="cp" data-g="li">Non-binary</div>
+        <div class="cp sur" data-g="li">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Setting</div>
+      <div class="cs">
+        <div class="cp on" data-g="s">Historical</div>
+        <div class="cp" data-g="s">Fantastical</div>
+        <div class="cp sur" data-g="s">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Protagonist arc</div>
+      <div class="cs">
+        <div class="cp on" data-g="arc">Loses something real</div>
+        <div class="cp" data-g="arc">Grows into someone new</div>
+        <div class="cp" data-g="arc">Discovers a truth</div>
+        <div class="cp" data-g="arc">Holds her ground</div>
+        <div class="cp sur" data-g="arc">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Spice</div>
+      <input type="range" class="pane-sps" min="1" max="5" step="1" value="2">
+      <div class="spls"><span class="spl">Gentle</span><span class="spl">Sweet</span><span class="spl">Warm</span><span class="spl lk">Steamy</span><span class="spl lk">Explicit</span></div>
+      <div class="pane-spv">2 &mdash; Sweet</div>
+      <div class="pane-spd">Tender longing, charged silences.</div>
+      <div class="pane-spn">Spice 4&ndash;5 is coming soon. For now NibLit reaches up to Warm.</div>
+
+      <div class="pane-lbl">Wild card</div>
+      <div class="cs pane-wc-chips">
+        <div class="cp on" data-g="wc">None</div>
+        <div class="cp" data-g="wc">All characters are animals</div>
+        <div class="cp" data-g="wc">Set on a pirate ship</div>
+        <div class="cp" data-g="wc">Told entirely in letters</div>
+        <div class="cp" data-g="wc">Cold War spy world</div>
+        <div class="cp" data-g="wc">The narrator is unreliable</div>
+        <div class="cp" data-g="wc">Set in a single room — no one can leave</div>
+        <div class="cp" data-g="wc">The love interest is a ghost</div>
+        <div class="cp sur" data-g="wc">&#9733; Surprise me</div>
+        <div class="cp" data-g="wc">Custom</div>
+      </div>
+      <input class="pane-wci" placeholder="Write your own constraint&hellip;" maxlength="80">
+
+      <button class="pane-begin" onclick="begin()">Begin your story &rsaquo;</button>
+    </div>
+    <div class="pane pane-sw" data-mood="Sharp wit">
+      <div class="pane-eye">3 of 5</div>
+      <h1 class="pane-ttl">Sharp<br>wit</h1>
+      <p class="pane-tag">Argue first. Admit later.</p>
+
+      <div class="pane-lbl">Dynamic</div>
+      <div class="cs">
+        <div class="cp on" data-g="d">Enemies &amp; rivals</div>
+        <div class="cp" data-g="d">Slow burn</div>
+        <div class="cp" data-g="d">Forbidden love</div>
+        <div class="cp" data-g="d">Friends to lovers</div>
+        <div class="cp sur" data-g="d">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Protagonist</div>
+      <div class="cs">
+        <div class="cp on" data-g="l">Woman lead</div>
+        <div class="cp" data-g="l">Man lead</div>
+        <div class="cp" data-g="l">Non-binary lead</div>
+        <div class="cp sur" data-g="l">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Love interest</div>
+      <div class="cs">
+        <div class="cp on" data-g="li">Man</div>
+        <div class="cp" data-g="li">Woman</div>
+        <div class="cp" data-g="li">Non-binary</div>
+        <div class="cp sur" data-g="li">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Setting</div>
+      <div class="cs">
+        <div class="cp on" data-g="s">Historical</div>
+        <div class="cp" data-g="s">Fantastical</div>
+        <div class="cp sur" data-g="s">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Protagonist arc</div>
+      <div class="cs">
+        <div class="cp on" data-g="arc">Discovers a truth</div>
+        <div class="cp" data-g="arc">Grows into someone new</div>
+        <div class="cp" data-g="arc">Loses something real</div>
+        <div class="cp" data-g="arc">Holds her ground</div>
+        <div class="cp sur" data-g="arc">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Spice</div>
+      <input type="range" class="pane-sps" min="1" max="5" step="1" value="2">
+      <div class="spls"><span class="spl">Gentle</span><span class="spl">Sweet</span><span class="spl">Warm</span><span class="spl lk">Steamy</span><span class="spl lk">Explicit</span></div>
+      <div class="pane-spv">2 &mdash; Sweet</div>
+      <div class="pane-spd">Tender longing, charged silences.</div>
+      <div class="pane-spn">Spice 4&ndash;5 is coming soon. For now NibLit reaches up to Warm.</div>
+
+      <div class="pane-lbl">Wild card</div>
+      <div class="cs pane-wc-chips">
+        <div class="cp on" data-g="wc">None</div>
+        <div class="cp" data-g="wc">All characters are animals</div>
+        <div class="cp" data-g="wc">Set on a pirate ship</div>
+        <div class="cp" data-g="wc">Told entirely in letters</div>
+        <div class="cp" data-g="wc">Cold War spy world</div>
+        <div class="cp" data-g="wc">The narrator is unreliable</div>
+        <div class="cp" data-g="wc">Set in a single room — no one can leave</div>
+        <div class="cp" data-g="wc">The love interest is a ghost</div>
+        <div class="cp sur" data-g="wc">&#9733; Surprise me</div>
+        <div class="cp" data-g="wc">Custom</div>
+      </div>
+      <input class="pane-wci" placeholder="Write your own constraint&hellip;" maxlength="80">
+
+      <button class="pane-begin" onclick="begin()">Begin your story &rsaquo;</button>
+    </div>
+    <div class="pane pane-adv" data-mood="Adventure">
+      <div class="pane-eye">4 of 5</div>
+      <h1 class="pane-ttl">Adventure</h1>
+      <p class="pane-tag">Wide horizons. High stakes.</p>
+
+      <div class="pane-lbl">Dynamic</div>
+      <div class="cs">
+        <div class="cp on" data-g="d">Friends to lovers</div>
+        <div class="cp" data-g="d">Slow burn</div>
+        <div class="cp" data-g="d">Enemies &amp; rivals</div>
+        <div class="cp" data-g="d">Forbidden love</div>
+        <div class="cp sur" data-g="d">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Protagonist</div>
+      <div class="cs">
+        <div class="cp on" data-g="l">Woman lead</div>
+        <div class="cp" data-g="l">Man lead</div>
+        <div class="cp" data-g="l">Non-binary lead</div>
+        <div class="cp sur" data-g="l">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Love interest</div>
+      <div class="cs">
+        <div class="cp on" data-g="li">Man</div>
+        <div class="cp" data-g="li">Woman</div>
+        <div class="cp" data-g="li">Non-binary</div>
+        <div class="cp sur" data-g="li">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Setting</div>
+      <div class="cs">
+        <div class="cp on" data-g="s">Fantastical</div>
+        <div class="cp" data-g="s">Historical</div>
+        <div class="cp sur" data-g="s">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Protagonist arc</div>
+      <div class="cs">
+        <div class="cp on" data-g="arc">Grows into someone new</div>
+        <div class="cp" data-g="arc">Loses something real</div>
+        <div class="cp" data-g="arc">Discovers a truth</div>
+        <div class="cp" data-g="arc">Holds her ground</div>
+        <div class="cp sur" data-g="arc">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Spice</div>
+      <input type="range" class="pane-sps" min="1" max="5" step="1" value="2">
+      <div class="spls"><span class="spl">Gentle</span><span class="spl">Sweet</span><span class="spl">Warm</span><span class="spl lk">Steamy</span><span class="spl lk">Explicit</span></div>
+      <div class="pane-spv">2 &mdash; Sweet</div>
+      <div class="pane-spd">Tender longing, charged silences.</div>
+      <div class="pane-spn">Spice 4&ndash;5 is coming soon. For now NibLit reaches up to Warm.</div>
+
+      <div class="pane-lbl">Wild card</div>
+      <div class="cs pane-wc-chips">
+        <div class="cp on" data-g="wc">None</div>
+        <div class="cp" data-g="wc">All characters are animals</div>
+        <div class="cp" data-g="wc">Set on a pirate ship</div>
+        <div class="cp" data-g="wc">Told entirely in letters</div>
+        <div class="cp" data-g="wc">Cold War spy world</div>
+        <div class="cp" data-g="wc">The narrator is unreliable</div>
+        <div class="cp" data-g="wc">Set in a single room — no one can leave</div>
+        <div class="cp" data-g="wc">The love interest is a ghost</div>
+        <div class="cp sur" data-g="wc">&#9733; Surprise me</div>
+        <div class="cp" data-g="wc">Custom</div>
+      </div>
+      <input class="pane-wci" placeholder="Write your own constraint&hellip;" maxlength="80">
+
+      <button class="pane-begin" onclick="begin()">Begin your story &rsaquo;</button>
+    </div>
+    <div class="pane pane-sur" data-mood="Surprise me">
+      <!-- Hidden chips so getCfg() returns Surprise me for all dimensions -->
+      <div style="display:none">
+        <div class="cp on" data-g="d">&#9733; Surprise me</div>
+        <div class="cp on" data-g="l">&#9733; Surprise me</div>
+        <div class="cp on" data-g="li">&#9733; Surprise me</div>
+        <div class="cp on" data-g="s">&#9733; Surprise me</div>
+        <div class="cp on" data-g="arc">&#9733; Surprise me</div>
+        <div class="cp on" data-g="wc">&#9733; Surprise me</div>
+        <input class="pane-sps" value="2">
+      </div>
+      <div class="fate-card">
+        <div class="fate-ico">&#10022; &#10022; &#10022;</div>
+        <h1 class="fate-ttl">Surprise me</h1>
+        <p class="fate-sub">A random mood. A random spark.<br>Discover something you didn&rsquo;t know you wanted.</p>
+        <button class="fate-btn" onclick="begin()">Let fate decide</button>
+      </div>
+    </div>
+  </div>
+  <div class="pdots" id="pdots"><button class="pdot active" data-idx="0" aria-label="Pane 1"></button><button class="pdot" data-idx="1" aria-label="Pane 2"></button><button class="pdot" data-idx="2" aria-label="Pane 3"></button><button class="pdot" data-idx="3" aria-label="Pane 4"></button><button class="pdot" data-idx="4" aria-label="Pane 5"></button></div>
 </div>
 
 <div id="ps" class="pg">
@@ -354,7 +748,7 @@ html,body{height:100%;overflow:hidden;background:#000;}
 </div>
 
 <div id="bnav" style="display:none;">
-  <button class="bnt" id="bn-options" onclick="G('po')">
+  <button class="bnt" id="bn-options" onclick="G('pc')">
     <svg class="bnt-ico" viewBox="0 0 24 24" fill="none" stroke="#C8A060" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
     <span class="bnt-lbl">Story</span><div class="bnt-pip"></div>
   </button>
@@ -413,8 +807,72 @@ let wO=false,wC=null,wCS=false;
 function TW(){wO=!wO;document.getElementById('wbi').style.display=wO?'block':'none';document.getElementById('wch').classList.toggle('op',wO);}
 function SW(el){document.querySelectorAll('.wop').forEach(w=>w.classList.remove('on'));el.classList.add('on');const t=el.querySelector('.wot').textContent;if(t.includes('None')){wC=null;wCS=false;}else if(t.includes('Surprise me')){wC='SURPRISE';wCS=true;}else{wC=t;wCS=false;}}
 function AW(){const i=document.getElementById('wi');const v=(i?.value||'').trim();if(!v)return;const d=document.createElement('div');d.className='wop';d.innerHTML='<div class="wot">'+v+'</div><div class="wos">Custom</div>';d.onclick=function(){SW(this);};document.getElementById('wo').appendChild(d);SW(d);i.value='';}
+
+// ─── Carousel init ───────────────────────────────────────────
+function initCarousel(){
+  const c=document.getElementById('pc-carousel');
+  if(!c)return;
+
+  // Chip single-select within each pane
+  c.querySelectorAll('.cs').forEach(group=>{
+    group.addEventListener('click',e=>{
+      const chip=e.target.closest('.cp[data-g]');
+      if(!chip)return;
+      const g=chip.dataset.g;
+      group.querySelectorAll('.cp[data-g="'+g+'"]').forEach(x=>x.classList.remove('on'));
+      chip.classList.add('on');
+      // Custom wild card input visibility
+      if(g==='wc'){
+        const pane=chip.closest('.pane');
+        const inp=pane&&pane.querySelector('.pane-wci');
+        if(inp)inp.classList.toggle('v',chip.textContent.trim()==='Custom');
+      }
+    });
+  });
+
+  // Spice sliders
+  const SPNMS=['1 — Gentle','2 — Sweet','3 — Warm','4 — Steamy','5 — Explicit'];
+  const SPDS=['A longing glance, a held breath.','Tender longing, charged silences.','Sensual awareness, physical proximity.','',''];
+  c.querySelectorAll('.pane-sps').forEach(sl=>{
+    sl.addEventListener('input',function(){
+      const pane=this.closest('.pane');
+      let v=parseInt(this.value);
+      const notice=pane&&pane.querySelector('.pane-spn');
+      if(v>=4){this.value=3;v=3;if(notice){notice.classList.add('v');clearTimeout(this._spT);this._spT=setTimeout(()=>notice.classList.remove('v'),4500);}}
+      else if(notice)notice.classList.remove('v');
+      if(pane){
+        const vEl=pane.querySelector('.pane-spv');
+        const dEl=pane.querySelector('.pane-spd');
+        if(vEl)vEl.textContent=SPNMS[v-1];
+        if(dEl)dEl.textContent=SPDS[v-1];
+      }
+    });
+  });
+
+  // Scroll → dots + theme
+  let scrollT;
+  c.addEventListener('scroll',()=>{
+    clearTimeout(scrollT);
+    scrollT=setTimeout(()=>updateDots(Math.round(c.scrollLeft/c.offsetWidth)),50);
+  },{passive:true});
+
+  // Dot navigation
+  document.querySelectorAll('.pdot').forEach(dot=>{
+    dot.addEventListener('click',()=>{
+      const idx=parseInt(dot.dataset.idx);
+      c.scrollTo({left:idx*c.offsetWidth,behavior:'smooth'});
+    });
+  });
+
+  updateDots(0);
+}
+
+function updateDots(idx){
+  document.querySelectorAll('.pdot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+}
+
 document.querySelectorAll('.cp').forEach(c=>{c.addEventListener('click',()=>{document.querySelectorAll('.cp[data-g="'+c.dataset.g+'"]').forEach(x=>x.classList.remove('on'));c.classList.add('on');});});
-function G(id){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));document.getElementById(id).classList.add('on');const map={po:'bn-options',pli:'bn-library',ps:'bn-settings',pr:'bn-reader'};document.querySelectorAll('.bnt').forEach(b=>b.classList.remove('on'));if(map[id]){const b=document.getElementById(map[id]);if(b)b.classList.add('on');}document.getElementById('bnav').style.display=(id==='pw'||id==='pl')?'none':'flex';if(id==='pli'){loadLibrary();trackEvent('library_opened',{});}if(id==='ps')trackEvent('settings_opened',{});if(id==='pw')ST();else KT();}
+function G(id){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));document.getElementById(id).classList.add('on');const map={po:'bn-options',pc:'bn-options',pli:'bn-library',ps:'bn-settings',pr:'bn-reader'};document.querySelectorAll('.bnt').forEach(b=>b.classList.remove('on'));if(map[id]){const b=document.getElementById(map[id]);if(b)b.classList.add('on');}document.getElementById('bnav').style.display=(id==='pw'||id==='pl')?'none':'flex';if(id==='pc')initCarousel();if(id==='pli'){loadLibrary();trackEvent('library_opened',{});}if(id==='ps')trackEvent('settings_opened',{});if(id==='pw')ST();else KT();}
 function FS(sz,btn){document.querySelectorAll('.f1').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const m={sm:'13px',md:'15px',lg:'17px'};document.querySelectorAll('.prose').forEach(p=>{p.style.fontSize=m[sz];});}
 function LH(lh,btn){document.querySelectorAll('.f1').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const m={co:'1.65',cm:'1.95',ai:'2.3'};document.querySelectorAll('.prose').forEach(p=>{p.style.lineHeight=m[lh];});}
 const SHD=[{cat:'Violence & harm',items:['Physical violence / assault','Domestic abuse','Graphic gore','War or combat','Torture']},{cat:'Sexual content & abuse',items:['Sexual coercion','Infidelity / cheating'],always:['Child sexual abuse (always blocked)','Non-consensual sex presented positively (always blocked)']},{cat:'Mental health & self-harm',items:['Suicide or suicidal ideation','Self-harm','Eating disorders','Addiction']},{cat:'Loss & grief',items:['Death of a parent','Death of a child','Pregnancy loss','Terminal illness','Abandonment']},{cat:'Childhood & family trauma',items:['Child abuse','Child neglect','Parental addiction','Family separation']},{cat:'Identity & discrimination',items:['Racism / racial violence','Homophobia / transphobia','Religious persecution','Misogyny']}];
@@ -448,8 +906,8 @@ const SHAKES={'Slow burn':"As You Like It / The Winter's Tale",'Enemies & rivals
 // ════════════════════════════════════════════════════════════════
 // SUPABASE CONFIGURATION — UPDATE THESE TWO VALUES
 // ════════════════════════════════════════════════════════════════
-const SUPABASE_URL = 'https://pyhjpjvyhmzotugtcenn.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB5aGpwanZ5aG16b3R1Z3RjZW5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyOTU2NDEsImV4cCI6MjA5Mzg3MTY0MX0.4oRbIiHSCEoAlo5VQ-Xvg7TiNlunmwSmEM96OpzsfwY';
+const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
+const SUPABASE_KEY = 'YOUR_ANON_KEY_HERE';
 // ════════════════════════════════════════════════════════════════
 
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -618,7 +1076,29 @@ async function confirmDelete(id, title){
 
 let eN=1,sH=[],aS='',sCfg={},gc={},lT=null,lv=false,uR=[];
 const LMS=['Consulting the pre-1928 archives...','Channeling the literary spirits...','Drawing from Shakespeare and the tradition...','Weaving the narrative thread...','Finding the hook...'];
-function getCfg(){const g=x=>document.querySelector('.cp.on[data-g="'+x+'"]')?.textContent?.trim()||'';return{m:g('m'),l:g('l'),li:g('li'),d:g('d'),s:g('s'),arc:g('arc'),sp:parseInt(document.getElementById('sps').value),wc:wC,wcs:wCS};}
+function getActivePane(){
+  const c=document.getElementById('pc-carousel');
+  if(!c||!document.getElementById('pc').classList.contains('on'))return null;
+  const idx=Math.round(c.scrollLeft/c.offsetWidth);
+  return c.children[idx]||null;
+}
+function getCfg(){
+  const pane=getActivePane();
+  const scope=pane||document;
+  const g=x=>scope.querySelector('.cp.on[data-g="'+x+'"]')?.textContent?.replace(/\u2605\s*/g,'').trim()||'';
+  const spEl=scope.querySelector('.pane-sps')||document.getElementById('sps');
+  const sp=parseInt(spEl?.value||2);
+  const m=pane?pane.dataset.mood:g('m');
+  // Wild card from chip group
+  const wcText=g('wc');
+  let wc=null,wcs=false;
+  if(wcText==='Surprise me'){wc='SURPRISE';wcs=true;}
+  else if(wcText&&wcText!=='None'){
+    if(wcText==='Custom'){const inp=scope.querySelector('.pane-wci');wc=inp&&inp.value.trim()?inp.value.trim():null;}
+    else{wc=wcText;}
+  }
+  return{m,l:g('l'),li:g('li'),d:g('d'),s:g('s'),arc:g('arc'),sp,wc,wcs};
+}
 function SL(on){if(on){document.getElementById('ls').style.display='block';document.getElementById('pw2').style.display='none';let i=0;document.getElementById('lm').textContent=LMS[0];lT=setInterval(()=>{i=(i+1)%LMS.length;document.getElementById('lm').textContent=LMS[i];},2300);}else{if(lT){clearInterval(lT);lT=null;}document.getElementById('ls').style.display='none';document.getElementById('pw2').style.display='block';document.getElementById('rs').scrollTop=0;}document.getElementById('eb').style.display='none';}
 function SE(msg){if(lT){clearInterval(lT);lT=null;}document.getElementById('ls').style.display='none';document.getElementById('pw2').style.display='none';const e=document.getElementById('eb');e.style.display='block';e.textContent=msg;}
 function RH(){lv=false;window._currentEpisodeId=null;document.getElementById('hb').classList.remove('lv');document.getElementById('hp').setAttribute('fill','none');document.getElementById('hp').setAttribute('stroke','#3D1035');document.getElementById('hl').textContent='Loved this';}
@@ -818,7 +1298,7 @@ async function TH(){
   try{
     const {data: {session}} = await sb.auth.getSession();
     currentSession = session;
-    if(session){ trackEvent('session_started', {}); G('pw'); }
+    if(session){ trackEvent('session_started', {}); G('pw'); setTimeout(initCarousel,100); }
     else{ G('pl'); }
   }catch(e){
     console.error('Init failed:', e);
