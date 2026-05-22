@@ -853,6 +853,24 @@ const PROFESSIONS=[
   'printmaker','apothecary','innkeeper','engineer','glassblower',
   'perfumer','clockmaker','illustrator','bookbinder','telegraph operator'
 ];
+const ETHNICITY_POOL=[
+  {image:'Deep brown skin, tightly coiled black hair',prose:'Black woman'},
+  {image:'Rich dark brown skin, long locs',prose:'Black woman with locs'},
+  {image:'Medium brown skin, natural 4C hair',prose:'Black woman'},
+  {image:'Warm golden-brown skin, dark straight hair',prose:'Latina woman'},
+  {image:'Olive skin, thick wavy dark hair',prose:'Latina woman'},
+  {image:'Light brown skin, loose dark curls',prose:'Mixed-race Latina woman'},
+  {image:'Pale porcelain skin, straight black hair',prose:'East Asian woman'},
+  {image:'Warm ivory skin, dark almond eyes, black hair',prose:'East Asian woman'},
+  {image:'Golden-brown skin, dark eyes, black straight hair',prose:'Southeast Asian woman'},
+  {image:'Deep golden-brown skin, dark eyes, long black hair',prose:'South Asian woman'},
+  {image:'Medium brown skin, dark hair, strong brows',prose:'South Asian woman'},
+  {image:'Warm tan skin, dark hair, sharp features',prose:'Middle Eastern woman'},
+  {image:'Deep brown skin, dark eyes, high cheekbones',prose:'Indigenous American woman'},
+  {image:'Brown skin, dark wavy hair, broad features',prose:'Pacific Islander woman'},
+  {image:'Light skin, freckles, red or auburn hair',prose:'White woman'},
+  {image:'Fair skin, blonde or light brown hair',prose:'White woman'}
+];
 const OPENINGS=[
   'OPENING APPROACH: Open on an action already in progress or a question already hanging — something unresolved the reader needs to see through.',
   'OPENING APPROACH: Open on one precise physical detail — a sensation, an object, a sound — not abstract scene-setting.',
@@ -1324,8 +1342,10 @@ async function begin(){
   const engine=pick(ENG[dR]||['Mystery']);
   const shakes=SHAKES[dR]||'Much Ado About Nothing';
   const profession=pick(PROFESSIONS);
+  const protagonistEthnicity=pick(ETHNICITY_POOL);
+  const loveInterestEthnicity=pick(ETHNICITY_POOL);
   const opening=pick(OPENINGS);
-  gc={mR,dR,lR,liR,sR,arcR,wR,tol,goal,arcGoal,engine,shakes,sp:sCfg.sp,profession,opening};
+  gc={mR,dR,lR,liR,sR,arcR,wR,tol,goal,arcGoal,engine,shakes,sp:sCfg.sp,profession,opening,protagonistEthnicity,loveInterestEthnicity};
   tS={goal,arcGoal,arcType:arcR,tol,engine,rel:10,relLast:'--',know:'Nothing hidden yet',pow:50,gp:4,res:[]};
   UTR();
   // 5-story limit check
@@ -1344,7 +1364,7 @@ async function begin(){
   if(currentSession){
     const {data, error} = await sb.from('stories').insert({
       user_id: currentSession.user.id,
-      config: { mood:mR, dynamic:dR, protagonist:lR, loveInterest:liR, setting:sR, arc:arcR, wildCard:wR, spice:sCfg.sp, profession:profession },
+      config: { mood:mR, dynamic:dR, protagonist:lR, loveInterest:liR, setting:sR, arc:arcR, wildCard:wR, spice:sCfg.sp, profession:profession, protagonistEthnicity:protagonistEthnicity, loveInterestEthnicity:loveInterestEthnicity },
       global_context: gc
     }).select().single();
     if(error){ SE('Could not save story: '+error.message); return; }
@@ -1416,9 +1436,11 @@ async function GE(){
   const wcL=gc.wR?'WILD CARD (syntactic precedence): '+gc.wR:'';
   const profL=gc.profession?"PROTAGONIST'S PROFESSION (mandatory — do not change): "+gc.profession+". Do not use a cartographer, mapmaker, librarian, or governess.":'';
   const spL=['','Gentle','Sweet','Warm','Steamy','Explicit'];
+  const ethP=gc.protagonistEthnicity?gc.protagonistEthnicity.prose+'. ':'';
+  const ethLI=gc.loveInterestEthnicity?gc.loveInterestEthnicity.prose+'. ':'';
   const pr=eN===1
-    ?'Write Episode 1. '+(profL?' '+profL:'')+' Protagonist: '+gc.lR+'. '+(gc.liR==='No love interest'?'No love interest.':'Love interest: '+gc.liR+'.')+' Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5 ('+spL[gc.sp||2]+').'+( wcL?' '+wcL:'')+' '+(gc.opening||'')+' End on an unresolved hook that demands episode 2.'+(shL?' '+shL:'')
-    :'Continue Episode '+eN+'. '+gc.mR+'. '+gc.lR+'. Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5.'+(profL?' '+profL:'')+(wcL?' '+wcL:'')+' Previous: '+aS.slice(0,600)+' Deepen tension. Advance the arc goal. End on a fresh hook.'+(shL?' '+shL:'');
+    ?'Write Episode 1. '+(profL?' '+profL:'')+' Protagonist: '+ethP+gc.lR+'. '+(gc.liR==='No love interest'?'No love interest.':'Love interest: '+ethLI+gc.liR+'.')+' Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5 ('+spL[gc.sp||2]+').'+( wcL?' '+wcL:'')+' '+(gc.opening||'')+' End on an unresolved hook that demands episode 2.'+(shL?' '+shL:'')
+    :'Continue Episode '+eN+'. '+gc.mR+'. '+ethP+gc.lR+'. Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5.'+(profL?' '+profL:'')+(wcL?' '+wcL:'')+' Previous: '+aS.slice(0,600)+' Deepen tension. Advance the arc goal. End on a fresh hook.'+(shL?' '+shL:'');
   try{
     const r=await fetch('https://niblit-server-production.up.railway.app/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:BSY(),messages:[...sH,{role:'user',content:pr}]})});
     if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error||'Server error '+r.status);}
