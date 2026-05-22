@@ -271,7 +271,49 @@ html,body{height:100%;overflow:hidden;background:#000;}
   border:none;cursor:pointer;font-family:var(--serif);font-size:16px;font-weight:400;
   letter-spacing:.3px;transition:transform .18s;}
 .fate-btn:hover{transform:translateY(-2px);}
+
+/* Reader footer — two-button row */
+.nbrow{display:flex;gap:7px;margin-bottom:8px;}
+.nbrow .nb{flex:1;margin-bottom:0;width:auto;}
+.toc-btn{flex:0 0 32%;padding:10px 6px;background:var(--cf);color:var(--p);border:0.5px solid var(--p);border-radius:9px;font-size:12px;font-weight:500;cursor:pointer;font-family:var(--sans);display:flex;align-items:center;justify-content:center;gap:5px;transition:background .15s;}
+.toc-btn:hover{background:var(--cd);}
+.toc-btn:disabled{opacity:.38;cursor:not-allowed;}
+.toc-btn svg{flex-shrink:0;}
+
+/* Library card — whole card tappable */
+.lc{display:flex;align-items:stretch;background:var(--c);border:0.5px solid var(--cd);border-radius:9px;margin-bottom:10px;cursor:pointer;transition:border-color .15s,background .12s;overflow:hidden;}
+.lc:hover{border-color:var(--pm);}
+.lc:active{background:var(--cd);}
+.lc-body{flex:1;padding:13px 14px 12px;min-width:0;}
+.lc-aside{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;padding:8px 10px 12px 0;flex-shrink:0;}
+.lc-chev{font-family:var(--serif);font-size:24px;color:var(--pm);opacity:.55;line-height:1;}
+
+/* Table of contents page */
+.pel-hdr{background:var(--p);padding:14px 16px 16px;flex-shrink:0;color:var(--c);}
+.pel-hdr-mood{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--g);margin-bottom:4px;}
+.pel-hdr-ttl{font-family:var(--serif);font-size:22px;font-style:italic;line-height:1.2;color:var(--c);}
+.pel-hdr-meta{font-size:11px;color:var(--cd);margin-top:5px;}
+.pel-action{padding:12px 16px 8px;background:var(--cf);flex-shrink:0;border-bottom:0.5px solid var(--cd);}
+.pel-pick{display:block;width:100%;padding:11px;background:var(--p);color:var(--c);border:none;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--sans);text-align:center;}
+.pel-pick:hover{opacity:.9;}
+.pel-pick:disabled{opacity:.4;cursor:not-allowed;}
+.pel-list{padding:4px 0 12px;}
+.pel-row{display:flex;align-items:center;padding:13px 16px;border-bottom:0.5px solid var(--cd);cursor:pointer;transition:background .12s;}
+.pel-row:hover{background:var(--c);}
+.pel-row:active{background:var(--cd);}
+.pel-row-num{width:26px;font-size:11px;font-weight:500;color:var(--pm);letter-spacing:.4px;flex-shrink:0;}
+.pel-row-info{flex:1;min-width:0;}
+.pel-row-ttl{font-family:var(--serif);font-size:14px;font-style:italic;color:var(--p);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pel-row-heart{flex-shrink:0;margin-left:10px;color:#C04060;display:flex;align-items:center;}
+.pel-row-heart svg{width:14px;height:14px;}
+.pel-ghost{display:flex;align-items:center;padding:13px 16px;cursor:pointer;border-bottom:0.5px solid var(--cd);background:rgba(217,165,90,.06);transition:background .12s;}
+.pel-ghost:hover{background:rgba(217,165,90,.14);}
+.pel-ghost-num{width:26px;font-size:11px;font-weight:500;color:var(--gd);letter-spacing:.4px;opacity:.7;flex-shrink:0;}
+.pel-ghost-lbl{flex:1;font-family:var(--serif);font-size:13px;font-style:italic;color:var(--gd);opacity:.85;}
+.pel-ghost-plus{font-size:18px;color:var(--gd);opacity:.7;line-height:1;margin-left:8px;}
+.pel-empty{text-align:center;padding:32px 20px;color:var(--pm);font-style:italic;font-size:13px;line-height:1.6;}
 </style>
+
 </head>
 <body>
 <div id="app">
@@ -729,7 +771,13 @@ html,body{height:100%;overflow:hidden;background:#000;}
     </div>
   </div>
   <div class="rf">
-    <button class="nb" id="nb" onclick="nxt()" disabled>Generate episode 2 &rsaquo;</button>
+    <div class="nbrow">
+      <button class="toc-btn" id="toc-btn" onclick="backToTOC()" disabled aria-label="Table of contents">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <span>Contents</span>
+      </button>
+      <button class="nb" id="nb" onclick="nxt()" disabled>Generate episode 2 &rsaquo;</button>
+    </div>
     <div class="rm">
       <span class="nl" onclick="startNewStory()">Start a new story</span>
       <button class="hb" id="hb" onclick="TH()">
@@ -737,6 +785,21 @@ html,body{height:100%;overflow:hidden;background:#000;}
         <span id="hl">Loved this</span>
       </button>
     </div>
+  </div>
+</div>
+
+<div id="pel" class="pg">
+  <div class="topbar"><div class="tb-l"><svg class="tb-ico" viewBox="0 0 100 100"><use href="#ico"/></svg><span class="tb-name">NibLit</span></div><span class="tb-r">Table of contents</span></div>
+  <div class="pel-hdr">
+    <div class="pel-hdr-mood" id="pel-hdr-mood">—</div>
+    <div class="pel-hdr-ttl" id="pel-hdr-ttl">—</div>
+    <div class="pel-hdr-meta" id="pel-hdr-meta">—</div>
+  </div>
+  <div class="pel-action">
+    <button class="pel-pick" id="pel-pick" onclick="pickUpWhereLeftOff()">Pick up where you left off</button>
+  </div>
+  <div class="sc" style="padding:0;">
+    <div class="pel-list" id="pel-list"></div>
   </div>
 </div>
 
@@ -789,6 +852,13 @@ const PROFESSIONS=[
   'translator','astronomer','botanist','seamstress','blacksmith',
   'printmaker','apothecary','innkeeper','engineer','glassblower',
   'perfumer','clockmaker','illustrator','bookbinder','telegraph operator'
+];
+const OPENINGS=[
+  'OPENING APPROACH: Open on an action already in progress or a question already hanging — something unresolved the reader needs to see through.',
+  'OPENING APPROACH: Open on one precise physical detail — a sensation, an object, a sound — not abstract scene-setting.',
+  "OPENING APPROACH: Open on the protagonist's body reacting — breath, pulse, a tightening — before the mind explains why.",
+  'OPENING APPROACH: Open by handing the reader something the protagonist does not yet grasp, or the protagonist something the reader must infer.',
+  'OPENING APPROACH: Open by establishing a want and immediately placing a named obstacle between the protagonist and it.'
 ];
 const SWP=[{t:'Set entirely in one room and no one can explain why they cannot leave'},{t:'Every character speaks only in questions'},{t:'The protagonist has perfect memory of a life she has not lived yet'},{t:'The love interest does not know they are the love interest'},{t:'Takes place over a single day repeated slightly differently each episode'},{t:'All characters are children of people who once loved each other'},{t:'No character may speak directly'},{t:'The narrator is writing this for someone who will never read it'}];
 const SP=[{v:'1 — Gentle',d:'A longing glance, a held breath.'},{v:'2 — Sweet',d:'Tender longing, charged silences.'},{v:'3 — Warm',d:'Sensual awareness, physical proximity.'},{v:'4 — Steamy',d:'Heat on the page. Adults, always consenting.'},{v:'5 — Explicit',d:'Fully on the page. Adults only.'}];
@@ -872,7 +942,7 @@ function updateDots(idx){
 }
 
 document.querySelectorAll('.cp').forEach(c=>{c.addEventListener('click',()=>{document.querySelectorAll('.cp[data-g="'+c.dataset.g+'"]').forEach(x=>x.classList.remove('on'));c.classList.add('on');});});
-function G(id){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));document.getElementById(id).classList.add('on');const map={po:'bn-options',pc:'bn-options',pli:'bn-library',ps:'bn-settings',pr:'bn-reader'};document.querySelectorAll('.bnt').forEach(b=>b.classList.remove('on'));if(map[id]){const b=document.getElementById(map[id]);if(b)b.classList.add('on');}document.getElementById('bnav').style.display=(id==='pw'||id==='pl')?'none':'flex';if(id==='pc')initCarousel();if(id==='pli'){loadLibrary();trackEvent('library_opened',{});}if(id==='ps')trackEvent('settings_opened',{});if(id==='pw')ST();else KT();}
+function G(id){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));document.getElementById(id).classList.add('on');const map={po:'bn-options',pc:'bn-options',pli:'bn-library',pel:'bn-library',ps:'bn-settings',pr:'bn-reader'};document.querySelectorAll('.bnt').forEach(b=>b.classList.remove('on'));if(map[id]){const b=document.getElementById(map[id]);if(b)b.classList.add('on');}document.getElementById('bnav').style.display=(id==='pw'||id==='pl')?'none':'flex';if(id==='pc')initCarousel();if(id==='pli'){loadLibrary();trackEvent('library_opened',{});}if(id==='pel'){trackEvent('toc_opened',{story_id:currentStoryId});}if(id==='ps')trackEvent('settings_opened',{});if(id==='pw')ST();else KT();}
 function FS(sz,btn){document.querySelectorAll('.f1').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const m={sm:'13px',md:'15px',lg:'17px'};document.querySelectorAll('.prose').forEach(p=>{p.style.fontSize=m[sz];});}
 function LH(lh,btn){document.querySelectorAll('.f1').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const m={co:'1.65',cm:'1.95',ai:'2.3'};document.querySelectorAll('.prose').forEach(p=>{p.style.lineHeight=m[lh];});}
 const SHD=[{cat:'Violence & harm',items:['Physical violence / assault','Domestic abuse','Graphic gore','War or combat','Torture']},{cat:'Sexual content & abuse',items:['Sexual coercion','Infidelity / cheating'],always:['Child sexual abuse (always blocked)','Non-consensual sex presented positively (always blocked)']},{cat:'Mental health & self-harm',items:['Suicide or suicidal ideation','Self-harm','Eating disorders','Addiction']},{cat:'Loss & grief',items:['Death of a parent','Death of a child','Pregnancy loss','Terminal illness','Abandonment']},{cat:'Childhood & family trauma',items:['Child abuse','Child neglect','Parental addiction','Family separation']},{cat:'Identity & discrimination',items:['Racism / racial violence','Homophobia / transphobia','Religious persecution','Misogyny']}];
@@ -990,79 +1060,215 @@ async function loadLibrary(){
     const ep = s.last_episode_num || 0;
     const title = s.story_title || 'Untitled story';
     const titleJs = title.replace(/\\/g, '\\\\').replace(/\'/g, "\\'");
-    return '<div class="lc">' +
-      '<div class="lct">' + escapeHtml(title) + '</div>' +
-      '<div class="lcm">' + escapeHtml(cfg.mood || 'Story') + (ep ? ' · ' + ep + ' episode' + (ep === 1 ? '' : 's') : ' · not yet started') + '</div>' +
-      (cfg.dynamic || cfg.setting ? '<div class="lcd">' + escapeHtml([cfg.dynamic, cfg.setting].filter(Boolean).join(' · ')) + '</div>' : '') +
-      '<div class="lca">' +
-        '<button class="lcc" onclick="resumeStory(\'' + s.id + '\')">' + (ep ? 'Continue reading' : 'Begin') + '</button>' +
-        '<button class="lcdl" onclick="confirmDelete(\'' + s.id + '\', \'' + titleJs + '\')" aria-label="Delete">×</button>' +
+    return '<div class="lc" onclick="openTOC(\'' + s.id + '\')">' +
+      '<div class="lc-body">' +
+        '<div class="lct">' + escapeHtml(title) + '</div>' +
+        '<div class="lcm">' + escapeHtml(cfg.mood || 'Story') + (ep ? ' · ' + ep + ' episode' + (ep === 1 ? '' : 's') : ' · not yet started') + '</div>' +
+        (cfg.dynamic || cfg.setting ? '<div class="lcd">' + escapeHtml([cfg.dynamic, cfg.setting].filter(Boolean).join(' · ')) + '</div>' : '') +
+      '</div>' +
+      '<div class="lc-aside">' +
+        '<button class="lcdl" onclick="event.stopPropagation(); confirmDelete(\'' + s.id + '\', \'' + titleJs + '\')" aria-label="Delete">×</button>' +
+        '<span class="lc-chev" aria-hidden="true">›</span>' +
       '</div>' +
     '</div>';
   }).join('');
 }
 
-async function resumeStory(id){
+async function openTOC(id){
   const {data: story, error: e1} = await sb.from('stories').select('*').eq('id', id).single();
   if(e1){ alert('Could not load story: ' + e1.message); return; }
   const {data: episodes, error: e2} = await sb.from('episodes').select('*').eq('story_id', id).order('episode_num', {ascending: true});
   if(e2){ alert('Could not load episodes: ' + e2.message); return; }
-  currentStoryId = id;
+  loadStoryState(story, episodes || []);
+  await loadLovedStateForStory();
+  renderTOC();
+  trackEvent('story_resumed', { resumed_id: id, at_episode: (story.last_episode_num || 0) });
+  G('pel');
+}
+
+function loadStoryState(story, episodes){
+  currentStoryId = story.id;
+  currentStoryMeta = story;
+  currentEpisodes = episodes || [];
   gc = story.global_context || {};
   if(!gc.profession && story.config && story.config.profession) gc.profession = story.config.profession;
   if(!gc.profession) gc.profession = pick(PROFESSIONS);
   tS = {
     goal: gc.goal || '—', arcGoal: gc.arcGoal || '—',
     arcType: gc.arcR || '—', tol: gc.tol || '—', engine: gc.engine || '—',
-    rel: 10, relLast: '—', know: 'Restored from library', pow: 50,
+    rel: 10, relLast: '—', know: currentEpisodes.length ? 'Restored from library' : 'Nothing hidden yet', pow: 50,
     gp: Math.min(90, (story.last_episode_num || 0) * 8), res: []
   };
-  episodes.forEach(ep => {
+  uR = [];
+  currentEpisodes.forEach(ep => {
     if(ep.resolution){ tS.res.push({ep: ep.episode_num, res: ep.resolution, rc: ep.rel_change, kn: ep.knowledge}); uR.push(ep.resolution); }
   });
   if(uR.length > 6) uR = uR.slice(-6);
-  eN = (story.last_episode_num || 0) + 1;
-  sH = episodes.flatMap(ep => [
+  // eN = current/most-recent episode number. nxt() increments to generate next.
+  // (Fixes the previous off-by-one that would skip an episode after resume.)
+  eN = story.last_episode_num || 0;
+  viewingEpisodeNum = eN;
+  sH = currentEpisodes.flatMap(ep => [
     { role: 'user', content: '(prior episode ' + ep.episode_num + ')' },
     { role: 'assistant', content: ep.prose }
   ]);
   if(sH.length > 10) sH = sH.slice(-8);
-  aS = episodes.map(ep => 'Ep ' + ep.episode_num + ': ' + (ep.prose || '').slice(0, 400)).join('\n\n');
+  aS = currentEpisodes.map(ep => 'Ep ' + ep.episode_num + ': ' + (ep.prose || '').slice(0, 400)).join('\n\n');
   window._storyTitle = story.story_title || null;
-  // Update UI
+}
+
+async function loadLovedStateForStory(){
+  currentLovedSet = new Set();
+  if(!currentSession || !currentEpisodes.length) return;
+  try{
+    const ids = currentEpisodes.map(e => e.id);
+    const {data: loved} = await sb.from('loved_episodes').select('episode_id').in('episode_id', ids);
+    if(loved){ loved.forEach(r => currentLovedSet.add(r.episode_id)); }
+  }catch(e){ console.warn('loved state load failed:', e.message); }
+}
+
+function renderTOC(){
+  const meta = currentStoryMeta || {};
+  const cfg = meta.config || {};
+  document.getElementById('pel-hdr-mood').textContent = (cfg.mood || 'Story').toUpperCase();
+  document.getElementById('pel-hdr-ttl').textContent = meta.story_title || 'Untitled story';
+  const epCount = currentEpisodes.length;
+  const metaBits = [];
+  if(cfg.dynamic) metaBits.push(cfg.dynamic);
+  if(cfg.setting) metaBits.push(cfg.setting);
+  metaBits.push(epCount ? (epCount + ' episode' + (epCount === 1 ? '' : 's')) : 'not yet started');
+  document.getElementById('pel-hdr-meta').textContent = metaBits.join(' · ');
+  const pick = document.getElementById('pel-pick');
+  if(epCount === 0){
+    pick.textContent = 'Begin episode 1 ›';
+  } else {
+    pick.textContent = 'Pick up where you left off';
+  }
+  pick.disabled = false;
+  const list = document.getElementById('pel-list');
+  const heartSvg = '<svg viewBox="0 0 20 18" fill="#C04060" stroke="#C04060" stroke-width="1.3"><path d="M10 16.5C10 16.5 1.5 11 1.5 5.5C1.5 3.01 3.51 1 6 1C7.79 1 9.34 1.98 10 3.41C10.66 1.98 12.21 1 14 1C16.49 1 18.5 3.01 18.5 5.5C18.5 11 10 16.5 10 16.5Z"/></svg>';
+  let html = '';
+  if(epCount === 0){
+    html += '<div class="pel-empty">No episodes yet.<br>Tap below to begin.</div>';
+  } else {
+    currentEpisodes.forEach(ep => {
+      const loved = currentLovedSet.has(ep.id);
+      const title = ep.title || ('Episode ' + ep.episode_num);
+      html += '<div class="pel-row" onclick="openEpisode(' + ep.episode_num + ')">' +
+        '<div class="pel-row-num">EP ' + ep.episode_num + '</div>' +
+        '<div class="pel-row-info"><div class="pel-row-ttl">' + escapeHtml(title) + '</div></div>' +
+        (loved ? '<div class="pel-row-heart">' + heartSvg + '</div>' : '') +
+      '</div>';
+    });
+  }
+  const nextNum = epCount + 1;
+  html += '<div class="pel-ghost" onclick="generateNextFromTOC()">' +
+    '<div class="pel-ghost-num">EP ' + nextNum + '</div>' +
+    '<div class="pel-ghost-lbl">Generate next episode</div>' +
+    '<div class="pel-ghost-plus">+</div>' +
+  '</div>';
+  list.innerHTML = html;
+}
+
+function pickUpWhereLeftOff(){
+  if(!currentEpisodes || currentEpisodes.length === 0){
+    // No episodes yet — go straight to generation
+    generateNextFromTOC();
+    return;
+  }
+  const latest = currentEpisodes[currentEpisodes.length - 1];
+  displayEpisode(latest.episode_num, 'pick_up');
+}
+
+function openEpisode(episodeNum){
+  displayEpisode(episodeNum, 'index_tap');
+}
+
+function backToTOC(){
+  if(!currentStoryMeta) return;
+  renderTOC();
+  G('pel');
+}
+
+function displayEpisode(episodeNum, entryPoint){
+  const ep = currentEpisodes.find(e => e.episode_num === episodeNum);
+  if(!ep) return;
+  viewingEpisodeNum = episodeNum;
+  // Sync eN: viewing episode = current cursor; nxt() will increment from here.
+  eN = episodeNum;
+  const meta = currentStoryMeta || {};
+  const cfg = meta.config || {};
+  // Tradition badge from mood
+  const md = MOODS[cfg.mood] || MOODS['Light romance'];
+  document.getElementById('tbt').textContent = 'Pre-1928 - ' + md.tr;
+  // Story title row
   const stEl = document.getElementById('st');
   if(window._storyTitle){ stEl.textContent = window._storyTitle; stEl.style.display = 'block'; }
   else { stEl.style.display = 'none'; }
-  if(episodes.length){
-    const last = episodes[episodes.length - 1];
-    document.getElementById('en').textContent = 'Episode ' + last.episode_num;
-    document.getElementById('et').textContent = last.title || 'Episode ' + last.episode_num;
-    document.getElementById('ec').textContent = (story.config && story.config.mood ? story.config.mood : '') + ' · continued from your library';
-    RP(last.prose || '');
+  // Episode header
+  document.getElementById('en').textContent = 'Episode ' + ep.episode_num;
+  document.getElementById('et').textContent = ep.title || ('Episode ' + ep.episode_num);
+  document.getElementById('ec').textContent = (cfg.mood || '') + ' · episode ' + ep.episode_num + ' of ' + currentEpisodes.length;
+  // Prose
+  RP(ep.prose || '');
+  // Heart state
+  window._currentEpisodeId = ep.id;
+  lv = currentLovedSet.has(ep.id);
+  document.getElementById('hb').classList.toggle('lv', lv);
+  document.getElementById('hp').setAttribute('fill', lv ? '#B73960' : 'none');
+  document.getElementById('hp').setAttribute('stroke', lv ? '#B73960' : '#3D1035');
+  document.getElementById('hl').textContent = lv ? 'Loved it' : 'Loved this';
+  // Generate button: context-sensitive
+  const latestNum = currentEpisodes.length ? currentEpisodes[currentEpisodes.length - 1].episode_num : 0;
+  const nb = document.getElementById('nb');
+  if(episodeNum < latestNum){
+    nb.textContent = 'Back to Episode ' + latestNum + ' ›';
   } else {
-    document.getElementById('en').textContent = 'Episode 1';
-    document.getElementById('et').textContent = 'Gathering the threads…';
+    nb.textContent = 'Generate episode ' + (latestNum + 1) + ' ›';
   }
+  nb.disabled = false;
+  document.getElementById('toc-btn').disabled = false;
+  // Progress + tracker
+  document.getElementById('pf').style.width = '0%';
+  document.getElementById('pl2').textContent = '0%';
   UTR();
-  document.getElementById('nb').disabled = false;
-  document.getElementById('nb').textContent = 'Generate episode ' + eN + ' ›';
   G('pr');
-  trackEvent('story_resumed', { resumed_id: id, at_episode: eN - 1 });
-  // Load loved state for the last episode shown
-  if(episodes.length && currentSession){
-    try{
-      const lastEpId = episodes[episodes.length - 1].id;
-      window._currentEpisodeId = lastEpId;
-      const {data: loved} = await sb.from('loved_episodes')
-        .select('id').eq('episode_id', lastEpId).maybeSingle();
-      lv = !!loved;
-      document.getElementById('hb').classList.toggle('lv', lv);
-      document.getElementById('hp').setAttribute('fill', lv ? '#B73960' : 'none');
-      document.getElementById('hp').setAttribute('stroke', lv ? '#B73960' : '#3D1035');
-      document.getElementById('hl').textContent = lv ? 'Loved it' : 'Loved this';
-    }catch(e){ console.warn('loved state load failed:', e.message); }
-  }
+  trackEvent('episode_opened', {
+    episode_num: ep.episode_num,
+    episode_id: ep.id,
+    entry_point: entryPoint
+  });
 }
+
+async function generateNextFromTOC(){
+  if(!currentStoryMeta){ return; }
+  // Configure UI for the next-to-generate episode, navigate, then trigger generation
+  const latestNum = currentEpisodes.length ? currentEpisodes[currentEpisodes.length - 1].episode_num : 0;
+  const targetNum = latestNum + 1;
+  eN = targetNum;
+  viewingEpisodeNum = targetNum;
+  RH();
+  const cfg = (currentStoryMeta.config) || {};
+  const md = MOODS[cfg.mood] || MOODS['Light romance'];
+  document.getElementById('tbt').textContent = 'Pre-1928 - ' + md.tr;
+  const stEl = document.getElementById('st');
+  if(window._storyTitle){ stEl.textContent = window._storyTitle; stEl.style.display = 'block'; }
+  else { stEl.style.display = 'none'; }
+  document.getElementById('en').textContent = 'Episode ' + targetNum;
+  document.getElementById('et').textContent = 'Gathering the threads...';
+  document.getElementById('ec').textContent = (cfg.mood || '') + ' · new episode';
+  document.getElementById('pf').style.width = '0%';
+  document.getElementById('pl2').textContent = '0%';
+  document.getElementById('nb').disabled = true;
+  document.getElementById('toc-btn').disabled = false;
+  trackEvent('next_episode_clicked', { episode_num: targetNum, from: 'toc' });
+  G('pr');
+  SL(true);
+  await GE();
+}
+
+// Compatibility wrapper for any legacy caller
+async function resumeStory(id){ return openTOC(id); }
 
 async function confirmDelete(id, title){
   if(!confirm('Delete "' + title + '"? All episodes will be lost. This cannot be undone.')) return;
@@ -1075,6 +1281,7 @@ async function confirmDelete(id, title){
 }
 
 let eN=1,sH=[],aS='',sCfg={},gc={},lT=null,lv=false,uR=[];
+let currentEpisodes=[],currentStoryMeta=null,currentLovedSet=new Set(),viewingEpisodeNum=0;
 const LMS=['Consulting the pre-1928 archives...','Channeling the literary spirits...','Drawing from Shakespeare and the tradition...','Weaving the narrative thread...','Finding the hook...'];
 function getActivePane(){
   const c=document.getElementById('pc-carousel');
@@ -1103,7 +1310,7 @@ function SL(on){if(on){document.getElementById('ls').style.display='block';docum
 function SE(msg){if(lT){clearInterval(lT);lT=null;}document.getElementById('ls').style.display='none';document.getElementById('pw2').style.display='none';const e=document.getElementById('eb');e.style.display='block';e.textContent=msg;}
 function RH(){lv=false;window._currentEpisodeId=null;document.getElementById('hb').classList.remove('lv');document.getElementById('hp').setAttribute('fill','none');document.getElementById('hp').setAttribute('stroke','#3D1035');document.getElementById('hl').textContent='Loved this';}
 async function begin(){
-  sCfg=getCfg();eN=1;sH=[];aS='';uR=[];RH();window._storyTitle=null;document.getElementById('st').style.display='none';document.getElementById('st').textContent='';
+  sCfg=getCfg();eN=1;viewingEpisodeNum=1;currentEpisodes=[];currentLovedSet=new Set();sH=[];aS='';uR=[];RH();window._storyTitle=null;document.getElementById('st').style.display='none';document.getElementById('st').textContent='';
   const mR=sCfg.m.includes('Surprise')?pick(AM):sCfg.m;
   const dR=sCfg.d.includes('Surprise')?pick(AD):sCfg.d;
   const lR=sCfg.l.includes('Surprise')?pick(AL):sCfg.l;
@@ -1117,7 +1324,8 @@ async function begin(){
   const engine=pick(ENG[dR]||['Mystery']);
   const shakes=SHAKES[dR]||'Much Ado About Nothing';
   const profession=pick(PROFESSIONS);
-  gc={mR,dR,lR,liR,sR,arcR,wR,tol,goal,arcGoal,engine,shakes,sp:sCfg.sp,profession};
+  const opening=pick(OPENINGS);
+  gc={mR,dR,lR,liR,sR,arcR,wR,tol,goal,arcGoal,engine,shakes,sp:sCfg.sp,profession,opening};
   tS={goal,arcGoal,arcType:arcR,tol,engine,rel:10,relLast:'--',know:'Nothing hidden yet',pow:50,gp:4,res:[]};
   UTR();
   // 5-story limit check
@@ -1141,8 +1349,10 @@ async function begin(){
     }).select().single();
     if(error){ SE('Could not save story: '+error.message); return; }
     currentStoryId = data.id;
+    currentStoryMeta = data;
   } else {
     currentStoryId = 'story_'+Math.random().toString(36).slice(2);
+    currentStoryMeta = { id: currentStoryId, config: {mood:gc.mR, dynamic:gc.dR, setting:gc.sR}, global_context: gc };
   }
   trackEvent('story_started',{mood:gc.mR,dynamic:gc.dR,protag_arc:gc.arcR,setting:gc.sR,spice:gc.sp,wild_card:gc.wR||null});
   const md=MOODS[mR]||MOODS['Light romance'];
@@ -1154,11 +1364,33 @@ async function begin(){
   document.getElementById('pl2').textContent='0%';
   document.getElementById('nb').disabled=true;
   document.getElementById('nb').textContent='Generate episode 2 >';
+  document.getElementById('toc-btn').disabled=false;
   SL(true);G('pr');GE();
 }
-function nxt(){eN++;RH();trackEvent('next_episode_clicked',{episode_num:eN});document.getElementById('en').textContent='Episode '+eN;document.getElementById('et').textContent='Gathering the threads...';document.getElementById('pf').style.width='0%';document.getElementById('pl2').textContent='0%';document.getElementById('nb').disabled=true;SL(true);GE();}
+function nxt(){
+  // If user is viewing an earlier episode, the "Generate" button acts as "Back to latest"
+  if(currentEpisodes.length > 0){
+    const latestNum = currentEpisodes[currentEpisodes.length - 1].episode_num;
+    if(viewingEpisodeNum > 0 && viewingEpisodeNum < latestNum){
+      displayEpisode(latestNum, 'back_to_latest');
+      return;
+    }
+  }
+  // Normal generate-next flow
+  eN++;
+  viewingEpisodeNum = eN;
+  RH();
+  trackEvent('next_episode_clicked',{episode_num:eN});
+  document.getElementById('en').textContent='Episode '+eN;
+  document.getElementById('et').textContent='Gathering the threads...';
+  document.getElementById('pf').style.width='0%';
+  document.getElementById('pl2').textContent='0%';
+  document.getElementById('nb').disabled=true;
+  SL(true);
+  GE();
+}
 function getBeat(n){
-  if(n<=2) return 'Opening Image + Setup. Establish protagonist, their world, the theme of the story. End on a hint of what will disrupt this.';
+  if(n<=2) return 'Opening Image + Setup. Open mid-scene with the protagonist already in motion. Inciting moment by paragraph 3. Backstory threads through action and dialogue — never in exposition blocks. End mid-action, mid-question, or mid-sentence.';
   if(n<=4) return 'Catalyst + Debate. The thing that changes everything arrives. Protagonist resists, then commits.';
   if(n===5) return 'Break Into Two. Protagonist commits to the new situation. The B Story (love interest) emerges as central.';
   if(n<=7) return 'Fun and Games. Deliver what the configuration promised. The premise is fully alive on the page. This is what readers came for.';
@@ -1185,7 +1417,7 @@ async function GE(){
   const profL=gc.profession?"PROTAGONIST'S PROFESSION (mandatory — do not change): "+gc.profession+". Do not use a cartographer, mapmaker, librarian, or governess.":'';
   const spL=['','Gentle','Sweet','Warm','Steamy','Explicit'];
   const pr=eN===1
-    ?'Write Episode 1. '+(profL?' '+profL:'')+' Protagonist: '+gc.lR+'. '+(gc.liR==='No love interest'?'No love interest.':'Love interest: '+gc.liR+'.')+' Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5 ('+spL[gc.sp||2]+').'+( wcL?' '+wcL:'')+' Establish the world, protagonist, and a hook that demands episode 2.'+(shL?' '+shL:'')
+    ?'Write Episode 1. '+(profL?' '+profL:'')+' Protagonist: '+gc.lR+'. '+(gc.liR==='No love interest'?'No love interest.':'Love interest: '+gc.liR+'.')+' Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5 ('+spL[gc.sp||2]+').'+( wcL?' '+wcL:'')+' '+(gc.opening||'')+' End on an unresolved hook that demands episode 2.'+(shL?' '+shL:'')
     :'Continue Episode '+eN+'. '+gc.mR+'. '+gc.lR+'. Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5.'+(profL?' '+profL:'')+(wcL?' '+wcL:'')+' Previous: '+aS.slice(0,600)+' Deepen tension. Advance the arc goal. End on a fresh hook.'+(shL?' '+shL:'');
   try{
     const r=await fetch('https://niblit-server-production.up.railway.app/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:BSY(),messages:[...sH,{role:'user',content:pr}]})});
@@ -1219,6 +1451,11 @@ async function GE(){
           input_tokens: usage.input_tokens || 0, output_tokens: usage.output_tokens || 0
         }).select().single();
         window._currentEpisodeId = epRow ? epRow.id : null;
+        if(epRow){
+          currentEpisodes.push(epRow);
+          viewingEpisodeNum = epRow.episode_num;
+          trackEvent('episode_opened', { episode_num: epRow.episode_num, episode_id: epRow.id, entry_point: 'first_view' });
+        }
         await sb.from('stories').update({
           last_episode_num: eN, updated_at: new Date().toISOString(),
           story_title: window._storyTitle || null
@@ -1276,6 +1513,9 @@ async function TH(){
   document.getElementById('hp').setAttribute('stroke',lv?'#B73960':'#3D1035');
   document.getElementById('hl').textContent=lv?'Loved it':'Loved this';
   if(!currentSession || !window._currentEpisodeId) return;
+  // Keep currentLovedSet in sync so the TOC reflects state without a refetch
+  if(lv){ currentLovedSet.add(window._currentEpisodeId); }
+  else { currentLovedSet.delete(window._currentEpisodeId); }
   if(lv){
     try{
       await sb.from('loved_episodes').insert({
