@@ -854,22 +854,22 @@ const PROFESSIONS=[
   'perfumer','clockmaker','illustrator','bookbinder','telegraph operator'
 ];
 const ETHNICITY_POOL=[
-  {image:'Deep brown skin, tightly coiled black hair',prose:'Black woman'},
-  {image:'Rich dark brown skin, long locs',prose:'Black woman with locs'},
-  {image:'Medium brown skin, natural 4C hair',prose:'Black woman'},
-  {image:'Warm golden-brown skin, dark straight hair',prose:'Latina woman'},
-  {image:'Olive skin, thick wavy dark hair',prose:'Latina woman'},
-  {image:'Light brown skin, loose dark curls',prose:'Mixed-race Latina woman'},
-  {image:'Pale porcelain skin, straight black hair',prose:'East Asian woman'},
-  {image:'Warm ivory skin, dark almond eyes, black hair',prose:'East Asian woman'},
-  {image:'Golden-brown skin, dark eyes, black straight hair',prose:'Southeast Asian woman'},
-  {image:'Deep golden-brown skin, dark eyes, long black hair',prose:'South Asian woman'},
-  {image:'Medium brown skin, dark hair, strong brows',prose:'South Asian woman'},
-  {image:'Warm tan skin, dark hair, sharp features',prose:'Middle Eastern woman'},
-  {image:'Deep brown skin, dark eyes, high cheekbones',prose:'Indigenous American woman'},
-  {image:'Brown skin, dark wavy hair, broad features',prose:'Pacific Islander woman'},
-  {image:'Light skin, freckles, red or auburn hair',prose:'White woman'},
-  {image:'Fair skin, blonde or light brown hair',prose:'White woman'}
+  {image:'Deep brown skin, tightly coiled black hair',prose:'Black'},
+  {image:'Rich dark brown skin, long locs',prose:'Black, locs'},
+  {image:'Medium brown skin, natural 4C hair',prose:'Black'},
+  {image:'Warm golden-brown skin, dark straight hair',prose:'Latina'},
+  {image:'Olive skin, thick wavy dark hair',prose:'Latina'},
+  {image:'Light brown skin, loose dark curls',prose:'Mixed-race Latina'},
+  {image:'Pale porcelain skin, straight black hair',prose:'East Asian'},
+  {image:'Warm ivory skin, dark almond eyes, black hair',prose:'East Asian'},
+  {image:'Golden-brown skin, dark eyes, black straight hair',prose:'Southeast Asian'},
+  {image:'Deep golden-brown skin, dark eyes, long black hair',prose:'South Asian'},
+  {image:'Medium brown skin, dark hair, strong brows',prose:'South Asian'},
+  {image:'Warm tan skin, dark hair, sharp features',prose:'Middle Eastern'},
+  {image:'Deep brown skin, dark eyes, high cheekbones',prose:'Indigenous American'},
+  {image:'Brown skin, dark wavy hair, broad features',prose:'Pacific Islander'},
+  {image:'Light skin, freckles, red or auburn hair',prose:'White'},
+  {image:'Fair skin, blonde or light brown hair',prose:'White'}
 ];
 const OPENINGS=[
   'OPENING APPROACH: Open on an action already in progress or a question already hanging — something unresolved the reader needs to see through.',
@@ -1431,16 +1431,84 @@ function BSY(){
     .replace('{SPICE_LEVEL}',gc.sp+'/5: '+si[gc.sp||2])
     .replace('{AVOIDED_RESOLUTIONS}',ar||'none yet')
     +' GLOBAL CONTEXT: Season Goal: '+gc.goal+' | Arc Goal: '+gc.arcGoal+' | Framework: '+gc.mR+' + '+gc.dR+' | Protagonist Arc: '+gc.arcR+' | Ending: '+gc.tol+' | Engine: '+gc.engine+' | Shakespeare ref: '+gc.shakes+' | Save the Cat beat for THIS episode (Ep '+eN+'): '+beat+' | Structure: Wave with interwoven sub-arcs | Syntactic signature: '+md.sx+'.';}
+// ---- Cover generation (Phase 1: atmospheric, no figures) ----
+// Builds an atmospheric prompt from mood + setting + profession, asks the Railway
+// /generate-cover endpoint to paint + store the image, and writes the returned
+// permanent URL to stories.cover_image_url. Phase 1 covers depict a *place*,
+// never people -- character accuracy is Phase 2. Wildcards are intentionally
+// ignored here: they're verbal/structural, not visual.
+const COVER_API = 'https://niblit-server-production.up.railway.app/generate-cover';
+
+// MOODS only holds prose-style notes, so the visual palette mapping lives here.
+const COVER_MOOD = {
+  'Light romance': 'Warm golden light, soft cream and honey tones, tender and hopeful. Morning light or candlelight.',
+  'Dark romance':  'Deep burgundy, midnight blue and shadow. Gothic, brooding, candlelit. A sense of the unsaid.',
+  'Sharp wit':     'Bright, crisp, elegant. Clean light, refined jewel tones, a playful confidence to the composition.',
+  'Adventure':     'Dramatic saturated colour, sweeping golden-hour light, a charged and dynamic sky.'
+};
+const COVER_SETTING = {
+  'Historical':  'A richly detailed historical setting, pre-20th-century, period-accurate architecture, fabrics and objects.',
+  'Fantastical': 'A fantasy setting with a subtle magical atmosphere -- otherworldly light, ancient stone, a faint sense of enchantment.'
+};
+
+function buildCoverPrompt(cfg){
+  const mood    = COVER_MOOD[cfg.mood]       || COVER_MOOD['Light romance'];
+  const setting = COVER_SETTING[cfg.setting] || COVER_SETTING['Historical'];
+  const trade   = cfg.profession || 'artist';
+  return [
+    'Oil painting illustration in the style of 1970s-1980s mass-market romance paperback cover art. ' +
+    'Painted by a skilled commercial illustrator. Painterly brushwork, rich and warm, not photographic.',
+    `The scene is the world of a ${trade}: their workplace, tools and surroundings, beautifully rendered. ` +
+    'No people, no figures, no faces anywhere in the image.',
+    setting,
+    mood,
+    'Romantic, evocative atmosphere -- a sense of longing and of two people implied without showing anyone: ' +
+    'paired objects, an empty chair drawn close, a discarded glove, two cups left together.',
+    'No text, no lettering, no title, no words of any kind. ' +
+    'No modern or contemporary objects, no digital-flat or anime style, not a photograph.'
+  ].join(' ');
+}
+
+async function generateCover(storyId, cfg){
+  try {
+    const prompt = buildCoverPrompt(cfg);
+    const r = await fetch(COVER_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
+    if(!r.ok){
+      const e = await r.json().catch(()=>({}));
+      console.error('Cover generation failed:', r.status, e.error || '');
+      return null;
+    }
+    const { cover_url } = await r.json();
+    if(!cover_url){ console.error('Cover generation: no cover_url returned'); return null; }
+
+    const { error } = await sb.from('stories')
+      .update({ cover_image_url: cover_url })
+      .eq('id', storyId);
+    if(error){ console.error('Cover save failed:', error.message); return null; }
+
+    console.log('Cover saved for story', storyId, '->', cover_url);
+    return cover_url;
+  } catch(err){
+    // Swallow errors on purpose -- a cover failure must never block reading.
+    // The fallback card (built later, with the grid) handles a null cover_image_url.
+    console.error('Cover generation error:', err.message);
+    return null;
+  }
+}
 async function GE(){
   const sh=[...sS,...cSh];const shL=sh.length?'Avoid entirely: '+sh.join(', '):'';
   const wcL=gc.wR?'WILD CARD (syntactic precedence): '+gc.wR:'';
   const profL=gc.profession?"PROTAGONIST'S PROFESSION (mandatory — do not change): "+gc.profession+". Do not use a cartographer, mapmaker, librarian, or governess.":'';
   const spL=['','Gentle','Sweet','Warm','Steamy','Explicit'];
-  const ethP=gc.protagonistEthnicity?gc.protagonistEthnicity.prose+'. ':'';
-  const ethLI=gc.loveInterestEthnicity?gc.loveInterestEthnicity.prose+'. ':'';
+  const ethP=gc.protagonistEthnicity?' Protagonist ethnicity: '+gc.protagonistEthnicity.prose+'.':'';
+  const ethLI=gc.loveInterestEthnicity?' Love interest ethnicity: '+gc.loveInterestEthnicity.prose+'.':'';
   const pr=eN===1
-    ?'Write Episode 1. '+(profL?' '+profL:'')+' Protagonist: '+ethP+gc.lR+'. '+(gc.liR==='No love interest'?'No love interest.':'Love interest: '+ethLI+gc.liR+'.')+' Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5 ('+spL[gc.sp||2]+').'+( wcL?' '+wcL:'')+' '+(gc.opening||'')+' End on an unresolved hook that demands episode 2.'+(shL?' '+shL:'')
-    :'Continue Episode '+eN+'. '+gc.mR+'. '+ethP+gc.lR+'. Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5.'+(profL?' '+profL:'')+(wcL?' '+wcL:'')+' Previous: '+aS.slice(0,600)+' Deepen tension. Advance the arc goal. End on a fresh hook.'+(shL?' '+shL:'');
+    ?'Write Episode 1. '+(profL?' '+profL:'')+' Protagonist: '+gc.lR+'.'+ethP+' '+(gc.liR==='No love interest'?'No love interest.':'Love interest: '+gc.liR+'.'+ethLI)+' Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5 ('+spL[gc.sp||2]+').'+( wcL?' '+wcL:'')+' '+(gc.opening||'')+' End on an unresolved hook that demands episode 2.'+(shL?' '+shL:'')
+    :'Continue Episode '+eN+'. '+gc.mR+'. Protagonist: '+gc.lR+'.'+ethP+' Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5.'+(profL?' '+profL:'')+(wcL?' '+wcL:'')+' Previous: '+aS.slice(0,600)+' Deepen tension. Advance the arc goal. End on a fresh hook.'+(shL?' '+shL:'');
   try{
     const r=await fetch('https://niblit-server-production.up.railway.app/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:BSY(),messages:[...sH,{role:'user',content:pr}]})});
     if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error||'Server error '+r.status);}
