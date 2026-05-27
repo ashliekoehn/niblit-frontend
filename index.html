@@ -1550,6 +1550,11 @@ async function GE(){
           last_episode_num: eN, updated_at: new Date().toISOString(),
           story_title: window._storyTitle || null
         }).eq('id', currentStoryId);
+// Fire the cover once Episode 1 is saved. Non-blocking (no await) so the
+        // reader renders instantly; guarded to eN===1 so it never regenerates on
+        // later episodes. On failure cover_image_url stays null, which the
+        // fallback card (built later with the Library grid) will handle.
+        if(eN === 1){ generateCover(currentStoryId, currentStoryMeta.config).catch(()=>{}); }
       }catch(e){ console.warn('save episode failed:', e.message); }
     }
     const stripField=(str,field)=>str.replace(new RegExp('^\\s*\\*?\\*?'+field+'\\*?\\*?\\s*:\\s*.+\\n?','gim'),'');
