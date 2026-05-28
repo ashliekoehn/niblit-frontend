@@ -93,14 +93,14 @@ html,body{height:100%;overflow:hidden;background:#000;}
 .ct{display:flex;flex-wrap:wrap;gap:4px;}
 .ctg{display:flex;align-items:center;gap:4px;background:var(--p);border-radius:999px;padding:3px 9px;font-size:11px;color:var(--c);}
 .ctr{cursor:pointer;opacity:.7;font-size:12px;line-height:1;}
-.rh{background:var(--p);padding:10px 16px 13px;flex-shrink:0;}
-.tbd{display:inline-flex;align-items:center;gap:5px;background:rgba(217,165,90,.16);border:0.5px solid var(--g);border-radius:4px;padding:4px 8px;margin-bottom:6px;}
-.tbt{font-size:10px;color:var(--g);}.en{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--g);margin-bottom:4px;}
-.st{font-size:11px;font-weight:500;color:var(--g);font-style:italic;font-family:var(--serif);margin-bottom:3px;letter-spacing:.3px;}
-.et{font-family:var(--serif);font-size:19px;color:var(--c);line-height:1.2;font-style:italic;margin-bottom:2px;}.ec{font-size:10px;color:var(--cd);}
-.prw{padding:6px 16px 0;display:flex;align-items:center;gap:8px;background:var(--cf);flex-shrink:0;}
-.pt2{flex:1;height:1.5px;background:var(--cd);border-radius:2px;}.pf{height:100%;background:var(--pm);border-radius:2px;transition:width .6s;}
-.pl2{font-size:10px;color:var(--p);}
+/* Reader header (cover-led) ─────────────────────────────── */
+.rh{background:var(--p);padding:24px 22px 18px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;text-align:center;}
+.rcov{width:200px;aspect-ratio:2/3;border-radius:4px;overflow:hidden;margin-bottom:20px;background:#1a0e16;
+  box-shadow:0 6px 18px rgba(0,0,0,.40), 0 1px 0 rgba(255,255,255,.05) inset, 0 0 0 .5px rgba(0,0,0,.5);}
+.rcov:empty{display:none;}
+.en{font-family:var(--sans);font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--g);font-weight:500;margin-bottom:7px;}
+.st{font-family:var(--serif);font-size:24px;font-weight:500;color:var(--c);line-height:1.16;margin-bottom:7px;letter-spacing:.3px;}
+.et{font-family:var(--serif);font-style:italic;font-size:14px;color:rgba(216,195,154,.85);line-height:1.3;}
 .rw{position:relative;flex:1;display:flex;overflow:hidden;}
 .rs{flex:1;overflow-y:auto;background:var(--cf);}
 .cd2{text-align:center;padding:20px 16px 4px;color:var(--cd);letter-spacing:10px;font-size:12px;}
@@ -736,13 +736,11 @@ html,body{height:100%;overflow:hidden;background:#000;}
 
 <div id="pr" class="pg">
   <div class="rh">
-    <div class="tbd"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="#C8A060" stroke-width=".8"/><path d="M5 3v2.5" stroke="#C8A060" stroke-width=".9" stroke-linecap="round"/><circle cx="5" cy="7" r=".5" fill="#C8A060"/></svg><span class="tbt" id="tbt">Pre-1928 literary tradition</span></div>
+    <div class="rcov" id="rcov"></div>
     <div class="en" id="en">Episode 1</div>
     <div class="st" id="st" style="display:none;"></div>
     <div class="et" id="et">No story started yet</div>
-    <div class="ec" id="ec">Configure your story and tap Begin</div>
   </div>
-  <div class="prw"><div class="pt2"><div class="pf" id="pf" style="width:0%;"></div></div><span class="pl2" id="pl2">0%</span></div>
   <div class="rw">
     <div class="rs" id="rs">
       <div class="ls" id="ls" style="display:none;"><span class="lo">&#10022; &nbsp; &#10022; &nbsp; &#10022;</span><div class="lm" id="lm">Consulting the pre-1928 archives&hellip;</div><div class="lb"><div class="lf"></div></div></div>
@@ -981,16 +979,21 @@ const oC=new Set(),sS=new Set(),cSh=[];
 function BS(){const w=document.getElementById('sw2');w.innerHTML='';SHD.forEach((cat,ci)=>{const el=document.createElement('div');el.className='shc';const sel=cat.items.filter(i=>sS.has(i)).length;const h=document.createElement('div');h.className='shh';h.innerHTML='<span class="shn">'+cat.cat+'<span class="shco'+(sel>0?' hs':'')+'">'+( sel>0?sel+' selected':'0 selected')+'</span></span><span class="shev'+(oC.has(ci)?' op':'')+'">&#9660;</span>';h.onclick=()=>{oC.has(ci)?oC.delete(ci):oC.add(ci);BS();};el.appendChild(h);if(oC.has(ci)){const b=document.createElement('div');b.className='shi';if(cat.always){cat.always.forEach(a=>{const r=document.createElement('div');r.className='shir';r.innerHTML='<span class="shin" style="font-size:11px;color:var(--pm);font-style:italic;">'+a+'</span><div class="ck lk"></div>';b.appendChild(r);});const n=document.createElement('div');n.className='an';n.textContent='Always blocked.';b.appendChild(n);}cat.items.forEach(item=>{const r=document.createElement('div');r.className='shir';const ck=document.createElement('div');ck.className='ck'+(sS.has(item)?' on':'');ck.onclick=()=>{sS.has(item)?sS.delete(item):sS.add(item);BS();};r.innerHTML='<span class="shin">'+item+'</span>';r.appendChild(ck);b.appendChild(r);});el.appendChild(b);}w.appendChild(el);});}
 BS();
 // Episode-level reading progress bar
-function updateReadingProgress(){
-  const rs=document.getElementById('rs');
-  if(!rs)return;
-  const max=rs.scrollHeight-rs.clientHeight;
-  if(max<=0){document.getElementById('pf').style.width='0%';document.getElementById('pl2').textContent='0%';return;}
-  const pct=Math.min(100,Math.max(0,Math.round(rs.scrollTop/max*100)));
-  document.getElementById('pf').style.width=pct+'%';
-  document.getElementById('pl2').textContent=pct+'%';
+// Reader cover — populates #rcov from currentStoryMeta + window._storyTitle.
+// Real image if cover_image_url is set, otherwise mood-colored typeset fallback.
+function setReaderCover(){
+  const cov = document.getElementById('rcov');
+  if(!cov) return;
+  const meta = currentStoryMeta;
+  if(!meta){ cov.innerHTML = ''; return; }
+  const cfg = meta.config || {};
+  const url = meta.cover_image_url || null;
+  const title = window._storyTitle || meta.story_title || 'Untitled story';
+  const moodClass = LIB_MOOD_CLASS[cfg.mood] || 'lgfb-light';
+  cov.innerHTML = url
+    ? '<img class="lgcov-img" src="' + escapeHtml(url) + '" alt="">'
+    : '<div class="lgcov-fb ' + moodClass + '"><div class="lgcov-ttl">' + escapeHtml(title) + '</div></div>';
 }
-document.getElementById('rs').addEventListener('scroll',updateReadingProgress,{passive:true});
 function AC(){const i=document.getElementById('ci2');const v=(i?.value||'').trim();if(!v)return;cSh.push(v);if(i)i.value='';RC();}
 function RC(){document.getElementById('ct2').innerHTML=cSh.map((t,i)=>'<span class="ctg">'+t+'<span class="ctr" onclick="RM('+i+')">x</span></span>').join('');}
 function RM(i){cSh.splice(i,1);RC();}
@@ -1281,9 +1284,6 @@ function displayEpisode(episodeNum, entryPoint){
   eN = episodeNum;
   const meta = currentStoryMeta || {};
   const cfg = meta.config || {};
-  // Tradition badge from mood
-  const md = MOODS[cfg.mood] || MOODS['Light romance'];
-  document.getElementById('tbt').textContent = 'Pre-1928 - ' + md.tr;
   // Story title row
   const stEl = document.getElementById('st');
   if(window._storyTitle){ stEl.textContent = window._storyTitle; stEl.style.display = 'block'; }
@@ -1291,7 +1291,8 @@ function displayEpisode(episodeNum, entryPoint){
   // Episode header
   document.getElementById('en').textContent = 'Episode ' + ep.episode_num;
   document.getElementById('et').textContent = ep.title || ('Episode ' + ep.episode_num);
-  document.getElementById('ec').textContent = (cfg.mood || '') + ' · episode ' + ep.episode_num + ' of ' + currentEpisodes.length;
+  // Cover
+  setReaderCover();
   // Prose
   RP(ep.prose || '');
   // Heart state
@@ -1311,9 +1312,7 @@ function displayEpisode(episodeNum, entryPoint){
   }
   nb.disabled = false;
   document.getElementById('toc-btn').disabled = false;
-  // Progress + tracker
-  document.getElementById('pf').style.width = '0%';
-  document.getElementById('pl2').textContent = '0%';
+  // Tracker
   UTR();
   G('pr');
   trackEvent('episode_opened', {
@@ -1331,17 +1330,12 @@ async function generateNextFromTOC(){
   eN = targetNum;
   viewingEpisodeNum = targetNum;
   RH();
-  const cfg = (currentStoryMeta.config) || {};
-  const md = MOODS[cfg.mood] || MOODS['Light romance'];
-  document.getElementById('tbt').textContent = 'Pre-1928 - ' + md.tr;
   const stEl = document.getElementById('st');
   if(window._storyTitle){ stEl.textContent = window._storyTitle; stEl.style.display = 'block'; }
   else { stEl.style.display = 'none'; }
   document.getElementById('en').textContent = 'Episode ' + targetNum;
   document.getElementById('et').textContent = 'Gathering the threads...';
-  document.getElementById('ec').textContent = (cfg.mood || '') + ' · new episode';
-  document.getElementById('pf').style.width = '0%';
-  document.getElementById('pl2').textContent = '0%';
+  setReaderCover();
   document.getElementById('nb').disabled = true;
   document.getElementById('toc-btn').disabled = false;
   trackEvent('next_episode_clicked', { episode_num: targetNum, from: 'toc' });
@@ -1440,16 +1434,12 @@ async function begin(){
     currentStoryMeta = { id: currentStoryId, config: {mood:gc.mR, dynamic:gc.dR, setting:gc.sR}, global_context: gc };
   }
   trackEvent('story_started',{mood:gc.mR,dynamic:gc.dR,protag_arc:gc.arcR,setting:gc.sR,spice:gc.sp,wild_card:gc.wR||null});
-  const md=MOODS[mR]||MOODS['Light romance'];
   document.getElementById('en').textContent='Episode 1';
   document.getElementById('et').textContent='Gathering the threads...';
-  document.getElementById('ec').textContent=mR+' - '+lR+' - '+dR+' - '+sR+(wR?' - '+wR.slice(0,30)+'...':'');
-  document.getElementById('tbt').textContent='Pre-1928 - '+md.tr;
-  document.getElementById('pf').style.width='0%';
-  document.getElementById('pl2').textContent='0%';
   document.getElementById('nb').disabled=true;
   document.getElementById('nb').textContent='Generate episode 2 >';
   document.getElementById('toc-btn').disabled=false;
+  setReaderCover();
   SL(true);G('pr');GE();
 }
 function nxt(){
@@ -1468,8 +1458,6 @@ function nxt(){
   trackEvent('next_episode_clicked',{episode_num:eN});
   document.getElementById('en').textContent='Episode '+eN;
   document.getElementById('et').textContent='Gathering the threads...';
-  document.getElementById('pf').style.width='0%';
-  document.getElementById('pl2').textContent='0%';
   document.getElementById('nb').disabled=true;
   SL(true);
   GE();
@@ -1627,7 +1615,7 @@ async function GE(){
     aS+=(aS?'\n\nEp '+eN+': ':'')+prose.slice(0,400);sH.push({role:'user',content:pr},{role:'assistant',content:raw});if(sH.length>10)sH=sH.slice(-8);
     document.getElementById('et').textContent=title;RP(prose);SL(false);
     if(wasTruncated){const w=document.createElement('div');w.style.cssText='margin:0 20px 16px;padding:8px 12px;background:rgba(217,165,90,.13);border:0.5px solid var(--g);border-radius:7px;font-size:11px;color:var(--gd);text-align:center;font-style:italic;';w.textContent='⚠ The episode reached the generation limit. The ending may feel cut off. Tap Generate again to continue.';document.querySelector('.prose').appendChild(w);}
-    document.getElementById('nb').disabled=false;document.getElementById('nb').textContent='Generate episode '+(eN+1)+' >';setTimeout(updateReadingProgress,100);
+    document.getElementById('nb').disabled=false;document.getElementById('nb').textContent='Generate episode '+(eN+1)+' >';
     const CIS=[{ep:3,tag:'Episode 3 check-in',title:'Is this the story you want?',body:'How is the pacing feeling?',opts:['Pacing feels right -- keep going','A little slow -- pick it up','A little fast -- let it breathe','The protagonist feels distant']},{ep:9,tag:'End of first arc',title:'How is the story landing?',body:'Is there anything feeling thin or repetitive?',opts:['Everything feels alive -- continue','I want more of the love interest','Raise the stakes','Something feels repeated -- vary it']}];
     const ci=CIS.find(c=>c.ep===eN);if(ci)setTimeout(()=>SCI(ci),900);
   }catch(err){SE('Could not generate: '+err.message+' | Make sure your server is running.');}
