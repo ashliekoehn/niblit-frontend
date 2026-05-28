@@ -190,6 +190,9 @@ html,body{height:100%;overflow:hidden;background:#000;}
 .lgfb-adv{background:#D9A55A;}
 .lgfb-adv .lgcov-ttl{color:#4E1B4F;}
 .lgfb-adv .lgcov-ttl::before,.lgfb-adv .lgcov-ttl::after{background:rgba(78,27,79,.5);}
+/* Reader cover — sits in the scroll area, scrolls away with content */
+.rcov{display:block;width:200px;aspect-ratio:2/3;border-radius:4px;overflow:hidden;margin:20px auto 16px;background:#1a0e16;box-shadow:0 6px 18px rgba(0,0,0,.40),0 1px 0 rgba(255,255,255,.05) inset,0 0 0 .5px rgba(0,0,0,.5);}
+.rcov:empty{display:none;}
 .lgmood{font-family:var(--sans);font-size:10px;color:var(--cd);letter-spacing:.6px;text-transform:uppercase;font-weight:500;margin-top:10px;padding:0 2px;}
 .lgc.sel .lgcov{box-shadow:0 0 0 2px #D9A55A, 0 0 0 3.5px #3a1239, 0 8px 26px rgba(0,0,0,.55);transform:scale(.975);}
 .lgtr{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;background:rgba(58,18,57,.92);border:.5px solid #D9A55A;display:none;align-items:center;justify-content:center;color:#F2DCB5;cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:3;padding:0;}
@@ -745,6 +748,7 @@ html,body{height:100%;overflow:hidden;background:#000;}
   <div class="prw"><div class="pt2"><div class="pf" id="pf" style="width:0%;"></div></div><span class="pl2" id="pl2">0%</span></div>
   <div class="rw">
     <div class="rs" id="rs">
+      <div id="rcov" class="rcov"></div>
       <div class="ls" id="ls" style="display:none;"><span class="lo">&#10022; &nbsp; &#10022; &nbsp; &#10022;</span><div class="lm" id="lm">Consulting the pre-1928 archives&hellip;</div><div class="lb"><div class="lf"></div></div></div>
       <div id="pw2"><div class="cd2" style="padding-top:32px;">&#10022; &nbsp; &#10022; &nbsp; &#10022;</div><div class="prose" id="pb2" style="text-align:center;font-style:italic;color:var(--pl);padding-top:10px;">Configure your story on the Story page,<br>then tap Begin your story.</div></div>
       <div class="eb" id="eb" style="display:none;"></div>
@@ -1556,6 +1560,9 @@ async function generateCover(storyId, cfg){
     if(error){ console.error('Cover save failed:', error.message); return null; }
 
     console.log('Cover saved for story', storyId, '->', cover_url);
+    // Keep the in-memory story object current so setReaderCover() can use it
+    // when episode 2 renders (without needing a fresh DB fetch).
+    if(currentStoryMeta) currentStoryMeta.cover_image_url = cover_url;
     return cover_url;
   } catch(err){
     // Swallow errors on purpose -- a cover failure must never block reading.
@@ -1563,6 +1570,23 @@ async function generateCover(storyId, cfg){
     console.error('Cover generation error:', err.message);
     return null;
   }
+}
+// Renders the cover (or fallback card) into #rcov.
+// Hidden on episode 1 — cover is a reward for continuing, not a preamble.
+// Called from GE() after prose renders; also from generateNextFromTOC() on TOC path.
+function setReaderCover(){
+  const cov = document.getElementById('rcov');
+  if(!cov) return;
+  if(eN === 1){ cov.innerHTML = ''; return; }
+  const meta = currentStoryMeta;
+  if(!meta){ cov.innerHTML = ''; return; }
+  const cfg = meta.config || {};
+  const url = meta.cover_image_url || null;
+  const title = window._storyTitle || meta.story_title || 'Untitled story';
+  const moodClass = LIB_MOOD_CLASS[cfg.mood] || 'lgfb-light';
+  cov.innerHTML = url
+    ? '<img class="lgcov-img" src="' + escapeHtml(url) + '" alt="">'
+    : '<div class="lgcov-fb ' + moodClass + '"><div class="lgcov-ttl">' + escapeHtml(title) + '</div></div>';
 }
 async function GE(){
   const sh=[...sS,...cSh];const shL=sh.length?'Avoid entirely: '+sh.join(', '):'';
@@ -1586,7 +1610,7 @@ async function GE(){
     const stM=stRaw?[null,stRaw]:null;const tM=tRaw?[null,tRaw]:null;const rM=rRaw?[null,rRaw]:null;const rcM=rcRaw?[null,rcRaw]:null;const knM=knRaw?[null,knRaw]:null;const pwM=pwRaw?[null,pwRaw]:null;
     const title=tM?tM[1].trim():'Episode '+eN;const res=rM?rM[1].trim():null;
     if(stM&&eN===1){window._storyTitle=stM[1].trim();const stEl=document.getElementById('st');stEl.textContent=window._storyTitle;stEl.style.display='block';}
-    if(stM&&eN===1){window._storyTitle=stM[1].trim();const stEl=document.getElementById('st');stEl.textContent=window._storyTitle;stEl.style.display='block';}const rc=rcM?rcM[1].trim():null;const kn=knM?knM[1].trim():null;const ps=pwM?pwM[1].trim():null;
+    const rc=rcM?rcM[1].trim():null;const kn=knM?knM[1].trim():null;const ps=pwM?pwM[1].trim():null;
     if(res){uR.push(res);if(uR.length>6)uR=uR.slice(-6);}
     if(rc&&rc.toLowerCase()!=='none'){const dir=(rc.toLowerCase().includes('closer')||rc.toLowerCase().includes('drew')||rc.toLowerCase().includes('warm'))?1:-1;tS.rel=Math.max(5,Math.min(95,tS.rel+(dir*12)));tS.relLast=rc;}
     if(kn&&kn.toLowerCase()!=='none'){tS.know=kn;}
@@ -1626,6 +1650,7 @@ async function GE(){
     let prose=raw;['STORY_TITLE','STORY TITLE','TITLE','EPISODE_TITLE','EPISODE TITLE','RESOLUTION','REL_CHANGE','REL CHANGE','KNOWLEDGE','POWER_SHIFT','POWER SHIFT'].forEach(f=>{prose=stripField(prose,f);});prose=prose.trim();
     aS+=(aS?'\n\nEp '+eN+': ':'')+prose.slice(0,400);sH.push({role:'user',content:pr},{role:'assistant',content:raw});if(sH.length>10)sH=sH.slice(-8);
     document.getElementById('et').textContent=title;RP(prose);SL(false);
+    setReaderCover();
     if(wasTruncated){const w=document.createElement('div');w.style.cssText='margin:0 20px 16px;padding:8px 12px;background:rgba(217,165,90,.13);border:0.5px solid var(--g);border-radius:7px;font-size:11px;color:var(--gd);text-align:center;font-style:italic;';w.textContent='⚠ The episode reached the generation limit. The ending may feel cut off. Tap Generate again to continue.';document.querySelector('.prose').appendChild(w);}
     document.getElementById('nb').disabled=false;document.getElementById('nb').textContent='Generate episode '+(eN+1)+' >';setTimeout(updateReadingProgress,100);
     const CIS=[{ep:3,tag:'Episode 3 check-in',title:'Is this the story you want?',body:'How is the pacing feeling?',opts:['Pacing feels right -- keep going','A little slow -- pick it up','A little fast -- let it breathe','The protagonist feels distant']},{ep:9,tag:'End of first arc',title:'How is the story landing?',body:'Is there anything feeling thin or repetitive?',opts:['Everything feels alive -- continue','I want more of the love interest','Raise the stakes','Something feels repeated -- vary it']}];
