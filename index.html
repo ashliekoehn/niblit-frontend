@@ -836,15 +836,17 @@ const OPENINGS=[
 ];
 const SWP=[{t:'Set entirely in one room and no one can explain why they cannot leave'},{t:'Every character speaks only in questions'},{t:'The protagonist has perfect memory of a life she has not lived yet'},{t:'The love interest does not know they are the love interest'},{t:'Takes place over a single day repeated slightly differently each episode'},{t:'All characters are children of people who once loved each other'},{t:'No character may speak directly'},{t:'The narrator is writing this for someone who will never read it'}];
 const SP=[{v:'1 — Gentle',d:'A longing glance, a held breath.'},{v:'2 — Sweet',d:'Tender longing, charged silences.'},{v:'3 — Warm',d:'Sensual awareness, physical proximity.'},{v:'4 — Steamy',d:'Heat on the page. Adults, always consenting.'},{v:'5 — Explicit',d:'Fully on the page. Adults only.'}];
-document.getElementById('sps').addEventListener('input',function(){
+// #sps and related elements only exist in #po (now removed) — guard against null
+const _spsEl=document.getElementById('sps');
+if(_spsEl){_spsEl.addEventListener('input',function(){
   let v=parseInt(this.value);
   const notice=document.getElementById('spn');
   if(v>=4){this.value=3;v=3;notice.classList.add('v');clearTimeout(window._spnTimer);window._spnTimer=setTimeout(()=>notice.classList.remove('v'),4500);}else{notice.classList.remove('v');}
   const idx=v-1;
   document.getElementById('spv').textContent=SP[idx].v;
   document.getElementById('spd').textContent=SP[idx].d;
-});
-// Mark levels 4 and 5 as locked visually
+});}
+// Mark levels 4 and 5 as locked visually (carousel panes only — #po removed)
 document.querySelectorAll('.spls .spl').forEach((el,i)=>{if(i>=3)el.classList.add('lk');});
 function pick(a){return a[Math.floor(Math.random()*a.length)];}
 let wO=false,wC=null,wCS=false;
