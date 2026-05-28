@@ -1292,7 +1292,14 @@ function displayEpisode(episodeNum, entryPoint){
   document.getElementById('en').textContent = 'Episode ' + ep.episode_num;
   document.getElementById('et').textContent = ep.title || ('Episode ' + ep.episode_num);
   // Cover
-  setReaderCover();
+  function displayEpisode(episodeNum, entryPoint){
+  const ep = currentEpisodes.find(e => e.episode_num === episodeNum);
+  if(!ep) return;
+  viewingEpisodeNum = episodeNum;
+  eN = episodeNum;
+  const meta = currentStoryMeta || {};
+  const cfg = meta.config || {};
+  setReaderCover();  
   // Prose
   RP(ep.prose || '');
   // Heart state
