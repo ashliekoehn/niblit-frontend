@@ -190,9 +190,19 @@ html,body{height:100%;overflow:hidden;background:#000;}
 .lgfb-adv{background:#D9A55A;}
 .lgfb-adv .lgcov-ttl{color:#4E1B4F;}
 .lgfb-adv .lgcov-ttl::before,.lgfb-adv .lgcov-ttl::after{background:rgba(78,27,79,.5);}
-/* Reader cover — sits in the scroll area, scrolls away with content */
-.rcov{display:block;width:200px;aspect-ratio:2/3;border-radius:4px;overflow:hidden;margin:20px auto 16px;background:#1a0e16;box-shadow:0 6px 18px rgba(0,0,0,.40),0 1px 0 rgba(255,255,255,.05) inset,0 0 0 .5px rgba(0,0,0,.5);}
-.rcov:empty{display:none;}
+/* New genre fallback cards */
+.lgfb-reg{background:#F2DCB5;}
+.lgfb-reg .lgcov-ttl{color:#4E1B4F;}
+.lgfb-reg .lgcov-ttl::before,.lgfb-reg .lgcov-ttl::after{background:rgba(78,27,79,.5);}
+.lgfb-hist{background:#5C1A1A;}
+.lgfb-hist .lgcov-ttl{color:#F2DCB5;}
+.lgfb-hist .lgcov-ttl::before,.lgfb-hist .lgcov-ttl::after{background:rgba(242,220,181,.45);}
+.lgfb-rom{background:#1F2A5C;}
+.lgfb-rom .lgcov-ttl{color:#F2DCB5;}
+.lgfb-rom .lgcov-ttl::before,.lgfb-rom .lgcov-ttl::after{background:rgba(242,220,181,.45);}
+.lgfb-par{background:#0D1117;}
+.lgfb-par .lgcov-ttl{color:#C8D8E8;}
+.lgfb-par .lgcov-ttl::before,.lgfb-par .lgcov-ttl::after{background:rgba(200,216,232,.4);}
 .lgmood{font-family:var(--sans);font-size:10px;color:var(--cd);letter-spacing:.6px;text-transform:uppercase;font-weight:500;margin-top:10px;padding:0 2px;}
 .lgc.sel .lgcov{box-shadow:0 0 0 2px #D9A55A, 0 0 0 3.5px #3a1239, 0 8px 26px rgba(0,0,0,.55);transform:scale(.975);}
 .lgtr{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;background:rgba(58,18,57,.92);border:.5px solid #D9A55A;display:none;align-items:center;justify-content:center;color:#F2DCB5;cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:3;padding:0;}
@@ -217,11 +227,11 @@ html,body{height:100%;overflow:hidden;background:#000;}
 .pane::-webkit-scrollbar{display:none;}
 
 /* Mood palettes */
-.pane-lr{background:linear-gradient(165deg,#FCE3D2 0%,#F8CDB5 50%,#EDB69A 100%);color:#4E1B4F;}
-.pane-dr{background:linear-gradient(165deg,#2A0F2C 0%,#4E1B4F 55%,#380F38 100%);color:#F2DCB5;}
-.pane-sw{background:linear-gradient(165deg,#FBF0DA 0%,#F0DBB6 55%,#E5C695 100%);color:#4E1B4F;}
-.pane-adv{background:linear-gradient(165deg,#2D5F55 0%,#1F4F47 55%,#143832 100%);color:#F2DCB5;}
-.pane-sur{background:linear-gradient(135deg,#FCE3D2,#4E1B4F,#2D5F55,#4E1B4F);
+.pane-rr{background:linear-gradient(165deg,#FBF0DA 0%,#E8C87A 50%,#D4A840 100%);color:#4E1B4F;}
+.pane-hr{background:linear-gradient(165deg,#3D1A1A 0%,#6B2020 55%,#4A1515 100%);color:#F2DCB5;}
+.pane-rom{background:linear-gradient(165deg,#1A1A3E 0%,#2D3068 55%,#1A3A4A 100%);color:#F2DCB5;}
+.pane-par{background:linear-gradient(165deg,#0D0D1A 0%,#1A1A2E 55%,#0A1528 100%);color:#C8D8E8;}
+.pane-sur{background:linear-gradient(135deg,#FBF0DA,#4E1B4F,#1A1A3E,#4E1B4F);
   background-size:300% 300%;animation:sursh 22s ease-in-out infinite;color:#F2DCB5;
   display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 18px 96px;}
 @keyframes sursh{0%,100%{background-position:0% 0%}33%{background-position:100% 0%}66%{background-position:100% 100%}}
@@ -233,23 +243,26 @@ html,body{height:100%;overflow:hidden;background:#000;}
 .pane-lbl{font-size:9px;letter-spacing:1.2px;text-transform:uppercase;font-weight:500;opacity:.65;margin-bottom:8px;margin-top:16px;}
 
 /* Chips per palette */
-.pane-lr .cp,.pane-sw .cp{border-color:rgba(78,27,79,.28);color:#4E1B4F;background:rgba(255,255,255,.36);}
-.pane-lr .cp.on,.pane-sw .cp.on{background:#4E1B4F;color:#F2DCB5;border-color:#4E1B4F;}
-.pane-lr .cp.sur,.pane-sw .cp.sur{background:rgba(217,165,90,.18);border-color:#D9A55A;color:#A87A38;}
-.pane-lr .cp.sur.on,.pane-sw .cp.sur.on{background:#D9A55A;color:#4E1B4F;border-color:#D9A55A;}
-.pane-dr .cp,.pane-adv .cp{border-color:rgba(242,220,181,.28);color:#F2DCB5;background:rgba(0,0,0,.18);}
-.pane-dr .cp.on{background:#D9A55A;color:#2A0F2C;border-color:#D9A55A;}
-.pane-adv .cp.on{background:#D9A55A;color:#143832;border-color:#D9A55A;}
-.pane-dr .cp.sur,.pane-adv .cp.sur{background:rgba(217,165,90,.18);border-color:#D9A55A;color:#D9A55A;}
-.pane-dr .cp.sur.on,.pane-adv .cp.sur.on{background:#D9A55A;color:#2A0F2C;border-color:#D9A55A;}
+/* Regency — light bg */
+.pane-rr .cp{border-color:rgba(78,27,79,.28);color:#4E1B4F;background:rgba(255,255,255,.36);}
+.pane-rr .cp.on{background:#4E1B4F;color:#F2DCB5;border-color:#4E1B4F;}
+.pane-rr .cp.sur{background:rgba(217,165,90,.18);border-color:#D9A55A;color:#A87A38;}
+.pane-rr .cp.sur.on{background:#D9A55A;color:#4E1B4F;border-color:#D9A55A;}
+/* Historical, Romantasy, Paranormal — dark bg */
+.pane-hr .cp,.pane-rom .cp,.pane-par .cp{border-color:rgba(242,220,181,.28);color:#F2DCB5;background:rgba(0,0,0,.18);}
+.pane-hr .cp.on,.pane-rom .cp.on{background:#D9A55A;color:#2A0F2C;border-color:#D9A55A;}
+.pane-par .cp.on{background:#C8D8E8;color:#0D0D1A;border-color:#C8D8E8;}
+.pane-hr .cp.sur,.pane-rom .cp.sur,.pane-par .cp.sur{background:rgba(217,165,90,.18);border-color:#D9A55A;color:#D9A55A;}
+.pane-hr .cp.sur.on,.pane-rom .cp.sur.on,.pane-par .cp.sur.on{background:#D9A55A;color:#2A0F2C;border-color:#D9A55A;}
 
 /* Begin button per pane */
 .pane-begin{display:block;width:100%;margin-top:20px;padding:12px 18px;
   font-family:var(--serif);font-size:16px;font-weight:400;letter-spacing:.3px;
   border-radius:10px;cursor:pointer;border:none;transition:opacity .15s;}
 .pane-begin:hover{opacity:.88;}
-.pane-lr .pane-begin,.pane-sw .pane-begin{background:#4E1B4F;color:#F2DCB5;}
-.pane-dr .pane-begin,.pane-adv .pane-begin{background:#D9A55A;color:#2A0F2C;}
+.pane-rr .pane-begin{background:#4E1B4F;color:#F2DCB5;}
+.pane-hr .pane-begin,.pane-rom .pane-begin{background:#D9A55A;color:#2A0F2C;}
+.pane-par .pane-begin{background:#C8D8E8;color:#0D0D1A;}
 
 /* Pane spice */
 .pane-sps{width:100%;accent-color:#D9A55A;cursor:pointer;margin-bottom:4px;}
@@ -260,15 +273,15 @@ html,body{height:100%;overflow:hidden;background:#000;}
   border:0.5px solid #D9A55A;color:#A87A38;opacity:0;max-height:0;overflow:hidden;
   transition:opacity .3s,max-height .3s,padding .3s,margin-top .3s;}
 .pane-spn.v{opacity:1;max-height:80px;margin-top:8px;padding:7px 10px;}
-.pane-dr .pane-spn,.pane-adv .pane-spn{color:#D9A55A;}
+.pane-hr .pane-spn,.pane-rom .pane-spn,.pane-par .pane-spn{color:#D9A55A;}
 
 /* Wild card custom input */
 .pane-wci{display:none;width:100%;margin-top:8px;padding:7px 10px;border-radius:7px;
   border:0.5px solid;background:rgba(0,0,0,.1);font-size:12px;color:inherit;
   font-family:var(--sans);outline:none;}
 .pane-wci.v{display:block;}
-.pane-lr .pane-wci,.pane-sw .pane-wci{border-color:rgba(78,27,79,.35);color:#4E1B4F;background:rgba(255,255,255,.4);}
-.pane-dr .pane-wci,.pane-adv .pane-wci{border-color:rgba(242,220,181,.3);color:#F2DCB5;background:rgba(0,0,0,.22);}
+.pane-rr .pane-wci{border-color:rgba(78,27,79,.35);color:#4E1B4F;background:rgba(255,255,255,.4);}
+.pane-hr .pane-wci,.pane-rom .pane-wci,.pane-par .pane-wci{border-color:rgba(242,220,181,.3);color:#F2DCB5;background:rgba(0,0,0,.22);}
 .pane-wci::placeholder{opacity:.5;}
 
 /* Page dots */
@@ -364,58 +377,14 @@ html,body{height:100%;overflow:hidden;background:#000;}
   </div>
 </div>
 
-<div id="po" class="pg">
-  <div class="topbar"><div class="tb-l"><svg class="tb-ico" viewBox="0 0 100 100"><use href="#ico"/></svg><span class="tb-name">NibLit</span></div><span class="tb-r">Configure your story</span></div>
-  <div class="sc">
-    <div class="sl">Mood</div>
-    <div class="cs"><div class="cp on" data-g="m">Light romance</div><div class="cp" data-g="m">Dark romance</div><div class="cp" data-g="m">Sharp wit</div><div class="cp" data-g="m">Adventure</div><div class="cp sur" data-g="m">&#9733; Surprise me</div></div>
-    <div class="sl">Protagonist</div>
-    <div class="cs"><div class="cp on" data-g="l">Woman lead</div><div class="cp" data-g="l">Man lead</div><div class="cp" data-g="l">Non-binary lead</div><div class="cp sur" data-g="l">&#9733; Surprise me</div></div>
-    <div class="sl">Love interest</div>
-    <div class="cs"><div class="cp on" data-g="li">Woman</div><div class="cp" data-g="li">Man</div><div class="cp" data-g="li">Non-binary</div><div class="cp sur" data-g="li">&#9733; Surprise me</div></div>
-    <div class="sl">Dynamic</div>
-    <div class="cs"><div class="cp on" data-g="d">Slow burn</div><div class="cp" data-g="d">Enemies &amp; rivals</div><div class="cp" data-g="d">Forbidden love</div><div class="cp" data-g="d">Friends to lovers</div><div class="cp sur" data-g="d">&#9733; Surprise me</div></div>
-    <div class="sl">Setting</div>
-    <div class="cs"><div class="cp on" data-g="s">Historical</div><div class="cp" data-g="s">Fantastical</div><div class="cp sur" data-g="s">&#9733; Surprise me</div></div>
-    <div class="sl">Protagonist arc</div>
-    <div class="cs"><div class="cp on" data-g="arc">Grows into someone new</div><div class="cp" data-g="arc">Loses something real</div><div class="cp" data-g="arc">Discovers a truth</div><div class="cp" data-g="arc">Holds her ground</div><div class="cp sur" data-g="arc">&#9733; Surprise me</div></div>
-    <div class="sl">Spice</div>
-    <div class="spw">
-      <input type="range" class="sps" id="sps" min="1" max="5" step="1" value="2">
-      <div class="spls"><span class="spl">Gentle</span><span class="spl">Sweet</span><span class="spl">Warm</span><span class="spl">Steamy</span><span class="spl">Explicit</span></div>
-      <div class="spv" id="spv">2 &mdash; Sweet</div>
-      <div class="spd" id="spd">Tender longing, charged silences. Romance lives in what&rsquo;s unsaid.</div>
-      <div class="spn" id="spn"><b>Steamy and Explicit are coming soon.</b><br>Adult content (4-5) requires age verification, which is still being built. For now, NibLit reaches up to Warm.</div>
-    </div>
-    <div class="sl">Wild card</div>
-    <div class="ww2">
-      <div class="wt2" onclick="TW()"><div class="wt2l"><span class="wst">&#9733;</span><div><div class="wtt">Throw the story sideways</div><div class="wts">Same arc &mdash; radically different world</div></div></div><span class="wch" id="wch">&#9660;</span></div>
-      <div class="wb" id="wbi" style="display:none;">
-        <div class="wo" id="wo">
-          <div class="wop on" onclick="SW(this)"><div class="wot">None &mdash; tell the story straight</div><div class="wos">No constraint applied</div></div>
-          <div class="wop sur" onclick="SW(this)"><div class="wot">&#9733; Surprise me</div><div class="wos">A genuinely random and unexpected constraint</div></div>
-          <div class="wop" onclick="SW(this)"><div class="wot">All characters are animals</div><div class="wos">Same souls, different species entirely</div></div>
-          <div class="wop" onclick="SW(this)"><div class="wot">Set on a pirate ship</div><div class="wos">The ocean is the society. The ship is the world.</div></div>
-          <div class="wop" onclick="SW(this)"><div class="wot">Told entirely in letters</div><div class="wos">All feeling must survive the page</div></div>
-          <div class="wop" onclick="SW(this)"><div class="wot">Cold War spy world</div><div class="wos">Bureaucracy, tradecraft, impossible loyalty</div></div>
-          <div class="wop" onclick="SW(this)"><div class="wot">The narrator is unreliable</div><div class="wos">The reader is told early. What they believe is their own.</div></div>
-          <div class="wop" onclick="SW(this)"><div class="wot">Set in a single room &mdash; no one can leave</div><div class="wos">The walls are the world</div></div>
-          <div class="wop" onclick="SW(this)"><div class="wot">The love interest is a ghost</div><div class="wos">Real, felt, present &mdash; and definitively dead</div></div>
-        </div>
-        <div class="wcu"><input class="wci" id="wi" placeholder="Write your own constraint&hellip;" maxlength="80"><button class="wca" onclick="AW()">Add</button></div>
-      </div>
-    </div>
-  </div>
-  <div class="ca"><button class="cta" onclick="begin()">Begin your story &rsaquo;</button></div>
-</div>
 
 
 <div id="pc" class="pg">
   <div class="carousel" id="pc-carousel">
-    <div class="pane pane-lr" data-mood="Light romance">
+    <div class="pane pane-rr" data-mood="Regency Romance">
       <div class="pane-eye">1 of 5</div>
-      <h1 class="pane-ttl">Light<br>romance</h1>
-      <p class="pane-tag">Tender hearts. Gentle obstacles.</p>
+      <h1 class="pane-ttl">Regency<br>romance</h1>
+      <p class="pane-tag">Wit, longing, and very good manners.</p>
 
       <div class="pane-lbl">Dynamic</div>
       <div class="cs">
@@ -440,153 +409,6 @@ html,body{height:100%;overflow:hidden;background:#000;}
         <div class="cp" data-g="li">Woman</div>
         <div class="cp" data-g="li">Non-binary</div>
         <div class="cp sur" data-g="li">&#9733; Surprise me</div>
-      </div>
-
-      <div class="pane-lbl">Setting</div>
-      <div class="cs">
-        <div class="cp on" data-g="s">Historical</div>
-        <div class="cp" data-g="s">Fantastical</div>
-        <div class="cp sur" data-g="s">&#9733; Surprise me</div>
-      </div>
-
-      <div class="pane-lbl">Protagonist arc</div>
-      <div class="cs">
-        <div class="cp on" data-g="arc">Grows into someone new</div>
-        <div class="cp" data-g="arc">Loses something real</div>
-        <div class="cp" data-g="arc">Discovers a truth</div>
-        <div class="cp" data-g="arc">Holds her ground</div>
-        <div class="cp sur" data-g="arc">&#9733; Surprise me</div>
-      </div>
-
-      <div class="pane-lbl">Spice</div>
-      <input type="range" class="pane-sps" min="1" max="5" step="1" value="2">
-      <div class="spls"><span class="spl">Gentle</span><span class="spl">Sweet</span><span class="spl">Warm</span><span class="spl lk">Steamy</span><span class="spl lk">Explicit</span></div>
-      <div class="pane-spv">2 &mdash; Sweet</div>
-      <div class="pane-spd">Tender longing, charged silences.</div>
-      <div class="pane-spn">Spice 4&ndash;5 is coming soon. For now NibLit reaches up to Warm.</div>
-
-      <div class="pane-lbl">Wild card</div>
-      <div class="cs pane-wc-chips">
-        <div class="cp on" data-g="wc">None</div>
-        <div class="cp" data-g="wc">All characters are animals</div>
-        <div class="cp" data-g="wc">Set on a pirate ship</div>
-        <div class="cp" data-g="wc">Told entirely in letters</div>
-        <div class="cp" data-g="wc">Cold War spy world</div>
-        <div class="cp" data-g="wc">The narrator is unreliable</div>
-        <div class="cp" data-g="wc">Set in a single room — no one can leave</div>
-        <div class="cp" data-g="wc">The love interest is a ghost</div>
-        <div class="cp sur" data-g="wc">&#9733; Surprise me</div>
-        <div class="cp" data-g="wc">Custom</div>
-      </div>
-      <input class="pane-wci" placeholder="Write your own constraint&hellip;" maxlength="80">
-
-      <button class="pane-begin" onclick="begin()">Begin your story &rsaquo;</button>
-    </div>
-    <div class="pane pane-dr" data-mood="Dark romance">
-      <div class="pane-eye">2 of 5</div>
-      <h1 class="pane-ttl">Dark<br>romance</h1>
-      <p class="pane-tag">Where love costs something.</p>
-
-      <div class="pane-lbl">Dynamic</div>
-      <div class="cs">
-        <div class="cp on" data-g="d">Forbidden love</div>
-        <div class="cp" data-g="d">Slow burn</div>
-        <div class="cp" data-g="d">Enemies &amp; rivals</div>
-        <div class="cp" data-g="d">Friends to lovers</div>
-        <div class="cp sur" data-g="d">&#9733; Surprise me</div>
-      </div>
-
-      <div class="pane-lbl">Protagonist</div>
-      <div class="cs">
-        <div class="cp on" data-g="l">Woman lead</div>
-        <div class="cp" data-g="l">Man lead</div>
-        <div class="cp" data-g="l">Non-binary lead</div>
-        <div class="cp sur" data-g="l">&#9733; Surprise me</div>
-      </div>
-
-      <div class="pane-lbl">Love interest</div>
-      <div class="cs">
-        <div class="cp on" data-g="li">Man</div>
-        <div class="cp" data-g="li">Woman</div>
-        <div class="cp" data-g="li">Non-binary</div>
-        <div class="cp sur" data-g="li">&#9733; Surprise me</div>
-      </div>
-
-      <div class="pane-lbl">Setting</div>
-      <div class="cs">
-        <div class="cp on" data-g="s">Historical</div>
-        <div class="cp" data-g="s">Fantastical</div>
-        <div class="cp sur" data-g="s">&#9733; Surprise me</div>
-      </div>
-
-      <div class="pane-lbl">Protagonist arc</div>
-      <div class="cs">
-        <div class="cp on" data-g="arc">Loses something real</div>
-        <div class="cp" data-g="arc">Grows into someone new</div>
-        <div class="cp" data-g="arc">Discovers a truth</div>
-        <div class="cp" data-g="arc">Holds her ground</div>
-        <div class="cp sur" data-g="arc">&#9733; Surprise me</div>
-      </div>
-
-      <div class="pane-lbl">Spice</div>
-      <input type="range" class="pane-sps" min="1" max="5" step="1" value="2">
-      <div class="spls"><span class="spl">Gentle</span><span class="spl">Sweet</span><span class="spl">Warm</span><span class="spl lk">Steamy</span><span class="spl lk">Explicit</span></div>
-      <div class="pane-spv">2 &mdash; Sweet</div>
-      <div class="pane-spd">Tender longing, charged silences.</div>
-      <div class="pane-spn">Spice 4&ndash;5 is coming soon. For now NibLit reaches up to Warm.</div>
-
-      <div class="pane-lbl">Wild card</div>
-      <div class="cs pane-wc-chips">
-        <div class="cp on" data-g="wc">None</div>
-        <div class="cp" data-g="wc">All characters are animals</div>
-        <div class="cp" data-g="wc">Set on a pirate ship</div>
-        <div class="cp" data-g="wc">Told entirely in letters</div>
-        <div class="cp" data-g="wc">Cold War spy world</div>
-        <div class="cp" data-g="wc">The narrator is unreliable</div>
-        <div class="cp" data-g="wc">Set in a single room — no one can leave</div>
-        <div class="cp" data-g="wc">The love interest is a ghost</div>
-        <div class="cp sur" data-g="wc">&#9733; Surprise me</div>
-        <div class="cp" data-g="wc">Custom</div>
-      </div>
-      <input class="pane-wci" placeholder="Write your own constraint&hellip;" maxlength="80">
-
-      <button class="pane-begin" onclick="begin()">Begin your story &rsaquo;</button>
-    </div>
-    <div class="pane pane-sw" data-mood="Sharp wit">
-      <div class="pane-eye">3 of 5</div>
-      <h1 class="pane-ttl">Sharp<br>wit</h1>
-      <p class="pane-tag">Argue first. Admit later.</p>
-
-      <div class="pane-lbl">Dynamic</div>
-      <div class="cs">
-        <div class="cp on" data-g="d">Enemies &amp; rivals</div>
-        <div class="cp" data-g="d">Slow burn</div>
-        <div class="cp" data-g="d">Forbidden love</div>
-        <div class="cp" data-g="d">Friends to lovers</div>
-        <div class="cp sur" data-g="d">&#9733; Surprise me</div>
-      </div>
-
-      <div class="pane-lbl">Protagonist</div>
-      <div class="cs">
-        <div class="cp on" data-g="l">Woman lead</div>
-        <div class="cp" data-g="l">Man lead</div>
-        <div class="cp" data-g="l">Non-binary lead</div>
-        <div class="cp sur" data-g="l">&#9733; Surprise me</div>
-      </div>
-
-      <div class="pane-lbl">Love interest</div>
-      <div class="cs">
-        <div class="cp on" data-g="li">Man</div>
-        <div class="cp" data-g="li">Woman</div>
-        <div class="cp" data-g="li">Non-binary</div>
-        <div class="cp sur" data-g="li">&#9733; Surprise me</div>
-      </div>
-
-      <div class="pane-lbl">Setting</div>
-      <div class="cs">
-        <div class="cp on" data-g="s">Historical</div>
-        <div class="cp" data-g="s">Fantastical</div>
-        <div class="cp sur" data-g="s">&#9733; Surprise me</div>
       </div>
 
       <div class="pane-lbl">Protagonist arc</div>
@@ -619,20 +441,20 @@ html,body{height:100%;overflow:hidden;background:#000;}
         <div class="cp" data-g="wc">Custom</div>
       </div>
       <input class="pane-wci" placeholder="Write your own constraint&hellip;" maxlength="80">
-
       <button class="pane-begin" onclick="begin()">Begin your story &rsaquo;</button>
     </div>
-    <div class="pane pane-adv" data-mood="Adventure">
-      <div class="pane-eye">4 of 5</div>
-      <h1 class="pane-ttl">Adventure</h1>
-      <p class="pane-tag">Wide horizons. High stakes.</p>
+
+    <div class="pane pane-hr" data-mood="Historical Romance">
+      <div class="pane-eye">2 of 5</div>
+      <h1 class="pane-ttl">Historical<br>romance</h1>
+      <p class="pane-tag">Another time. The same pull.</p>
 
       <div class="pane-lbl">Dynamic</div>
       <div class="cs">
-        <div class="cp on" data-g="d">Friends to lovers</div>
+        <div class="cp on" data-g="d">Forbidden love</div>
         <div class="cp" data-g="d">Slow burn</div>
         <div class="cp" data-g="d">Enemies &amp; rivals</div>
-        <div class="cp" data-g="d">Forbidden love</div>
+        <div class="cp" data-g="d">Friends to lovers</div>
         <div class="cp sur" data-g="d">&#9733; Surprise me</div>
       </div>
 
@@ -652,18 +474,11 @@ html,body{height:100%;overflow:hidden;background:#000;}
         <div class="cp sur" data-g="li">&#9733; Surprise me</div>
       </div>
 
-      <div class="pane-lbl">Setting</div>
-      <div class="cs">
-        <div class="cp on" data-g="s">Fantastical</div>
-        <div class="cp" data-g="s">Historical</div>
-        <div class="cp sur" data-g="s">&#9733; Surprise me</div>
-      </div>
-
       <div class="pane-lbl">Protagonist arc</div>
       <div class="cs">
         <div class="cp on" data-g="arc">Grows into someone new</div>
-        <div class="cp" data-g="arc">Loses something real</div>
         <div class="cp" data-g="arc">Discovers a truth</div>
+        <div class="cp" data-g="arc">Loses something real</div>
         <div class="cp" data-g="arc">Holds her ground</div>
         <div class="cp sur" data-g="arc">&#9733; Surprise me</div>
       </div>
@@ -689,16 +504,141 @@ html,body{height:100%;overflow:hidden;background:#000;}
         <div class="cp" data-g="wc">Custom</div>
       </div>
       <input class="pane-wci" placeholder="Write your own constraint&hellip;" maxlength="80">
-
       <button class="pane-begin" onclick="begin()">Begin your story &rsaquo;</button>
     </div>
+
+    <div class="pane pane-rom" data-mood="Romantasy">
+      <div class="pane-eye">3 of 5</div>
+      <h1 class="pane-ttl">Romantasy</h1>
+      <p class="pane-tag">Magic is the least of it.</p>
+
+      <div class="pane-lbl">Dynamic</div>
+      <div class="cs">
+        <div class="cp on" data-g="d">Enemies &amp; rivals</div>
+        <div class="cp" data-g="d">Slow burn</div>
+        <div class="cp" data-g="d">Forbidden love</div>
+        <div class="cp" data-g="d">Friends to lovers</div>
+        <div class="cp sur" data-g="d">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Protagonist</div>
+      <div class="cs">
+        <div class="cp on" data-g="l">Woman lead</div>
+        <div class="cp" data-g="l">Man lead</div>
+        <div class="cp" data-g="l">Non-binary lead</div>
+        <div class="cp sur" data-g="l">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Love interest</div>
+      <div class="cs">
+        <div class="cp on" data-g="li">Man</div>
+        <div class="cp" data-g="li">Woman</div>
+        <div class="cp" data-g="li">Non-binary</div>
+        <div class="cp sur" data-g="li">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Protagonist arc</div>
+      <div class="cs">
+        <div class="cp on" data-g="arc">Grows into someone new</div>
+        <div class="cp" data-g="arc">Discovers a truth</div>
+        <div class="cp" data-g="arc">Loses something real</div>
+        <div class="cp" data-g="arc">Holds her ground</div>
+        <div class="cp sur" data-g="arc">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Spice</div>
+      <input type="range" class="pane-sps" min="1" max="5" step="1" value="2">
+      <div class="spls"><span class="spl">Gentle</span><span class="spl">Sweet</span><span class="spl">Warm</span><span class="spl lk">Steamy</span><span class="spl lk">Explicit</span></div>
+      <div class="pane-spv">2 &mdash; Sweet</div>
+      <div class="pane-spd">Tender longing, charged silences.</div>
+      <div class="pane-spn">Spice 4&ndash;5 is coming soon. For now NibLit reaches up to Warm.</div>
+
+      <div class="pane-lbl">Wild card</div>
+      <div class="cs pane-wc-chips">
+        <div class="cp on" data-g="wc">None</div>
+        <div class="cp" data-g="wc">All characters are animals</div>
+        <div class="cp" data-g="wc">Set on a pirate ship</div>
+        <div class="cp" data-g="wc">Told entirely in letters</div>
+        <div class="cp" data-g="wc">Cold War spy world</div>
+        <div class="cp" data-g="wc">The narrator is unreliable</div>
+        <div class="cp" data-g="wc">Set in a single room — no one can leave</div>
+        <div class="cp" data-g="wc">The love interest is a ghost</div>
+        <div class="cp sur" data-g="wc">&#9733; Surprise me</div>
+        <div class="cp" data-g="wc">Custom</div>
+      </div>
+      <input class="pane-wci" placeholder="Write your own constraint&hellip;" maxlength="80">
+      <button class="pane-begin" onclick="begin()">Begin your story &rsaquo;</button>
+    </div>
+
+    <div class="pane pane-par" data-mood="Paranormal Romance">
+      <div class="pane-eye">4 of 5</div>
+      <h1 class="pane-ttl">Paranormal<br>romance</h1>
+      <p class="pane-tag">Love is stranger than it seems.</p>
+
+      <div class="pane-lbl">Dynamic</div>
+      <div class="cs">
+        <div class="cp on" data-g="d">Forbidden love</div>
+        <div class="cp" data-g="d">Slow burn</div>
+        <div class="cp" data-g="d">Enemies &amp; rivals</div>
+        <div class="cp" data-g="d">Friends to lovers</div>
+        <div class="cp sur" data-g="d">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Protagonist</div>
+      <div class="cs">
+        <div class="cp on" data-g="l">Woman lead</div>
+        <div class="cp" data-g="l">Man lead</div>
+        <div class="cp" data-g="l">Non-binary lead</div>
+        <div class="cp sur" data-g="l">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Love interest</div>
+      <div class="cs">
+        <div class="cp on" data-g="li">Man</div>
+        <div class="cp" data-g="li">Woman</div>
+        <div class="cp" data-g="li">Non-binary</div>
+        <div class="cp sur" data-g="li">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Protagonist arc</div>
+      <div class="cs">
+        <div class="cp on" data-g="arc">Discovers a truth</div>
+        <div class="cp" data-g="arc">Grows into someone new</div>
+        <div class="cp" data-g="arc">Loses something real</div>
+        <div class="cp" data-g="arc">Holds her ground</div>
+        <div class="cp sur" data-g="arc">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Spice</div>
+      <input type="range" class="pane-sps" min="1" max="5" step="1" value="2">
+      <div class="spls"><span class="spl">Gentle</span><span class="spl">Sweet</span><span class="spl">Warm</span><span class="spl lk">Steamy</span><span class="spl lk">Explicit</span></div>
+      <div class="pane-spv">2 &mdash; Sweet</div>
+      <div class="pane-spd">Tender longing, charged silences.</div>
+      <div class="pane-spn">Spice 4&ndash;5 is coming soon. For now NibLit reaches up to Warm.</div>
+
+      <div class="pane-lbl">Wild card</div>
+      <div class="cs pane-wc-chips">
+        <div class="cp on" data-g="wc">None</div>
+        <div class="cp" data-g="wc">All characters are animals</div>
+        <div class="cp" data-g="wc">Set on a pirate ship</div>
+        <div class="cp" data-g="wc">Told entirely in letters</div>
+        <div class="cp" data-g="wc">Cold War spy world</div>
+        <div class="cp" data-g="wc">The narrator is unreliable</div>
+        <div class="cp" data-g="wc">Set in a single room — no one can leave</div>
+        <div class="cp" data-g="wc">The love interest is a ghost</div>
+        <div class="cp sur" data-g="wc">&#9733; Surprise me</div>
+        <div class="cp" data-g="wc">Custom</div>
+      </div>
+      <input class="pane-wci" placeholder="Write your own constraint&hellip;" maxlength="80">
+      <button class="pane-begin" onclick="begin()">Begin your story &rsaquo;</button>
+    </div>
+
     <div class="pane pane-sur" data-mood="Surprise me">
       <!-- Hidden chips so getCfg() returns Surprise me for all dimensions -->
       <div style="display:none">
         <div class="cp on" data-g="d">&#9733; Surprise me</div>
         <div class="cp on" data-g="l">&#9733; Surprise me</div>
         <div class="cp on" data-g="li">&#9733; Surprise me</div>
-        <div class="cp on" data-g="s">&#9733; Surprise me</div>
         <div class="cp on" data-g="arc">&#9733; Surprise me</div>
         <div class="cp on" data-g="wc">&#9733; Surprise me</div>
         <input class="pane-sps" value="2">
@@ -706,7 +646,7 @@ html,body{height:100%;overflow:hidden;background:#000;}
       <div class="fate-card">
         <div class="fate-ico">&#10022; &#10022; &#10022;</div>
         <h1 class="fate-ttl">Surprise me</h1>
-        <p class="fate-sub">A random mood. A random spark.<br>Discover something you didn&rsquo;t know you wanted.</p>
+        <p class="fate-sub">A random genre. A random spark.<br>Discover something you didn&rsquo;t know you wanted.</p>
         <button class="fate-btn" onclick="begin()">Let fate decide</button>
       </div>
     </div>
@@ -748,7 +688,6 @@ html,body{height:100%;overflow:hidden;background:#000;}
   <div class="prw"><div class="pt2"><div class="pf" id="pf" style="width:0%;"></div></div><span class="pl2" id="pl2">0%</span></div>
   <div class="rw">
     <div class="rs" id="rs">
-      <div id="rcov" class="rcov"></div>
       <div class="ls" id="ls" style="display:none;"><span class="lo">&#10022; &nbsp; &#10022; &nbsp; &#10022;</span><div class="lm" id="lm">Consulting the pre-1928 archives&hellip;</div><div class="lb"><div class="lf"></div></div></div>
       <div id="pw2"><div class="cd2" style="padding-top:32px;">&#10022; &nbsp; &#10022; &nbsp; &#10022;</div><div class="prose" id="pb2" style="text-align:center;font-style:italic;color:var(--pl);padding-top:10px;">Configure your story on the Story page,<br>then tap Begin your story.</div></div>
       <div class="eb" id="eb" style="display:none;"></div>
@@ -848,7 +787,7 @@ html,body{height:100%;overflow:hidden;background:#000;}
 
 </div>
 <script>
-const SYSTEM_PROMPT = "You are a literary fiction writer generating original serialized romance fiction. Your prose style, thematic sensibilities, moral architecture, and plot structures must draw from the pre-1928 literary tradition and from Shakespeare's dramatic works.\n\nLITERARY INFLUENCES:\nBRITISH & IRISH: Jane Austen (free indirect discourse, ironic distance, social observation as moral criticism, the misunderstanding that structures an entire relationship); Charlotte Bronte (passionate interiority, gothic atmosphere, class transgression); Emily Bronte (landscape as emotional state, love as possession and destruction); Thomas Hardy (sentences accumulating weight before releasing, fate as social structure); George Eliot (omniscient moral seriousness, female ambition in constraint); Henry James (Jamesian indirection, the unsaid as real subject, consciousness as drama); Wilkie Collins (matter-of-fact narration of the impossible, controlled revelation); Elizabeth Gaskell (domestic realism with political stakes); William Makepeace Thackeray (satirical omniscience, social ambition as engine); Jerome K. Jerome (comic timing through understatement); Oscar Wilde (paradox as truth-telling, epigram concealing genuine feeling); Robert Louis Stevenson (adventure paced by event, moral dualism); Joseph Conrad (moral weight in adventure, isolation as revelation); Sheridan Le Fanu (gothic through accumulation of wrong detail); Bram Stoker (epistolary uncanny, dread through documentation).\n\nFRENCH: Alexandre Dumas (event before meaning, adventure as moral test); Gustave Flaubert (the perfect sentence, ironic distance from romantic illusion); Emile Zola (naturalist pressure, social forces made flesh); Guy de Maupassant (the short sharp revelation, desire compressed).\n\nRUSSIAN: Ivan Turgenev (longing as permanent condition, first love's devastation); Leo Tolstoy (moral architecture at scale); Fyodor Dostoevsky (psychological extremity, the confession as drama); Anton Chekhov (the story that ends without resolving, ordinary lives containing unbearable feeling).\n\nAMERICAN: Edith Wharton (the cage of social convention); Kate Chopin (awakening as plot, the body's knowledge before the mind's permission); Nathaniel Hawthorne (sin as psychological architecture, the hidden guilt).\n\nAFRICAN AMERICAN: Charles W. Chesnutt (hidden identity, forbidden love across the color line); Pauline Hopkins (romance with hidden heritage); Frances E.W. Harper (moral stakes of love across social divisions); Jessie Redmon Fauset (Austenian observation with racial stakes); Jean Toomer (poetic fragmentation, the lyric novel); W.E.B. Du Bois (pan-African romance, love as political act); Paul Laurence Dunbar (the divided self); Claude McKay (sensory richness, the body as home and exile).\n\nJAPANESE: Natsume Soseki (restrained psychological depth); Jun'ichiro Tanizaki (aesthetics of desire, passion as madness); Higuchi Ichiyo (women's constraint and longing).\n\nINDIAN: Rabindranath Tagore (the home and world in tension, contemplative pacing).\n\nSHAKESPEAREAN PLOT ARCHITECTURES:\nCOMEDIES: Much Ado About Nothing (enemies-to-lovers through wit combat, the false accusation that tests love); Twelfth Night (disguise as the only way to tell the truth); As You Like It (the elsewhere where social performance relaxes into truth); A Midsummer Night's Dream (parallel love plots, desire as enchantment).\nTRAGEDIES: Romeo and Juliet (the feud as the love story's engine); Othello (the trusted voice that poisons, jealousy as logic); Hamlet (paralysis before action); Macbeth (ambition as love's destroyer).\nROMANCES: The Winter's Tale (love destroyed through unfounded jealousy, reunion as also permanent wound); The Tempest (the controlled world); Cymbeline (hidden identity, the revelation scene); Pericles (family scattered and reunited).\nSTRUCTURAL PRINCIPLES: The recognition scene at every arc climax. Parallel plots that comment on main action. The fool who speaks truth. Disguise and revelation as mechanics. The elsewhere where transformation is possible. Time as dramatic pressure. The villain who is also comprehensible.\n\nSAVE THE CAT GENRE FRAMEWORK:\nYour story follows a Save the Cat genre structure mapped to its mood:\n- Light romance → Buddy Love (two characters who need each other to become whole; the obstacle is internal)\n- Dark romance → Buddy Love + Monster in the House (the obstacle is structural, threatening, sometimes existential)\n- Sharp wit → Buddy Love + The Fool Triumphant (a witty protagonist who outwits a more powerful establishment as part of the love story)\n- Adventure → Golden Fleece + Buddy Love (a journey reshapes the protagonist while love quietly grows)\n\nEPISODE BEAT TARGETS (current beat injected per call):\n- Eps 1-2: Opening Image + Setup. Establish protagonist, world, theme. Hint at what will disrupt this.\n- Eps 3-4: Catalyst + Debate. The thing that changes everything arrives. Protagonist resists, then commits.\n- Ep 5: Break Into Two. Protagonist enters the new situation. B Story (the love interest) emerges as central.\n- Eps 6-7: Fun and Games. Deliver what the configuration promised. The premise is fully alive on the page.\n- Ep 8: Midpoint. False victory or false defeat. The stakes flip.\n- Eps 9-10: Bad Guys Close In. External pressure mounts. Allies become ambiguous.\n- Ep 11: All Is Lost. The deepest defeat. Something dies — literally or symbolically.\n- Ep 12: Dark Night of the Soul. Interiority and reckoning. Protagonist alone with the loss.\n- Ep 13: Break Into Three. New resolve. Hope returns earned, not given.\n- Eps 14-15: Finale. The five-point climax (gather team, execute plan, high-tower surprise, dig deep, execute new plan).\n- Ep 16+: Earned resolution. Final image transforms the opening image. Then second arc begins.\n\nPROFESSION & MILIEU VARIATION:\nAvoid defaulting to: cartographers, mapmakers, librarians, governesses, ladies of the manor, manor houses, country estates, gothic mansions, old libraries, ancestral homes. These are overused in literary AI fiction.\n\nInstead vary protagonist professions widely. Possible: musicians, scientists, doctors, sailors, journalists, teachers, scholars, merchants, artists, herbalists, soldiers, diplomats, midwives, blacksmiths, weavers, telegraph operators, photographers, nurses, translators, archaeologists, performers, couriers, factory workers, farmers, dressmakers, watchmakers, chemists, navigators, monks, lighthouse keepers.\n\nVary settings beyond manor houses: coastal towns, market squares, harbor districts, ships at sea, mountain villages, university courtyards, traveling caravans, factory floors, immigrant neighborhoods, tea houses, theater backstages, monasteries, embassies, hospitals, military camps, convents, opium dens, music halls, train cars, mountain passes, desert oases, river deltas.\n\nGround each story in a specific, unexpected milieu. Repetition of profession or setting across stories is a failure of imagination.\n\nCHARACTER NAMES & CULTURAL CONTEXT:\nVary character names widely across stories. Do NOT default to:\n- Austenian names: Elizabeth, Jane, Eleanor, Catherine, Marianne, Emma, Anne\n- Brontëan names: Catherine, Heathcliff, Helen, Rochester\n- Standard period romance names: Cordelia, Beatrice, Theodore, Edmund, Henry, Charlotte, Edward\n\nDraw names from the actual demographic and geographic range of the pre-1928 world. Match names to the story's specific cultural and geographic context:\n- African American (1860s-1920s): Phillis, Octavia, Lavinia, Booker, Frederick, Ida, Augustus, Cora\n- South Asian (Bengali, Tamil, Punjabi, etc.): Kamala, Indira, Aarav, Ravi, Meera, Anjali, Rohan\n- East Asian (Japanese, Chinese, Korean): Mei, Hiroshi, Yuki, Akira, Lin, Wen, Ji-ho, Hana\n- Eastern European (Polish, Russian, Czech): Stanislav, Magdalena, Wojciech, Anya, Mikhail, Klara\n- Mediterranean (Italian, Spanish, Greek, Portuguese): Sofia, Matteo, Salvatore, Inés, Constantinos, Beatriz\n- Latin American: Esperanza, Rafael, Isabela, Mateo, Lucía, Tomás\n- Middle Eastern / North African: Nasreen, Khalil, Layla, Rashid, Yasmin, Tariq, Farida\n- Irish, Scottish, Welsh: Niamh, Eilidh, Cadan, Bronwen, Padraig, Siobhan\n- Caribbean: Soraya, Jacinta, Esperanza, Anansi (where contextually appropriate)\n- For Fantastical settings: invent or draw from less-overused traditions (Welsh, Old Norse, invented compounds)\n\nMatch names to the geographic and cultural context implied by the story. Do not import English/Anglo names into a Bengal-set or Hokkaido-set or New Orleans-set story. The name should feel inevitable for THIS character in THIS setting — not generic.\n\nABSOLUTE PROHIBITIONS:\n- Sexual content involving anyone under 18\n- Non-consensual sexual encounters presented positively\n- Positive descriptions of incest, racism, religious persecution, sex or gender discrimination\n\nSPICE {SPICE_LEVEL}\n\nCONFLICT RESOLUTION - do NOT use: {AVOIDED_RESOLUTIONS}. Types: outwitted_antagonist, physical_force, emotional_appeal, sacrifice, external_rescue, discovered_information, deception, endurance, surrender, escape.\n\nEPISODE LENGTH: 350 to 650 words. Aim for 500 words. Shorter episodes feel tighter and end on stronger hooks.\n\nOUTPUT FORMAT (STRICT — follow exactly, no markdown formatting):\nLine 1: STORY_TITLE: [overall title for the entire serialized story — only output on Episode 1, omit on subsequent episodes]\nLine 2: TITLE: [episode title — different each episode]\nLine 3: RESOLUTION: [mechanism used, lowercase from the resolution list]\nLine 4: REL_CHANGE: [how closeness shifted, or none]\nLine 5: KNOWLEDGE: [what protagonist now knows that she did not, or none]\nLine 6: POWER_SHIFT: [increase / decrease / neutral]\n\nThen the prose. Blank lines between paragraphs. End on a hook line.\n\nDO NOT use markdown formatting (no ** asterisks, no headers, no italics tags). Each label must appear EXACTLY as written above — uppercase, no decoration. The structured fields are parsed by regex; deviation breaks the system.\n\nThe STORY_TITLE should be evocative, literary, and reflect the entire arc — not just episode 1. Think of it as the title of a novel, not a chapter.\n\nWord count target: 500 words (range 350-650). Tight, focused episodes. Stay under 650 words to ensure clean endings.";
+const SYSTEM_PROMPT = "You are a literary fiction writer generating original serialized romance fiction. Your prose style, thematic sensibilities, moral architecture, and plot structures must draw from the pre-1928 literary tradition and from Shakespeare's dramatic works.\n\nLITERARY INFLUENCES:\nBRITISH & IRISH: Jane Austen (free indirect discourse, ironic distance, social observation as moral criticism, the misunderstanding that structures an entire relationship); Charlotte Bronte (passionate interiority, gothic atmosphere, class transgression); Emily Bronte (landscape as emotional state, love as possession and destruction); Thomas Hardy (sentences accumulating weight before releasing, fate as social structure); George Eliot (omniscient moral seriousness, female ambition in constraint); Henry James (Jamesian indirection, the unsaid as real subject, consciousness as drama); Wilkie Collins (matter-of-fact narration of the impossible, controlled revelation); Elizabeth Gaskell (domestic realism with political stakes); William Makepeace Thackeray (satirical omniscience, social ambition as engine); Jerome K. Jerome (comic timing through understatement); Oscar Wilde (paradox as truth-telling, epigram concealing genuine feeling); Robert Louis Stevenson (adventure paced by event, moral dualism); Joseph Conrad (moral weight in adventure, isolation as revelation); Sheridan Le Fanu (gothic through accumulation of wrong detail); Bram Stoker (epistolary uncanny, dread through documentation).\n\nFRENCH: Alexandre Dumas (event before meaning, adventure as moral test); Gustave Flaubert (the perfect sentence, ironic distance from romantic illusion); Emile Zola (naturalist pressure, social forces made flesh); Guy de Maupassant (the short sharp revelation, desire compressed).\n\nRUSSIAN: Ivan Turgenev (longing as permanent condition, first love's devastation); Leo Tolstoy (moral architecture at scale); Fyodor Dostoevsky (psychological extremity, the confession as drama); Anton Chekhov (the story that ends without resolving, ordinary lives containing unbearable feeling).\n\nAMERICAN: Edith Wharton (the cage of social convention); Kate Chopin (awakening as plot, the body's knowledge before the mind's permission); Nathaniel Hawthorne (sin as psychological architecture, the hidden guilt).\n\nAFRICAN AMERICAN: Charles W. Chesnutt (hidden identity, forbidden love across the color line); Pauline Hopkins (romance with hidden heritage); Frances E.W. Harper (moral stakes of love across social divisions); Jessie Redmon Fauset (Austenian observation with racial stakes); Jean Toomer (poetic fragmentation, the lyric novel); W.E.B. Du Bois (pan-African romance, love as political act); Paul Laurence Dunbar (the divided self); Claude McKay (sensory richness, the body as home and exile).\n\nJAPANESE: Natsume Soseki (restrained psychological depth); Jun'ichiro Tanizaki (aesthetics of desire, passion as madness); Higuchi Ichiyo (women's constraint and longing).\n\nINDIAN: Rabindranath Tagore (the home and world in tension, contemplative pacing).\n\nSHAKESPEAREAN PLOT ARCHITECTURES:\nCOMEDIES: Much Ado About Nothing (enemies-to-lovers through wit combat, the false accusation that tests love); Twelfth Night (disguise as the only way to tell the truth); As You Like It (the elsewhere where social performance relaxes into truth); A Midsummer Night's Dream (parallel love plots, desire as enchantment).\nTRAGEDIES: Romeo and Juliet (the feud as the love story's engine); Othello (the trusted voice that poisons, jealousy as logic); Hamlet (paralysis before action); Macbeth (ambition as love's destroyer).\nROMANCES: The Winter's Tale (love destroyed through unfounded jealousy, reunion as also permanent wound); The Tempest (the controlled world); Cymbeline (hidden identity, the revelation scene); Pericles (family scattered and reunited).\nSTRUCTURAL PRINCIPLES: The recognition scene at every arc climax. Parallel plots that comment on main action. The fool who speaks truth. Disguise and revelation as mechanics. The elsewhere where transformation is possible. Time as dramatic pressure. The villain who is also comprehensible.\n\nSAVE THE CAT GENRE FRAMEWORK:\\nYour story follows a Save the Cat genre structure mapped to its genre:\\n- Regency Romance → Buddy Love + The Fool Triumphant (social wit as the engine; the misunderstanding that structures the whole relationship; class and propriety as the obstacle; comedy of manners with genuine emotional stakes)\\n- Historical Romance → Buddy Love + Golden Fleece (a journey through a vivid historical world; love grows through shared hardship and danger; the period is not backdrop but pressure)\\n- Romantasy → Buddy Love + Monster in the House (magic and an existential threat as the obstacle; the world itself is dangerous and the love story happens in the middle of it; power has a cost)\\n- Paranormal Romance → Buddy Love + Monster in the House (the supernatural is both obstacle and the nature of the love interest; the boundary between worlds is what must be crossed; dread and desire are the same feeling)\\n\\nEPISODE BEAT TARGETS (current beat injected per call):\n- Eps 1-2: Opening Image + Setup. Establish protagonist, world, theme. Hint at what will disrupt this.\n- Eps 3-4: Catalyst + Debate. The thing that changes everything arrives. Protagonist resists, then commits.\n- Ep 5: Break Into Two. Protagonist enters the new situation. B Story (the love interest) emerges as central.\n- Eps 6-7: Fun and Games. Deliver what the configuration promised. The premise is fully alive on the page.\n- Ep 8: Midpoint. False victory or false defeat. The stakes flip.\n- Eps 9-10: Bad Guys Close In. External pressure mounts. Allies become ambiguous.\n- Ep 11: All Is Lost. The deepest defeat. Something dies — literally or symbolically.\n- Ep 12: Dark Night of the Soul. Interiority and reckoning. Protagonist alone with the loss.\n- Ep 13: Break Into Three. New resolve. Hope returns earned, not given.\n- Eps 14-15: Finale. The five-point climax (gather team, execute plan, high-tower surprise, dig deep, execute new plan).\n- Ep 16+: Earned resolution. Final image transforms the opening image. Then second arc begins.\n\nPROFESSION & MILIEU VARIATION:\nAvoid defaulting to: cartographers, mapmakers, librarians, governesses, ladies of the manor, manor houses, country estates, gothic mansions, old libraries, ancestral homes. These are overused in literary AI fiction.\n\nInstead vary protagonist professions widely. Possible: musicians, scientists, doctors, sailors, journalists, teachers, scholars, merchants, artists, herbalists, soldiers, diplomats, midwives, blacksmiths, weavers, telegraph operators, photographers, nurses, translators, archaeologists, performers, couriers, factory workers, farmers, dressmakers, watchmakers, chemists, navigators, monks, lighthouse keepers.\n\nVary settings beyond manor houses: coastal towns, market squares, harbor districts, ships at sea, mountain villages, university courtyards, traveling caravans, factory floors, immigrant neighborhoods, tea houses, theater backstages, monasteries, embassies, hospitals, military camps, convents, opium dens, music halls, train cars, mountain passes, desert oases, river deltas.\n\nGround each story in a specific, unexpected milieu. Repetition of profession or setting across stories is a failure of imagination.\n\nCHARACTER NAMES & CULTURAL CONTEXT:\nVary character names widely across stories. Do NOT default to:\n- Austenian names: Elizabeth, Jane, Eleanor, Catherine, Marianne, Emma, Anne\n- Brontëan names: Catherine, Heathcliff, Helen, Rochester\n- Standard period romance names: Cordelia, Beatrice, Theodore, Edmund, Henry, Charlotte, Edward\n\nDraw names from the actual demographic and geographic range of the pre-1928 world. Match names to the story's specific cultural and geographic context:\n- African American (1860s-1920s): Phillis, Octavia, Lavinia, Booker, Frederick, Ida, Augustus, Cora\n- South Asian (Bengali, Tamil, Punjabi, etc.): Kamala, Indira, Aarav, Ravi, Meera, Anjali, Rohan\n- East Asian (Japanese, Chinese, Korean): Mei, Hiroshi, Yuki, Akira, Lin, Wen, Ji-ho, Hana\n- Eastern European (Polish, Russian, Czech): Stanislav, Magdalena, Wojciech, Anya, Mikhail, Klara\n- Mediterranean (Italian, Spanish, Greek, Portuguese): Sofia, Matteo, Salvatore, Inés, Constantinos, Beatriz\n- Latin American: Esperanza, Rafael, Isabela, Mateo, Lucía, Tomás\n- Middle Eastern / North African: Nasreen, Khalil, Layla, Rashid, Yasmin, Tariq, Farida\n- Irish, Scottish, Welsh: Niamh, Eilidh, Cadan, Bronwen, Padraig, Siobhan\n- Caribbean: Soraya, Jacinta, Esperanza, Anansi (where contextually appropriate)\n- For Fantastical settings: invent or draw from less-overused traditions (Welsh, Old Norse, invented compounds)\n\nMatch names to the geographic and cultural context implied by the story. Do not import English/Anglo names into a Bengal-set or Hokkaido-set or New Orleans-set story. The name should feel inevitable for THIS character in THIS setting — not generic.\n\nABSOLUTE PROHIBITIONS:\n- Sexual content involving anyone under 18\n- Non-consensual sexual encounters presented positively\n- Positive descriptions of incest, racism, religious persecution, sex or gender discrimination\n\nSPICE {SPICE_LEVEL}\n\nCONFLICT RESOLUTION - do NOT use: {AVOIDED_RESOLUTIONS}. Types: outwitted_antagonist, physical_force, emotional_appeal, sacrifice, external_rescue, discovered_information, deception, endurance, surrender, escape.\n\nEPISODE LENGTH: 350 to 650 words. Aim for 500 words. Shorter episodes feel tighter and end on stronger hooks.\n\nOUTPUT FORMAT (STRICT — follow exactly, no markdown formatting):\nLine 1: STORY_TITLE: [overall title for the entire serialized story — only output on Episode 1, omit on subsequent episodes]\nLine 2: TITLE: [episode title — different each episode]\nLine 3: RESOLUTION: [mechanism used, lowercase from the resolution list]\nLine 4: REL_CHANGE: [how closeness shifted, or none]\nLine 5: KNOWLEDGE: [what protagonist now knows that she did not, or none]\nLine 6: POWER_SHIFT: [increase / decrease / neutral]\n\nThen the prose. Blank lines between paragraphs. End on a hook line.\n\nDO NOT use markdown formatting (no ** asterisks, no headers, no italics tags). Each label must appear EXACTLY as written above — uppercase, no decoration. The structured fields are parsed by regex; deviation breaks the system.\n\nThe STORY_TITLE should be evocative, literary, and reflect the entire arc — not just episode 1. Think of it as the title of a novel, not a chapter.\n\nWord count target: 500 words (range 350-650). Tight, focused episodes. Stay under 650 words to ensure clean endings.";
 
 const TAGS=['Come for the classics. Stay for the chaos.','All heart. No harm.','Chill thrills.'];
 let tI=0,tT=null;
@@ -856,12 +795,12 @@ function RT(){const e=document.getElementById('wt');e.classList.remove('v');setT
 function ST(){tT=setInterval(RT,2800);}function KT(){if(tT){clearInterval(tT);tT=null;}}
 
 const MOODS={
-  'Light romance':{tr:'Austen & Gaskell',sx:'warm sentences with breath in them; gentle interiority; dialogue that carries feeling lightly; narrator affectionate and present; the world feels survivable'},
-  'Dark romance':{tr:'Hardy, Bronte & James',sx:'long subordinate-clause sentences accumulating weight before releasing; high interiority; physical sensation named precisely; gothic atmosphere where appropriate; narrator intimate and slightly withholding; the unsaid is the real subject'},
-  'Sharp wit':{tr:'Austen & Wilde',sx:'short sentences dominant; dialogue carries argument; narration comments on action; ironic distance; Austenian free indirect discourse'},
-  'Adventure':{tr:'Stevenson & Dumas',sx:'active verbs dominant; sentences break at action beats; reflection after action; event before meaning'}
+  'Regency Romance':{tr:'Austen & Heyer',sx:'sparkling dialogue where wit is armor; social observation as moral lens; misunderstanding as engine; irony concealing genuine feeling; the drawing room as battlefield'},
+  'Historical Romance':{tr:'Hardy & Scott',sx:'immersive period detail; landscape as emotional state; physical sensation of another era; dialogue carrying class and region; the past made present and urgent'},
+  'Romantasy':{tr:'Le Guin & Tolkien',sx:'world-building threaded through action; magic with cost and consequence; wonder earned not given; the impossible made inevitable; internal logic that never wavers'},
+  'Paranormal Romance':{tr:'Shelley & Stoker',sx:'the uncanny named precisely; dread through accumulation of wrong detail; love that crosses the boundary between worlds; atmosphere as character; what should not exist, does'}
 };
-const AM=Object.keys(MOODS),AL=['Woman lead','Man lead','Non-binary lead'],ALI=['Woman','Man','Non-binary'],AD=['Slow burn','Enemies & rivals','Forbidden love','Friends to lovers'],AS=['Historical','Fantastical'],AA=['Grows into someone new','Loses something real','Discovers a truth','Holds her ground'];
+const AM=Object.keys(MOODS),AL=['Woman lead','Man lead','Non-binary lead'],ALI=['Woman','Man','Non-binary'],AD=['Slow burn','Enemies & rivals','Forbidden love','Friends to lovers'],AA=['Grows into someone new','Loses something real','Discovers a truth','Holds her ground'];
 const PROFESSIONS=[
   'musician','scientist','doctor','sailor','journalist','teacher',
   'merchant','artist','herbalist','soldier','diplomat','dressmaker',
@@ -977,7 +916,7 @@ function updateDots(idx){
 }
 
 document.querySelectorAll('.cp').forEach(c=>{c.addEventListener('click',()=>{document.querySelectorAll('.cp[data-g="'+c.dataset.g+'"]').forEach(x=>x.classList.remove('on'));c.classList.add('on');});});
-function G(id){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));document.getElementById(id).classList.add('on');const map={po:'bn-options',pc:'bn-options',pli:'bn-library',pel:'bn-library',ps:'bn-settings',pr:'bn-reader'};document.querySelectorAll('.bnt').forEach(b=>b.classList.remove('on'));if(map[id]){const b=document.getElementById(map[id]);if(b)b.classList.add('on');}document.getElementById('bnav').style.display=(id==='pw'||id==='pl')?'none':'flex';if(id==='pc')initCarousel();if(id==='pli'){loadLibrary();trackEvent('library_opened',{});}if(id==='pel'){trackEvent('toc_opened',{story_id:currentStoryId});}if(id==='ps')trackEvent('settings_opened',{});if(id==='pw')ST();else KT();}
+function G(id){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));document.getElementById(id).classList.add('on');const map={pc:'bn-options',pli:'bn-library',pel:'bn-library',ps:'bn-settings',pr:'bn-reader'};document.querySelectorAll('.bnt').forEach(b=>b.classList.remove('on'));if(map[id]){const b=document.getElementById(map[id]);if(b)b.classList.add('on');}document.getElementById('bnav').style.display=(id==='pw'||id==='pl')?'none':'flex';if(id==='pc')initCarousel();if(id==='pli'){loadLibrary();trackEvent('library_opened',{});}if(id==='pel'){trackEvent('toc_opened',{story_id:currentStoryId});}if(id==='ps')trackEvent('settings_opened',{});if(id==='pw')ST();else KT();}
 function FS(sz,btn){document.querySelectorAll('.f1').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const m={sm:'13px',md:'15px',lg:'17px'};document.querySelectorAll('.prose').forEach(p=>{p.style.fontSize=m[sz];});}
 function LH(lh,btn){document.querySelectorAll('.f1').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const m={co:'1.65',cm:'1.95',ai:'2.3'};document.querySelectorAll('.prose').forEach(p=>{p.style.lineHeight=m[lh];});}
 const SHD=[{cat:'Violence & harm',items:['Physical violence / assault','Domestic abuse','Graphic gore','War or combat','Torture']},{cat:'Sexual content & abuse',items:['Sexual coercion','Infidelity / cheating'],always:['Child sexual abuse (always blocked)','Non-consensual sex presented positively (always blocked)']},{cat:'Mental health & self-harm',items:['Suicide or suicidal ideation','Self-harm','Eating disorders','Addiction']},{cat:'Loss & grief',items:['Death of a parent','Death of a child','Pregnancy loss','Terminal illness','Abandonment']},{cat:'Childhood & family trauma',items:['Child abuse','Child neglect','Parental addiction','Family separation']},{cat:'Identity & discrimination',items:['Racism / racial violence','Homophobia / transphobia','Religious persecution','Misogyny']}];
@@ -1003,7 +942,12 @@ function TT(){trOpen=!trOpen;document.getElementById('tracker').classList.toggle
 let tS={goal:'--',arcGoal:'--',arcType:'--',tol:'--',engine:'--',rel:10,relLast:'--',know:'Nothing hidden yet',pow:50,gp:0,res:[]};
 function UTR(){document.getElementById('tr-goal').textContent=tS.goal;document.getElementById('tr-arc').textContent=tS.arcGoal;document.getElementById('tr-at').textContent=tS.arcType;document.getElementById('tr-tol').textContent=tS.tol;document.getElementById('tr-eng').textContent=tS.engine;const rl=tS.rel<30?'distant':tS.rel<60?'tentative':tS.rel<80?'close':'intimate';document.getElementById('tr-rl').textContent='Closeness: '+rl;document.getElementById('tr-rb').style.width=tS.rel+'%';document.getElementById('tr-rls').textContent=tS.relLast;document.getElementById('tr-kn').textContent=tS.know;const pl=tS.pow<35?'weakened':tS.pow<65?'neutral':'strengthened';document.getElementById('tr-pl').textContent='Protag power: '+pl;document.getElementById('tr-pb').style.width=tS.pow+'%';document.getElementById('tr-gb').style.width=tS.gp+'%';const re=document.getElementById('tr-res');re.innerHTML=tS.res.length===0?'<div class="t-entry">No episodes yet</div>':tS.res.slice(-5).map(r=>'<div class="t-entry">Ep '+r.ep+': <span>'+r.res+'</span>'+(r.rc?'<br>-- '+r.rc:'')+(r.kn?'<br>'+r.kn:'')+'</div>').join('');}
 const TOLS=['Union','Loss','Ambiguity'];
-const SG={'Light romance':['Find a way to be together despite the small obstacles in their way','Discover what it means to choose this person freely','Accept the joy that has arrived'],'Dark romance':['Find a way to be together despite what it costs','Learn whether the feeling is worth the ruin','Survive the thing that stands between them'],'Sharp wit':['Resolve the misunderstanding before it resolves itself badly','Admit out loud what everyone already knows','Outmaneuver everyone including herself'],'Adventure':['Complete the mission whatever it has become','Keep everyone alive including herself','Get home if home is still meaningful']};
+const SG={
+  'Regency Romance':['Find a way to be together despite what society demands','Outmaneuver everyone who stands between them','Admit the truth before the season ends'],
+  'Historical Romance':['Survive the world they are in long enough to love each other','Find a way across the distance of time, place, or class','Choose each other over what is expected'],
+  'Romantasy':['Defeat what threatens the world they are building together','Learn whether magic is the obstacle or the answer','Survive the cost of the impossible thing they want'],
+  'Paranormal Romance':['Love someone who should not exist in their world','Find a way to close the distance between worlds','Survive what hunts them long enough to choose each other']
+};
 const AGE={'Slow burn':'Establish proximity -- put two people in a space they cannot easily leave','Enemies & rivals':'Establish opposition -- make the conflict feel real and the dislike genuine','Forbidden love':'Establish the prohibition -- make clear what stands between them and why','Friends to lovers':'Establish the friendship -- make the reader understand what is at risk'};
 const ENG={'Slow burn':['Internal contradiction','Pure desire'],'Enemies & rivals':['Internal contradiction','External threat'],'Forbidden love':['External threat','Pure desire'],'Friends to lovers':['Internal contradiction','Mystery']};
 const SHAKES={'Slow burn':"As You Like It / The Winter's Tale",'Enemies & rivals':'Much Ado About Nothing / Othello','Forbidden love':'Romeo and Juliet / Cymbeline','Friends to lovers':'Twelfth Night'};
@@ -1076,10 +1020,10 @@ function escapeHtml(s){
 
 // ─── Library ──────────────────────────────────────────
 const LIB_MOOD_CLASS = {
-  'Light romance': 'lgfb-light',
-  'Dark romance':  'lgfb-dark',
-  'Sharp wit':     'lgfb-wit',
-  'Adventure':     'lgfb-adv'
+  'Regency Romance': 'lgfb-reg',
+  'Historical Romance': 'lgfb-hist',
+  'Romantasy':     'lgfb-rom',
+  'Paranormal Romance': 'lgfb-par'
 };
 
 async function loadLibrary(){
@@ -1286,7 +1230,7 @@ function displayEpisode(episodeNum, entryPoint){
   const meta = currentStoryMeta || {};
   const cfg = meta.config || {};
   // Tradition badge from mood
-  const md = MOODS[cfg.mood] || MOODS['Light romance'];
+  const md = MOODS[cfg.mood] || MOODS['Regency Romance'];
   document.getElementById('tbt').textContent = 'Pre-1928 - ' + md.tr;
   // Story title row
   const stEl = document.getElementById('st');
@@ -1336,7 +1280,7 @@ async function generateNextFromTOC(){
   viewingEpisodeNum = targetNum;
   RH();
   const cfg = (currentStoryMeta.config) || {};
-  const md = MOODS[cfg.mood] || MOODS['Light romance'];
+  const md = MOODS[cfg.mood] || MOODS['Regency Romance'];
   document.getElementById('tbt').textContent = 'Pre-1928 - ' + md.tr;
   const stEl = document.getElementById('st');
   if(window._storyTitle){ stEl.textContent = window._storyTitle; stEl.style.display = 'block'; }
@@ -1391,7 +1335,7 @@ function getCfg(){
     if(wcText==='Custom'){const inp=scope.querySelector('.pane-wci');wc=inp&&inp.value.trim()?inp.value.trim():null;}
     else{wc=wcText;}
   }
-  return{m,l:g('l'),li:g('li'),d:g('d'),s:g('s'),arc:g('arc'),sp,wc,wcs};
+  return{m,l:g('l'),li:g('li'),d:g('d'),arc:g('arc'),sp,wc,wcs};
 }
 function SL(on){if(on){document.getElementById('ls').style.display='block';document.getElementById('pw2').style.display='none';let i=0;document.getElementById('lm').textContent=LMS[0];lT=setInterval(()=>{i=(i+1)%LMS.length;document.getElementById('lm').textContent=LMS[i];},2300);}else{if(lT){clearInterval(lT);lT=null;}document.getElementById('ls').style.display='none';document.getElementById('pw2').style.display='block';document.getElementById('rs').scrollTop=0;}document.getElementById('eb').style.display='none';}
 function SE(msg){if(lT){clearInterval(lT);lT=null;}document.getElementById('ls').style.display='none';document.getElementById('pw2').style.display='none';const e=document.getElementById('eb');e.style.display='block';e.textContent=msg;}
@@ -1402,11 +1346,10 @@ async function begin(){
   const dR=sCfg.d.includes('Surprise')?pick(AD):sCfg.d;
   const lR=sCfg.l.includes('Surprise')?pick(AL):sCfg.l;
   const liR=sCfg.li.includes('Surprise')?pick(ALI):sCfg.li;
-  const sR=sCfg.s.includes('Surprise')?pick(AS):sCfg.s;
   const arcR=sCfg.arc.includes('Surprise')?pick(AA):sCfg.arc;
   const wR=sCfg.wcs?pick(SWP).t:sCfg.wc;
   const tol=pick(TOLS);
-  const goal=pick(SG[mR]||SG['Light romance']);
+  const goal=pick(SG[mR]||SG['Regency Romance']);
   const arcGoal=AGE[dR]||'Establish the world and central tension';
   const engine=pick(ENG[dR]||['Mystery']);
   const shakes=SHAKES[dR]||'Much Ado About Nothing';
@@ -1414,7 +1357,7 @@ async function begin(){
   const protagonistEthnicity=pick(ETHNICITY_POOL);
   const loveInterestEthnicity=pick(ETHNICITY_POOL);
   const opening=pick(OPENINGS);
-  gc={mR,dR,lR,liR,sR,arcR,wR,tol,goal,arcGoal,engine,shakes,sp:sCfg.sp,profession,opening,protagonistEthnicity,loveInterestEthnicity};
+  gc={mR,dR,lR,liR,arcR,wR,tol,goal,arcGoal,engine,shakes,sp:sCfg.sp,profession,opening,protagonistEthnicity,loveInterestEthnicity};
   tS={goal,arcGoal,arcType:arcR,tol,engine,rel:10,relLast:'--',know:'Nothing hidden yet',pow:50,gp:4,res:[]};
   UTR();
   // 5-story limit check
@@ -1433,7 +1376,7 @@ async function begin(){
   if(currentSession){
     const {data, error} = await sb.from('stories').insert({
       user_id: currentSession.user.id,
-      config: { mood:mR, dynamic:dR, protagonist:lR, loveInterest:liR, setting:sR, arc:arcR, wildCard:wR, spice:sCfg.sp, profession:profession, protagonistEthnicity:protagonistEthnicity, loveInterestEthnicity:loveInterestEthnicity },
+      config: { mood:mR, dynamic:dR, protagonist:lR, loveInterest:liR, arc:arcR, wildCard:wR, spice:sCfg.sp, profession:profession, protagonistEthnicity:protagonistEthnicity, loveInterestEthnicity:loveInterestEthnicity },
       global_context: gc
     }).select().single();
     if(error){ SE('Could not save story: '+error.message); return; }
@@ -1441,13 +1384,13 @@ async function begin(){
     currentStoryMeta = data;
   } else {
     currentStoryId = 'story_'+Math.random().toString(36).slice(2);
-    currentStoryMeta = { id: currentStoryId, config: {mood:gc.mR, dynamic:gc.dR, setting:gc.sR}, global_context: gc };
+    currentStoryMeta = { id: currentStoryId, config: {mood:gc.mR, dynamic:gc.dR}, global_context: gc };
   }
-  trackEvent('story_started',{mood:gc.mR,dynamic:gc.dR,protag_arc:gc.arcR,setting:gc.sR,spice:gc.sp,wild_card:gc.wR||null});
-  const md=MOODS[mR]||MOODS['Light romance'];
+  trackEvent('story_started',{mood:gc.mR,dynamic:gc.dR,protag_arc:gc.arcR,spice:gc.sp,wild_card:gc.wR||null});
+  const md=MOODS[mR]||MOODS['Regency Romance'];
   document.getElementById('en').textContent='Episode 1';
   document.getElementById('et').textContent='Gathering the threads...';
-  document.getElementById('ec').textContent=mR+' - '+lR+' - '+dR+' - '+sR+(wR?' - '+wR.slice(0,30)+'...':'');
+  document.getElementById('ec').textContent=mR+' - '+lR+' - '+dR+(wR?' - '+wR.slice(0,30)+'...':'');
   document.getElementById('tbt').textContent='Pre-1928 - '+md.tr;
   document.getElementById('pf').style.width='0%';
   document.getElementById('pl2').textContent='0%';
@@ -1492,7 +1435,7 @@ function getBeat(n){
   return 'Continuing arc. Earned momentum. Final image transforms the opening image. New arc begins.';
 }
 function BSY(){
-  const md=MOODS[gc.mR]||MOODS['Light romance'];
+  const md=MOODS[gc.mR]||MOODS['Regency Romance'];
   const si=['','Longing glances only.','Emotional charge, fade to black.','Physical awareness named. Behind closed doors.','Explicit scenes. Consenting adults only.','Fully explicit between consenting adults.'];
   const ar=uR.slice(-3).join(', ');
   const beat=getBeat(eN);
@@ -1510,32 +1453,31 @@ const COVER_API = 'https://niblit-server-production.up.railway.app/generate-cove
 
 // MOODS only holds prose-style notes, so the visual palette mapping lives here.
 const COVER_MOOD = {
-  'Light romance': 'Warm golden light, soft cream and honey tones, tender and hopeful. Morning light or candlelight.',
-  'Dark romance':  'Deep burgundy, midnight blue and shadow. Gothic, brooding, candlelit. A sense of the unsaid.',
-  'Sharp wit':     'Bright, crisp, elegant. Clean light, refined jewel tones, a playful confidence to the composition.',
-  'Adventure':     'Dramatic saturated colour, sweeping golden-hour light, a charged and dynamic sky.'
+  'Regency Romance': 'Warm candlelight and soft gold. The glow of a ballroom — cream, honey, and the shimmer of candlelight on silk.',
+  'Historical Romance': 'Rich earth tones and deep burgundy. The warmth of firelight and aged wood. A world of weight, texture, and beauty.',
+  'Romantasy': 'Deep jewel tones — sapphire, emerald, amethyst. Otherworldly luminescence. The palette of enchantment and ancient magic.',
+  'Paranormal Romance': 'Moonlit cool blues and silver. Deep shadow with points of warm candlelight. The palette of night and the beautiful uncanny.'
 };
-const COVER_SETTING = {
-  'Historical':  'A richly detailed historical setting, pre-20th-century, period-accurate architecture, fabrics and objects.',
-  'Fantastical': 'A fantasy setting with a subtle magical atmosphere -- otherworldly light, ancient stone, a faint sense of enchantment.'
+const COVER_GENRE = {
+  'Regency Romance': 'English Regency era, 1800s-1820s. Candlelit drawing rooms, silk curtains, leather-bound books, a writing desk at midnight. The world of Austen — refined, constrained, achingly beautiful.',
+  'Historical Romance': 'A richly rendered historical world — period-accurate architecture, fabrics, and objects. Could suggest Viking, Medieval, Victorian, or Highland. Weight, texture, and the beauty of another era.',
+  'Romantasy': 'A fantasy world — ancient stone, enchanted forests, towers of obsidian, libraries of impossible scale. A sense of magic in every shadow and light source.',
+  'Paranormal Romance': 'A world where the supernatural bleeds through — fog-shrouded streets, gothic architecture, moonlit rooms, candlelit interiors where something is not quite right. Beauty and dread in equal measure.'
 };
 
 function buildCoverPrompt(cfg){
-  const mood    = COVER_MOOD[cfg.mood]       || COVER_MOOD['Light romance'];
-  const setting = COVER_SETTING[cfg.setting] || COVER_SETTING['Historical'];
+  const mood    = COVER_MOOD[cfg.mood]  || COVER_MOOD['Regency Romance'];
+  const world   = COVER_GENRE[cfg.mood] || COVER_GENRE['Regency Romance'];
   const trade   = cfg.profession || 'artist';
   return [
     'Oil painting illustration in the style of 1970s-1980s mass-market romance paperback cover art. ' +
-    'Painted by a skilled commercial illustrator. ' +
-    'Soft, loose, impressionistic brushwork — forms suggested rather than rendered. ' +
-    'heavily defocused background, soft vignette, painterly blur. Rich and warm, not photographic. ' +
-    'The scene is the world of a ${trade}: their workplace, tools and surroundings, beautifully rendered. ' +
-    'No people, no figures, no faces anywhere in the image. ',
-    setting,
+    'Painted by a skilled commercial illustrator. Painterly brushwork, rich and warm, not photographic.',
+    `The scene is the world of a ${trade}: their workplace, tools and surroundings, beautifully rendered. ` +
+    'No people, no figures, no faces anywhere in the image.',
+    world,
     mood,
-    'Romantic, evocative atmosphere -- a sense of longing and of two people implied without showing anyone such as paired objects. ' +
-    'Not hyperdetailed. Soft focus throughout — background intentionally blurred and indistinct. ' +
-    'No single sharp focal point. Not fantasy concept art. ' +
+    'Romantic, evocative atmosphere -- a sense of longing and of two people implied without showing anyone: ' +
+    'paired objects, an empty chair drawn close, a discarded glove, two cups left together.',
     'No text, no lettering, no title, no words of any kind. ' +
     'No modern or contemporary objects, no digital-flat or anime style, not a photograph.'
   ].join(' ');
@@ -1563,9 +1505,6 @@ async function generateCover(storyId, cfg){
     if(error){ console.error('Cover save failed:', error.message); return null; }
 
     console.log('Cover saved for story', storyId, '->', cover_url);
-    // Keep the in-memory story object current so setReaderCover() can use it
-    // when episode 2 renders (without needing a fresh DB fetch).
-    if(currentStoryMeta) currentStoryMeta.cover_image_url = cover_url;
     return cover_url;
   } catch(err){
     // Swallow errors on purpose -- a cover failure must never block reading.
@@ -1573,23 +1512,6 @@ async function generateCover(storyId, cfg){
     console.error('Cover generation error:', err.message);
     return null;
   }
-}
-// Renders the cover (or fallback card) into #rcov.
-// Hidden on episode 1 — cover is a reward for continuing, not a preamble.
-// Called from GE() after prose renders; also from generateNextFromTOC() on TOC path.
-function setReaderCover(){
-  const cov = document.getElementById('rcov');
-  if(!cov) return;
-  if(eN === 1){ cov.innerHTML = ''; return; }
-  const meta = currentStoryMeta;
-  if(!meta){ cov.innerHTML = ''; return; }
-  const cfg = meta.config || {};
-  const url = meta.cover_image_url || null;
-  const title = window._storyTitle || meta.story_title || 'Untitled story';
-  const moodClass = LIB_MOOD_CLASS[cfg.mood] || 'lgfb-light';
-  cov.innerHTML = url
-    ? '<img class="lgcov-img" src="' + escapeHtml(url) + '" alt="">'
-    : '<div class="lgcov-fb ' + moodClass + '"><div class="lgcov-ttl">' + escapeHtml(title) + '</div></div>';
 }
 async function GE(){
   const sh=[...sS,...cSh];const shL=sh.length?'Avoid entirely: '+sh.join(', '):'';
@@ -1599,8 +1521,8 @@ async function GE(){
   const ethP=gc.protagonistEthnicity?' Protagonist ethnicity: '+gc.protagonistEthnicity.prose+'.':'';
   const ethLI=gc.loveInterestEthnicity?' Love interest ethnicity: '+gc.loveInterestEthnicity.prose+'.':'';
   const pr=eN===1
-    ?'Write Episode 1. '+(profL?' '+profL:'')+' Protagonist: '+gc.lR+'.'+ethP+' '+(gc.liR==='No love interest'?'No love interest.':'Love interest: '+gc.liR+'.'+ethLI)+' Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5 ('+spL[gc.sp||2]+').'+( wcL?' '+wcL:'')+' '+(gc.opening||'')+' End on an unresolved hook that demands episode 2.'+(shL?' '+shL:'')
-    :'Continue Episode '+eN+'. '+gc.mR+'. Protagonist: '+gc.lR+'.'+ethP+' Dynamic: '+gc.dR+'. Setting: '+gc.sR+'. Spice: '+(gc.sp||2)+'/5.'+(profL?' '+profL:'')+(wcL?' '+wcL:'')+' Previous: '+aS.slice(0,600)+' Deepen tension. Advance the arc goal. End on a fresh hook.'+(shL?' '+shL:'');
+    ?'Write Episode 1. '+(profL?' '+profL:'')+' Protagonist: '+gc.lR+'.'+ethP+' '+(gc.liR==='No love interest'?'No love interest.':'Love interest: '+gc.liR+'.'+ethLI)+' Dynamic: '+gc.dR+'. Spice: '+(gc.sp||2)+'/5 ('+spL[gc.sp||2]+').'+( wcL?' '+wcL:'')+' '+(gc.opening||'')+' End on an unresolved hook that demands episode 2.'+(shL?' '+shL:'')
+    :'Continue Episode '+eN+'. '+gc.mR+'. Protagonist: '+gc.lR+'.'+ethP+' Dynamic: '+gc.dR+'. Spice: '+(gc.sp||2)+'/5.'+(profL?' '+profL:'')+(wcL?' '+wcL:'')+' Previous: '+aS.slice(0,600)+' Deepen tension. Advance the arc goal. End on a fresh hook.'+(shL?' '+shL:'');
   try{
     const r=await fetch('https://niblit-server-production.up.railway.app/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:BSY(),messages:[...sH,{role:'user',content:pr}]})});
     if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error||'Server error '+r.status);}
@@ -1613,7 +1535,7 @@ async function GE(){
     const stM=stRaw?[null,stRaw]:null;const tM=tRaw?[null,tRaw]:null;const rM=rRaw?[null,rRaw]:null;const rcM=rcRaw?[null,rcRaw]:null;const knM=knRaw?[null,knRaw]:null;const pwM=pwRaw?[null,pwRaw]:null;
     const title=tM?tM[1].trim():'Episode '+eN;const res=rM?rM[1].trim():null;
     if(stM&&eN===1){window._storyTitle=stM[1].trim();const stEl=document.getElementById('st');stEl.textContent=window._storyTitle;stEl.style.display='block';}
-    const rc=rcM?rcM[1].trim():null;const kn=knM?knM[1].trim():null;const ps=pwM?pwM[1].trim():null;
+    if(stM&&eN===1){window._storyTitle=stM[1].trim();const stEl=document.getElementById('st');stEl.textContent=window._storyTitle;stEl.style.display='block';}const rc=rcM?rcM[1].trim():null;const kn=knM?knM[1].trim():null;const ps=pwM?pwM[1].trim():null;
     if(res){uR.push(res);if(uR.length>6)uR=uR.slice(-6);}
     if(rc&&rc.toLowerCase()!=='none'){const dir=(rc.toLowerCase().includes('closer')||rc.toLowerCase().includes('drew')||rc.toLowerCase().includes('warm'))?1:-1;tS.rel=Math.max(5,Math.min(95,tS.rel+(dir*12)));tS.relLast=rc;}
     if(kn&&kn.toLowerCase()!=='none'){tS.know=kn;}
@@ -1653,7 +1575,6 @@ async function GE(){
     let prose=raw;['STORY_TITLE','STORY TITLE','TITLE','EPISODE_TITLE','EPISODE TITLE','RESOLUTION','REL_CHANGE','REL CHANGE','KNOWLEDGE','POWER_SHIFT','POWER SHIFT'].forEach(f=>{prose=stripField(prose,f);});prose=prose.trim();
     aS+=(aS?'\n\nEp '+eN+': ':'')+prose.slice(0,400);sH.push({role:'user',content:pr},{role:'assistant',content:raw});if(sH.length>10)sH=sH.slice(-8);
     document.getElementById('et').textContent=title;RP(prose);SL(false);
-    setReaderCover();
     if(wasTruncated){const w=document.createElement('div');w.style.cssText='margin:0 20px 16px;padding:8px 12px;background:rgba(217,165,90,.13);border:0.5px solid var(--g);border-radius:7px;font-size:11px;color:var(--gd);text-align:center;font-style:italic;';w.textContent='⚠ The episode reached the generation limit. The ending may feel cut off. Tap Generate again to continue.';document.querySelector('.prose').appendChild(w);}
     document.getElementById('nb').disabled=false;document.getElementById('nb').textContent='Generate episode '+(eN+1)+' >';setTimeout(updateReadingProgress,100);
     const CIS=[{ep:3,tag:'Episode 3 check-in',title:'Is this the story you want?',body:'How is the pacing feeling?',opts:['Pacing feels right -- keep going','A little slow -- pick it up','A little fast -- let it breathe','The protagonist feels distant']},{ep:9,tag:'End of first arc',title:'How is the story landing?',body:'Is there anything feeling thin or repetitive?',opts:['Everything feels alive -- continue','I want more of the love interest','Raise the stakes','Something feels repeated -- vary it']}];
