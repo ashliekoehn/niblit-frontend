@@ -1478,13 +1478,25 @@ function coverGenderLabel(val){
   return 'a person';
 }
 
+// Maps AL / ALI values to unambiguous prose instructions for the text model.
+function proseGenderLabel(val, isProtag){
+  if(!val) return '';
+  const v = val.toLowerCase();
+  if(v.includes('non-binary') || v.includes('nonbinary'))
+    return isProtag ? 'nonbinary protagonist (they/them pronouns)' : 'nonbinary love interest (they/them pronouns)';
+  if(v.includes('woman')) return isProtag ? 'woman' : 'woman';
+  if(v.includes('man'))   return isProtag ? 'man' : 'man';
+  return '';
+}
+
 function buildCoverPrompt(cfg){
   const mood  = COVER_MOOD[cfg.mood] || COVER_MOOD['Regency Romance'];
   const trade = cfg.profession || 'artist';
 
-  // Figure descriptions: gender label + appearance from ethnicity pool
-  const protagGender = coverGenderLabel(cfg.lR);
-  const liGender     = coverGenderLabel(cfg.liR);
+  // Figure descriptions: gender label + appearance from ethnicity pool.
+  // cfg here is currentStoryMeta.config, which stores protagonist/loveInterest (not lR/liR).
+  const protagGender = coverGenderLabel(cfg.protagonist);
+  const liGender     = coverGenderLabel(cfg.loveInterest);
   const protagApp    = cfg.protagonistEthnicity  ? cfg.protagonistEthnicity.image : null;
   const liApp        = cfg.loveInterestEthnicity ? cfg.loveInterestEthnicity.image : null;
 
@@ -1492,7 +1504,7 @@ function buildCoverPrompt(cfg){
     ? `The protagonist, ${protagGender}: ${protagApp}.`
     : `The protagonist, ${protagGender}.`;
 
-  const hasLI    = cfg.liR && !cfg.liR.toLowerCase().includes('no love interest');
+  const hasLI    = cfg.loveInterest && !cfg.loveInterest.toLowerCase().includes('no love interest');
   const liDesc   = hasLI
     ? (liApp ? `The love interest, ${liGender}: ${liApp}.` : `The love interest, ${liGender}.`)
     : '';
@@ -1571,9 +1583,11 @@ async function GE(){
   const spL=['','Gentle','Sweet','Warm','Steamy','Explicit'];
   const ethP=gc.protagonistEthnicity?' Protagonist ethnicity: '+gc.protagonistEthnicity.prose+'.':'';
   const ethLI=gc.loveInterestEthnicity?' Love interest ethnicity: '+gc.loveInterestEthnicity.prose+'.':'';
+  const pgL=proseGenderLabel(gc.lR, true);
+  const liGL=proseGenderLabel(gc.liR, false);
   const pr=eN===1
-    ?'Write Episode 1. '+(profL?' '+profL:'')+' Protagonist: '+gc.lR+'.'+ethP+' '+(gc.liR==='No love interest'?'No love interest.':'Love interest: '+gc.liR+'.'+ethLI)+' Dynamic: '+gc.dR+'. Spice: '+(gc.sp||2)+'/5 ('+spL[gc.sp||2]+').'+( wcL?' '+wcL:'')+' '+(gc.opening||'')+' End on an unresolved hook that demands episode 2.'+(shL?' '+shL:'')
-    :'Continue Episode '+eN+'. '+gc.mR+'. Protagonist: '+gc.lR+'.'+ethP+' Dynamic: '+gc.dR+'. Spice: '+(gc.sp||2)+'/5.'+(profL?' '+profL:'')+(wcL?' '+wcL:'')+' Previous: '+aS.slice(0,600)+' Deepen tension. Advance the arc goal. End on a fresh hook.'+(shL?' '+shL:'');
+    ?'Write Episode 1. '+(profL?' '+profL:'')+' Protagonist: '+pgL+'.'+ethP+' '+(gc.liR==='No love interest'?'No love interest.':'Love interest: '+liGL+'.'+ethLI)+' Dynamic: '+gc.dR+'. Spice: '+(gc.sp||2)+'/5 ('+spL[gc.sp||2]+').'+( wcL?' '+wcL:'')+' '+(gc.opening||'')+' End on an unresolved hook that demands episode 2.'+(shL?' '+shL:'')
+    :'Continue Episode '+eN+'. '+gc.mR+'. Protagonist: '+pgL+'.'+ethP+' '+(gc.liR==='No love interest'?'No love interest.':'Love interest: '+liGL+'.'+ethLI)+' Dynamic: '+gc.dR+'. Spice: '+(gc.sp||2)+'/5.'+(profL?' '+profL:'')+(wcL?' '+wcL:'')+' Previous: '+aS.slice(0,600)+' Deepen tension. Advance the arc goal. End on a fresh hook.'+(shL?' '+shL:'');
   try{
     const r=await fetch('https://niblit-server-production.up.railway.app/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:BSY(),messages:[...sH,{role:'user',content:pr}]})});
     if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error||'Server error '+r.status);}
