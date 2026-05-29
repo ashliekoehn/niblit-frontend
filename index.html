@@ -1530,7 +1530,6 @@ function buildCoverPrompt(cfg){
 async function generateCover(storyId, cfg){
   try {
     const prompt = buildCoverPrompt(cfg);
-    console.log('[cover prompt]', prompt); // TEMP — remove after verification
     const r = await fetch(COVER_API, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
