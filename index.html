@@ -1248,6 +1248,7 @@ function displayEpisode(episodeNum, entryPoint){
   document.getElementById('ec').textContent = (cfg.mood || '') + ' · episode ' + ep.episode_num + ' of ' + currentEpisodes.length;
   // Prose
   RP(ep.prose || '');
+  setReaderCover();
   // Heart state
   window._currentEpisodeId = ep.id;
   lv = currentLovedSet.has(ep.id);
@@ -1449,49 +1450,75 @@ function BSY(){
     .replace('{SPICE_LEVEL}',gc.sp+'/5: '+si[gc.sp||2])
     .replace('{AVOIDED_RESOLUTIONS}',ar||'none yet')
     +' GLOBAL CONTEXT: Season Goal: '+gc.goal+' | Arc Goal: '+gc.arcGoal+' | Framework: '+gc.mR+' + '+gc.dR+' | Protagonist Arc: '+gc.arcR+' | Ending: '+gc.tol+' | Engine: '+gc.engine+' | Shakespeare ref: '+gc.shakes+' | Save the Cat beat for THIS episode (Ep '+eN+'): '+beat+' | Structure: Wave with interwoven sub-arcs | Syntactic signature: '+md.sx+'.';}
-// ---- Cover generation (Phase 1: atmospheric, no figures) ----
-// Builds an atmospheric prompt from mood + setting + profession, asks the Railway
-// /generate-cover endpoint to paint + store the image, and writes the returned
-// permanent URL to stories.cover_image_url. Phase 1 covers depict a *place*,
-// never people -- character accuracy is Phase 2. Wildcards are intentionally
-// ignored here: they're verbal/structural, not visual.
+// ---- Cover generation ----
+// Builds a cover prompt from story config. Character figures (gender + appearance)
+// are Phase 2. COVER_GENRE dropped — detailed period architecture was pushing
+// backgrounds toward over-rendered illustration. COVER_MOOD retained for palette only.
+// Wildcards excluded: they are verbal/structural conceits with no paintable equivalent.
+// PHASE 3 TODO: add a 'visualSignature' config field for supernatural character markers
+// (e.g. a vampire's teeth, a fae glow, werewolf ears, a magic mark at the wrist).
+// Once that field exists, inject it into the figure description block here.
 const COVER_API = 'https://niblit-server-production.up.railway.app/generate-cover';
 
-// MOODS only holds prose-style notes, so the visual palette mapping lives here.
+// Palette and emotional register by genre. No architectural detail — background is dissolved.
 const COVER_MOOD = {
-  'Regency Romance': 'Warm candlelight and soft gold. The glow of a ballroom — cream, honey, and the shimmer of candlelight on silk.',
-  'Historical Romance': 'Rich earth tones and deep burgundy. The warmth of firelight and aged wood. A world of weight, texture, and beauty.',
-  'Romantasy': 'Deep jewel tones — sapphire, emerald, amethyst. Otherworldly luminescence. The palette of enchantment and ancient magic.',
-  'Paranormal Romance': 'Moonlit cool blues and silver. Deep shadow with points of warm candlelight. The palette of night and the beautiful uncanny.'
-};
-const COVER_GENRE = {
-  'Regency Romance': 'English Regency era, 1800s-1820s. Candlelit drawing rooms, silk curtains, leather-bound books, a writing desk at midnight. The world of Austen — refined, constrained, achingly beautiful.',
-  'Historical Romance': 'A richly rendered historical world — period-accurate architecture, fabrics, and objects. Could suggest Viking, Medieval, Victorian, or Highland. Weight, texture, and the beauty of another era.',
-  'Romantasy': 'A fantasy world — ancient stone, enchanted forests, towers of obsidian, libraries of impossible scale. A sense of magic in every shadow and light source.',
-  'Paranormal Romance': 'A world where the supernatural bleeds through — fog-shrouded streets, gothic architecture, moonlit rooms, candlelit interiors where something is not quite right. Beauty and dread in equal measure.'
+  'Regency Romance': 'Warm candlelight and soft gold. Cream, honey, the shimmer of candlelight on silk.',
+  'Historical Romance': 'Rich earth tones and deep burgundy. The warmth of firelight and aged wood.',
+  'Romantasy': 'Deep jewel tones — sapphire, emerald, amethyst. Otherworldly luminescence.',
+  'Paranormal Romance': 'Moonlit cool blues and silver. Deep shadow with points of warm candlelight.'
 };
 
+// Maps AL / ALI values to paintable gender presentation labels.
+function coverGenderLabel(val){
+  if(!val) return 'a person';
+  const v = val.toLowerCase();
+  if(v.includes('non-binary') || v.includes('nonbinary')) return 'a nonbinary person, androgynous in presentation';
+  if(v.includes('woman')) return 'a woman';
+  if(v.includes('man')) return 'a man';
+  return 'a person';
+}
+
 function buildCoverPrompt(cfg){
-  const mood    = COVER_MOOD[cfg.mood]  || COVER_MOOD['Regency Romance'];
-  const world   = COVER_GENRE[cfg.mood] || COVER_GENRE['Regency Romance'];
-  const trade   = cfg.profession || 'artist';
+  const mood  = COVER_MOOD[cfg.mood] || COVER_MOOD['Regency Romance'];
+  const trade = cfg.profession || 'artist';
+
+  // Figure descriptions: gender label + appearance from ethnicity pool
+  const protagGender = coverGenderLabel(cfg.lR);
+  const liGender     = coverGenderLabel(cfg.liR);
+  const protagApp    = cfg.protagonistEthnicity  ? cfg.protagonistEthnicity.image : null;
+  const liApp        = cfg.loveInterestEthnicity ? cfg.loveInterestEthnicity.image : null;
+
+  const protagDesc = protagApp
+    ? `The protagonist, ${protagGender}: ${protagApp}.`
+    : `The protagonist, ${protagGender}.`;
+
+  const hasLI    = cfg.liR && !cfg.liR.toLowerCase().includes('no love interest');
+  const liDesc   = hasLI
+    ? (liApp ? `The love interest, ${liGender}: ${liApp}.` : `The love interest, ${liGender}.`)
+    : '';
+
+  const figureBlock = [protagDesc, liDesc].filter(Boolean).join(' ');
+
   return [
-    'Oil painting illustration in the style of 1970s-1980s mass-market romance paperback cover art. ' +
-    'Painted by a skilled commercial illustrator. Painterly brushwork, rich and warm, not photographic.',
-    `The scene is the world of a ${trade}: their workplace, tools and surroundings, beautifully rendered. ` +
-    'No people, no figures, no faces anywhere in the image.',
-    world,
+    'Oil painting illustration in the style of 1970s–1980s mass-market romance paperback cover art. ' +
+    'Painted by a skilled commercial illustrator. Warm saturated palette. Hard dramatic lighting, deep shadows, strong highlights. ' +
+    'Tight detailed brushwork. Sharp figure rendering. Commercial illustration precision. ' +
+    'Bold composition. Figures large in frame, close to viewer. Designed to be seen across a bookstore rack. ' +
+    'Dramatic, not subtle. Emotionally heightened.',
+    figureBlock,
+    `Their world carries the atmosphere of a ${trade} — its light, texture, and feeling present in the scene.`,
+    'Background soft and dissolved: warm colour washes, implied shapes emerging from atmospheric haze. ' +
+    'Not sharply rendered. Not architecturally detailed. Figures dominate the frame; everything behind them dissolves into light and tone.',
     mood,
-    'Romantic, evocative atmosphere -- a sense of longing and of two people implied without showing anyone: ' +
-    'paired objects, an empty chair drawn close, a discarded glove, two cups left together.',
-    'No text, no lettering, no title, no words of any kind. ' +
-    'No modern or contemporary objects, no digital-flat or anime style, not a photograph.'
-  ].join(' ');
+    'No text. No letters. No words. No title. No author name. No publisher logo. No branding. No watermark. ' +
+    'No modern digital art style. No anime. No flat illustration. No photography. No sharply rendered backgrounds.'
+  ].filter(Boolean).join(' ');
 }
 
 async function generateCover(storyId, cfg){
   try {
     const prompt = buildCoverPrompt(cfg);
+    console.log('[cover prompt]', prompt); // TEMP — remove after verification
     const r = await fetch(COVER_API, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
