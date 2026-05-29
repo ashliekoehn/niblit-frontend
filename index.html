@@ -106,6 +106,8 @@ html,body{height:100%;overflow:hidden;background:#000;}
 .cd2{text-align:center;padding:20px 16px 4px;color:var(--cd);letter-spacing:10px;font-size:12px;}
 .prose{padding:4px 20px 22px;font-family:var(--body);font-size:15px;line-height:1.95;color:var(--p);max-width:640px;margin:0 auto;text-align:left;}
 .prose p{margin-bottom:1em;text-align:left;}.prose .dc,.prose .hl{text-align:left;}
+/* Placeholder-only styling — stripped once real prose loads */
+.prose.ph{text-align:center;font-style:italic;color:var(--pl);}
 .dc::first-letter{font-family:var(--serif);font-size:3.8em;float:left;line-height:.75;margin:.05em .1em 0 0;color:var(--pm);font-style:italic;}
 .sb{text-align:center;color:var(--cd);letter-spacing:9px;font-size:12px;margin:1.2em 0;clear:both;}
 .hl{font-style:italic;font-family:var(--serif);font-size:15px;color:var(--pm);border-left:2.5px solid var(--g);padding:4px 0 4px 12px;margin:1.2em 0;line-height:1.6;}
@@ -693,7 +695,7 @@ html,body{height:100%;overflow:hidden;background:#000;}
     <div class="rs" id="rs">
       <div id="rcov" class="rcov"></div>
       <div class="ls" id="ls" style="display:none;"><span class="lo">&#10022; &nbsp; &#10022; &nbsp; &#10022;</span><div class="lm" id="lm">Gathering the threads&hellip;</div><div class="lb"><div class="lf"></div></div></div>
-      <div id="pw2"><div class="cd2" style="padding-top:32px;">&#10022; &nbsp; &#10022; &nbsp; &#10022;</div><div class="prose" id="pb2" style="text-align:center;font-style:italic;color:var(--pl);padding-top:10px;">Configure your story on the Story page,<br>then tap Begin your story.</div></div>
+      <div id="pw2"><div class="cd2" style="padding-top:32px;">&#10022; &nbsp; &#10022; &nbsp; &#10022;</div><div class="prose ph" id="pb2" style="padding-top:10px;">Configure your story on the Story page,<br>then tap Begin your story.</div></div>
       <div class="eb" id="eb" style="display:none;"></div>
     </div>
     <div class="tracker" id="tracker">
@@ -1679,7 +1681,7 @@ function SCI(ci){
 }
 function DC(){const wasVisible=document.getElementById('cio').style.display==='flex';document.getElementById('cio').style.display='none';if(wasVisible)trackEvent('checkin_dismissed',{episode_num:eN});}
 function startNewStory(){trackEvent('start_new_story',{from_episode:eN});G('po');}
-function RP(raw){const ps=raw.split(/\n\n+/).filter(p=>p.trim());let h='';ps.forEach((para,i)=>{const t=para.trim();if(t.match(/^[*\s-]{1,5}$/)){h+='<div class="sb">&#10022; &nbsp; &#10022; &nbsp; &#10022;</div>';return;}const iL=i===ps.length-1;const iH=iL&&!t.startsWith('"')&&ps.length>3&&t.length>60;if(iH)h+='<div class="hl">'+t+'</div>';else if(i===0)h+='<p class="dc">'+t+'</p>';else h+='<p>'+t+'</p>';});document.getElementById('pb2').innerHTML=h;}
+function RP(raw){const pb=document.getElementById('pb2');pb.classList.remove('ph');const ps=raw.split(/\n\n+/).filter(p=>p.trim());let h='';ps.forEach((para,i)=>{const t=para.trim();if(t.match(/^[*\s-]{1,5}$/)){h+='<div class="sb">&#10022; &nbsp; &#10022; &nbsp; &#10022;</div>';return;}const iL=i===ps.length-1;const iH=iL&&!t.startsWith('"')&&ps.length>3&&t.length>60;if(iH)h+='<div class="hl">'+t+'</div>';else if(i===0)h+='<p class="dc">'+t+'</p>';else h+='<p>'+t+'</p>';});pb.innerHTML=h;}
 async function TH(){
   lv=!lv;
   document.getElementById('hb').classList.toggle('lv',lv);
