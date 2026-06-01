@@ -6,22 +6,20 @@
 <title>NibLit</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
-:root{
-  --p:#2C1722;--pm:#8A4A3F;--pl:#B98E78;--c:#FBF1D7;--cd:#CDB585;--cf:#F0E1C2;
-  --g:#D89A2A;--gd:#9C5A22;--t:#1E7E74;--tl:#DBEAE3;
-  --flame:#D85A2A;--oxblood:#B12F3A;--plum:#6B2756;--rose:#CF5E78;--cta:#B12F3A;
-  --paper2:#E8D5AC;
-  --cov-reg:linear-gradient(158deg,#F4DA8C 0%,#E6B23C 58%,#D88B27 100%);
-  --cov-hist:linear-gradient(160deg,#AE4429 0%,#822420 55%,#561420 100%);
-  --cov-rom:linear-gradient(150deg,#15726B 0%,#2C5A6F 46%,#6B2756 100%);
-  --cov-par:linear-gradient(160deg,#1A1D47 0%,#3A2154 54%,#5A1E44 100%);
-  --cov-reg-ink:#5A1422;--cov-hist-ink:#F6DC9A;--cov-rom-ink:#F2D8B0;--cov-par-ink:#E9D8C2;
-  --display:'DM Serif Display',Georgia,serif;--serif:'DM Serif Display',Georgia,serif;
-  --body:'Newsreader',Georgia,serif;--sans:'Hanken Grotesk',system-ui,sans-serif;--mono:'DM Mono',ui-monospace,monospace;}
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=Lora:ital,opsz,wght@0,6..72,400;1,6..72,400&family=DM+Sans:wght@300;400;500&display=swap');
+:root{--p:#4E1B4F;--pm:#6B2870;--pl:#9C6BA8;--c:#F2DCB5;--cd:#D9C194;--cf:#FAF1DB;--g:#D9A55A;--gd:#A87A38;--t:#4A8A7E;--tl:#DFEAE5;--serif:'EB Garamond',Georgia,serif;--body:'Lora',Georgia,serif;--sans:'DM Sans',sans-serif;}
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;overflow:hidden;background:#000;}
-#app{height:100vh;max-width:430px;margin:0 auto;display:flex;flex-direction:column;font-family:var(--sans);background:var(--cf);color:var(--p);overflow:hidden;position:relative;}
+body{background:radial-gradient(125% 85% at 50% -8%, #5e2c60 0%, #3f173f 36%, #2a0f2b 68%, #190a1c 100%);background-attachment:fixed;display:flex;align-items:center;justify-content:center;}
+.shell-deco{position:fixed;inset:0;z-index:0;pointer-events:none;display:none;overflow:hidden;}
+.shell-deco .sd-nib{position:absolute;left:50%;top:46%;width:min(118vh,1040px);height:min(118vh,1040px);transform:translate(-50%,-50%);opacity:.045;}
+.shell-deco .sd-mark{position:absolute;left:0;right:0;bottom:24px;text-align:center;font-family:var(--body);font-style:italic;font-size:13px;letter-spacing:.4px;color:rgba(242,220,181,.5);}
+.shell-deco .sd-mark b{font-family:var(--serif);font-style:normal;font-weight:400;font-size:19px;letter-spacing:.5px;color:rgba(242,220,181,.74);display:block;margin-bottom:4px;}
+#app{height:100vh;width:100%;max-width:430px;margin:0 auto;display:flex;flex-direction:column;font-family:var(--sans);background:var(--cf);color:var(--p);overflow:hidden;position:relative;z-index:1;}
+@media (min-width:600px){
+  .shell-deco{display:block;}
+  #app{height:min(100dvh - 52px, 884px);border-radius:30px;box-shadow:0 40px 90px -20px rgba(0,0,0,.72), 0 0 0 1px rgba(217,165,90,.22), 0 0 0 9px rgba(0,0,0,.22);}
+}
 .pg{display:none;flex:1;flex-direction:column;overflow:hidden;}.pg.on{display:flex;}
 #pw{background:var(--p);align-items:center;justify-content:center;}
 .wi{display:flex;flex-direction:column;align-items:center;gap:18px;}
@@ -104,7 +102,7 @@ html,body{height:100%;overflow:hidden;background:#000;}
 .ct{display:flex;flex-wrap:wrap;gap:4px;}
 .ctg{display:flex;align-items:center;gap:4px;background:var(--p);border-radius:999px;padding:3px 9px;font-size:11px;color:var(--c);}
 .ctr{cursor:pointer;opacity:.7;font-size:12px;line-height:1;}
-.rh{background:var(--p);padding:10px 16px 13px;flex-shrink:0;position:relative;}
+.rh{background:var(--p);padding:10px 16px 13px;flex-shrink:0;}
 .tbd{display:inline-flex;align-items:center;gap:5px;background:rgba(217,165,90,.16);border:0.5px solid var(--g);border-radius:4px;padding:4px 8px;margin-bottom:6px;}
 .tbt{font-size:10px;color:var(--g);}.en{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--g);margin-bottom:4px;}
 .st{font-size:11px;font-weight:500;color:var(--g);font-style:italic;font-family:var(--serif);margin-bottom:3px;letter-spacing:.3px;}
@@ -117,7 +115,7 @@ html,body{height:100%;overflow:hidden;background:#000;}
 .cd2{text-align:center;padding:20px 16px 4px;color:var(--cd);letter-spacing:10px;font-size:12px;}
 .prose{padding:4px 20px 22px;font-family:var(--body);font-size:15px;line-height:1.95;color:var(--p);max-width:640px;margin:0 auto;text-align:left;}
 .prose p{margin-bottom:1em;text-align:left;}.prose .dc,.prose .hl{text-align:left;}
-/* Placeholder-only styling — stripped once real prose loads */
+/* Placeholder-only styling — stripped once real prose loads (see RP) */
 .prose.ph{text-align:center;font-style:italic;color:var(--pl);}
 .dc::first-letter{font-family:var(--serif);font-size:3.8em;float:left;line-height:.75;margin:.05em .1em 0 0;color:var(--pm);font-style:italic;}
 .sb{text-align:center;color:var(--cd);letter-spacing:9px;font-size:12px;margin:1.2em 0;clear:both;}
@@ -217,8 +215,24 @@ html,body{height:100%;overflow:hidden;background:#000;}
 .lgfb-par .lgcov-ttl{color:#C8D8E8;}
 .lgfb-par .lgcov-ttl::before,.lgfb-par .lgcov-ttl::after{background:rgba(200,216,232,.4);}
 /* Reader cover — sits in scroll area, scrolls away with content */
-.rcov{display:block;width:200px;aspect-ratio:2/3;border-radius:4px;overflow:hidden;margin:20px auto 16px;background:#1a0e16;box-shadow:0 6px 18px rgba(0,0,0,.40),0 1px 0 rgba(255,255,255,.05) inset,0 0 0 .5px rgba(0,0,0,.5);}
+.rcov{display:block;position:relative;width:200px;aspect-ratio:2/3;border-radius:4px;overflow:hidden;margin:20px auto 16px;background:#1a0e16;box-shadow:0 6px 18px rgba(0,0,0,.40),0 1px 0 rgba(255,255,255,.05) inset,0 0 0 .5px rgba(0,0,0,.5);}
 .rcov:empty{display:none;}
+/* Framed paperback cover (shared by library grid + reader) */
+.lgcov,.rcov{container-type:inline-size;}
+.nlcov{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--mat,#3d1340);transition:background-color .5s ease;padding:5cqw 5cqw 4cqw;}
+.nlcov-eyebrow{font-family:var(--sans);font-weight:600;text-transform:uppercase;letter-spacing:.3em;font-size:3.3cqw;line-height:1;text-align:center;color:#e8c87a;margin-bottom:3.4cqw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.nlcov-art{position:relative;flex:0 0 62%;overflow:hidden;border-radius:1cqw;box-shadow:0 0 0 .7cqw #d9ae54,0 1.6cqw 4cqw rgba(0,0,0,.42);}
+.nlcov-art-img{width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block;}
+.nlcov-art-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(0,0,0,.28));}
+.nlcov-art-ph svg{width:26cqw;height:26cqw;opacity:.46;}
+.nlcov-band{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:2.5cqw;min-height:0;}
+.nlcov-orn{display:flex;align-items:center;justify-content:center;gap:2.4cqw;margin-bottom:2.4cqw;}
+.nlcov-orn .r{height:.4cqw;width:7cqw;background:linear-gradient(90deg,transparent,#d9ae54,transparent);}
+.nlcov-orn .s{color:#e8c87a;font-size:3cqw;line-height:1;}
+.nlcov-title{font-family:var(--serif);font-weight:500;font-size:6cqw;line-height:1.26;letter-spacing:.13em;text-transform:uppercase;text-align:center;text-wrap:balance;background:linear-gradient(177deg,#fdf3cf,#f0d489 26%,#cf9c41 52%,#8a611f 66%,#d9ae54 82%,#fbeec0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;filter:drop-shadow(0 .3cqw .6cqw rgba(0,0,0,.4));display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.nlcov-colophon{display:flex;align-items:center;justify-content:center;gap:1.8cqw;margin-top:3cqw;}
+.nlcov-colophon svg{width:4cqw;height:4cqw;flex:0 0 auto;}
+.nlcov-colophon span{font-family:var(--sans);font-weight:600;letter-spacing:.22em;text-transform:uppercase;font-size:2.9cqw;color:#e8c87a;}
 .lgmood{font-family:var(--sans);font-size:10px;color:var(--cd);letter-spacing:.6px;text-transform:uppercase;font-weight:500;margin-top:10px;padding:0 2px;}
 .lgc.sel .lgcov{box-shadow:0 0 0 2px #D9A55A, 0 0 0 3.5px #3a1239, 0 8px 26px rgba(0,0,0,.55);transform:scale(.975);}
 .lgtr{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;background:rgba(58,18,57,.92);border:.5px solid #D9A55A;display:none;align-items:center;justify-content:center;color:#F2DCB5;cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:3;padding:0;}
@@ -233,118 +247,97 @@ html,body{height:100%;overflow:hidden;background:#000;}
 .bnt-lbl{font-size:10px;font-weight:500;letter-spacing:.4px;color:var(--cd);transition:color .15s;font-family:var(--sans);}.bnt.on .bnt-lbl{color:var(--g);}
 .bnt-pip{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:18px;height:2px;border-radius:1px;background:var(--g);opacity:0;transition:opacity .15s;}.bnt.on .bnt-pip{opacity:1;}
 
-/* ══ Creation flow — genre rack → config ══════════════════ */
-#pc{background:var(--cf);position:relative;overflow:hidden;}
-.cc-header{flex-shrink:0;}
-#pc .topbar{padding:13px 16px 9px;}
-.cc-back{display:flex;align-items:center;gap:6px;background:none;border:none;cursor:pointer;color:var(--cd);font-family:var(--mono);font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:4px 6px 4px 0;}
-.cc-back:hover{color:var(--c);}
-.cc-steps{display:flex;align-items:center;gap:9px;padding:8px 18px 12px;background:var(--cf);border-bottom:1px solid var(--cd);}
-.cc-stepnum{font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--gd);white-space:nowrap;}
-.cc-seg{flex:1;height:2px;background:var(--cd);overflow:hidden;}
-.cc-seg>span{display:block;height:100%;width:0;background:var(--g);transition:width .4s ease;}
-.cc-seg.active>span,.cc-seg.done>span{width:100%;}
-.cc-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
-.cc-body::-webkit-scrollbar{width:0;}
-.cc-pad{padding:20px 18px 28px;}
-.cc-anim{animation:ccin .28s ease;}
-@keyframes ccin{from{opacity:0;transform:translateX(8px)}to{opacity:1;transform:translateX(0)}}
-.cc-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gd);margin-bottom:10px;}
-.cc-title{font-family:var(--display);font-size:34px;line-height:1.04;font-weight:400;color:var(--p);margin-bottom:8px;}
-.cc-sub{font-family:var(--body);font-size:15px;font-style:italic;line-height:1.45;color:var(--pm);margin-bottom:20px;}
+/* ── Carousel page ───────────────────────────────────────── */
+#pc{background:#111;position:relative;overflow:hidden;}
+.carousel{display:flex;width:100%;height:100%;overflow-x:auto;overflow-y:hidden;
+  scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;}
+.carousel::-webkit-scrollbar{display:none;}
+.pane{flex:0 0 100%;height:100%;scroll-snap-align:start;overflow-y:auto;
+  padding:50px 18px 96px;scrollbar-width:none;}
+.pane::-webkit-scrollbar{display:none;}
 
-/* genre rack */
-.genre-stack{display:flex;flex-direction:column;gap:14px;}
-.gcard{position:relative;border-radius:5px;overflow:hidden;cursor:pointer;display:flex;gap:15px;padding:15px 16px;align-items:stretch;color:var(--cov-ink,#fff);box-shadow:0 6px 18px rgba(44,23,34,.20);transition:transform .16s ease,box-shadow .16s ease;}
-.gcard:active{transform:scale(.99);}
-.gcard::after{content:'';position:absolute;inset:7px;border:1px solid currentColor;opacity:.30;border-radius:3px;pointer-events:none;}
-.mood-reg{background:var(--cov-reg);--cov-ink:var(--cov-reg-ink);}
-.mood-hist{background:var(--cov-hist);--cov-ink:var(--cov-hist-ink);}
-.mood-rom{background:var(--cov-rom);--cov-ink:var(--cov-rom-ink);}
-.mood-par{background:var(--cov-par);--cov-ink:var(--cov-par-ink);}
-.mood-sur{background:linear-gradient(125deg,var(--g),var(--oxblood),var(--plum),var(--t),var(--g));background-size:320% 320%;animation:sursh 20s ease-in-out infinite;--cov-ink:#FBF1D7;}
+/* Mood palettes */
+.pane-rr{background:linear-gradient(165deg,#FBF0DA 0%,#E8C87A 50%,#D4A840 100%);color:#4E1B4F;}
+.pane-hr{background:linear-gradient(165deg,#3D1A1A 0%,#6B2020 55%,#4A1515 100%);color:#F2DCB5;}
+.pane-rom{background:linear-gradient(165deg,#1A1A3E 0%,#2D3068 55%,#1A3A4A 100%);color:#F2DCB5;}
+.pane-par{background:linear-gradient(165deg,#0D0D1A 0%,#1A1A2E 55%,#0A1528 100%);color:#C8D8E8;}
+.pane-sur{background:linear-gradient(135deg,#FBF0DA,#4E1B4F,#1A1A3E,#4E1B4F);
+  background-size:300% 300%;animation:sursh 22s ease-in-out infinite;color:#F2DCB5;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 18px 96px;}
 @keyframes sursh{0%,100%{background-position:0% 0%}33%{background-position:100% 0%}66%{background-position:100% 100%}}
-.gcover{flex:0 0 76px;width:76px;align-self:stretch;min-height:104px;border-radius:2px;position:relative;overflow:hidden;box-shadow:0 3px 10px rgba(0,0,0,.32),inset 0 0 0 1px rgba(255,255,255,.14);background:rgba(0,0,0,.16);}
-.gcover img{width:100%;height:100%;object-fit:cover;display:block;}
-.gcover-fb{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:currentColor;}
-.gcover-fb .ornament{font-family:var(--display);font-style:italic;font-size:30px;line-height:1;opacity:.9;}
-.gcover-fb .stamp{font-family:var(--mono);font-size:7.5px;letter-spacing:1.5px;text-transform:uppercase;opacity:.7;}
-.gcover::after{content:'';position:absolute;inset:0;border:1px solid currentColor;opacity:.4;border-radius:2px;pointer-events:none;mix-blend-mode:screen;}
-.gcard-body{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;}
-.gcard-no{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;opacity:.7;margin-bottom:5px;}
-.gcard-eye{font-family:var(--mono);font-size:9px;letter-spacing:1.6px;text-transform:uppercase;opacity:.72;margin-bottom:4px;}
-.gcard-ttl{font-family:var(--display);font-size:25px;line-height:1.0;font-weight:400;margin-bottom:6px;}
-.gcard-tag{font-family:var(--body);font-size:13.5px;font-style:italic;line-height:1.35;opacity:.92;}
 
-/* config banner */
-.cfg-genre{margin:0 0 4px;border-radius:4px;overflow:hidden;cursor:pointer;position:relative;color:var(--cov-ink,#fff);padding:13px 15px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 4px 14px rgba(44,23,34,.18);}
-.cfg-genre::after{content:'';position:absolute;inset:6px;border:1px solid currentColor;opacity:.28;border-radius:2px;pointer-events:none;}
-.cfg-genre-l{display:flex;align-items:center;gap:12px;min-width:0;}
-.cfg-genre-thumb{flex:0 0 38px;width:38px;height:52px;border-radius:2px;overflow:hidden;background:rgba(0,0,0,.18);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;}
-.cfg-genre-thumb img{width:100%;height:100%;object-fit:cover;}
-.cfg-genre-thumb .ornament{font-family:var(--display);font-style:italic;font-size:18px;opacity:.85;}
-.cfg-genre-thumb .stamp{display:none;}
-.cfg-genre-txt .ge{font-family:var(--mono);font-size:8.5px;letter-spacing:1.5px;text-transform:uppercase;opacity:.7;margin-bottom:3px;}
-.cfg-genre-txt .gn{font-family:var(--display);font-size:22px;line-height:1;}
-.cfg-genre-change{font-family:var(--mono);font-size:10px;letter-spacing:.6px;text-transform:uppercase;display:flex;align-items:center;gap:5px;border:1px solid currentColor;border-radius:999px;padding:6px 11px;opacity:.9;flex-shrink:0;}
+/* Pane typography */
+.pane-eye{font-size:9px;letter-spacing:2px;text-transform:uppercase;opacity:.55;margin-bottom:5px;font-weight:500;}
+.pane-ttl{font-family:var(--serif);font-size:44px;line-height:.95;font-weight:400;letter-spacing:-1px;margin-bottom:8px;}
+.pane-tag{font-family:var(--body);font-size:13.5px;line-height:1.5;font-style:italic;opacity:.8;margin-bottom:22px;}
+.pane-lbl{font-size:9px;letter-spacing:1.2px;text-transform:uppercase;font-weight:500;opacity:.65;margin-bottom:8px;margin-top:16px;}
 
-/* config fields + chips */
-#pc .fld{margin-top:22px;}
-#pc .fld-lbl{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:1.4px;text-transform:uppercase;color:var(--gd);margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-#pc .fld-lbl::before{content:'';width:14px;height:1px;background:var(--cd);}
-#pc .fld-lbl .sugg{font-family:var(--sans);font-size:9px;letter-spacing:.4px;text-transform:none;color:var(--t);background:var(--tl);border-radius:999px;padding:2px 8px;font-weight:600;font-style:italic;}
-#pc .fld-lbl .opt{text-transform:none;letter-spacing:0;color:var(--pl);font-style:italic;font-family:var(--body);font-weight:400;}
-#pc .cs{display:flex;flex-wrap:wrap;gap:8px;}
-#pc .cp{padding:9px 15px;border-radius:3px;font-size:13px;cursor:pointer;border:1px solid var(--cd);color:var(--p);background:rgba(255,255,255,.42);transition:all .14s;user-select:none;line-height:1;font-weight:500;}
-#pc .cp:hover{border-color:var(--pm);}
-#pc .cp.on{background:var(--p);border-color:var(--p);color:var(--c);}
-#pc .cp.sur{border-color:var(--g);color:var(--gd);background:rgba(216,154,42,.12);}
-#pc .cp.sur.on{background:var(--g);border-color:var(--g);color:#2A0F14;font-weight:600;}
+/* Chips per palette */
+/* Regency — light bg */
+.pane-rr .cp{border-color:rgba(78,27,79,.28);color:#4E1B4F;background:rgba(255,255,255,.36);}
+.pane-rr .cp.on{background:#4E1B4F;color:#F2DCB5;border-color:#4E1B4F;}
+.pane-rr .cp.sur{background:rgba(217,165,90,.18);border-color:#D9A55A;color:#A87A38;}
+.pane-rr .cp.sur.on{background:#D9A55A;color:#4E1B4F;border-color:#D9A55A;}
+/* Historical, Romantasy, Paranormal — dark bg */
+.pane-hr .cp,.pane-rom .cp,.pane-par .cp{border-color:rgba(242,220,181,.28);color:#F2DCB5;background:rgba(0,0,0,.18);}
+.pane-hr .cp.on,.pane-rom .cp.on{background:#D9A55A;color:#2A0F2C;border-color:#D9A55A;}
+.pane-par .cp.on{background:#C8D8E8;color:#0D0D1A;border-color:#C8D8E8;}
+.pane-hr .cp.sur,.pane-rom .cp.sur,.pane-par .cp.sur{background:rgba(217,165,90,.18);border-color:#D9A55A;color:#D9A55A;}
+.pane-hr .cp.sur.on,.pane-rom .cp.sur.on,.pane-par .cp.sur.on{background:#D9A55A;color:#2A0F2C;border-color:#D9A55A;}
 
-/* spice */
-#pc .pane-sps{width:100%;accent-color:var(--oxblood);cursor:pointer;margin-top:6px;}
-#pc .spls{display:flex;justify-content:space-between;margin-top:6px;}
-#pc .spl{font-family:var(--mono);font-size:8.5px;letter-spacing:.4px;text-transform:uppercase;color:var(--pm);text-align:center;flex:1;}
-#pc .spl.lk{color:var(--pl);text-decoration:line-through;}
-#pc .pane-spv{text-align:center;margin-top:9px;font-family:var(--display);font-size:17px;color:var(--oxblood);}
-#pc .pane-spd{text-align:center;font-family:var(--body);font-size:13px;color:var(--pm);font-style:italic;margin-top:3px;}
-#pc .pane-spn{padding:0 11px;background:rgba(216,154,42,.16);border:1px solid var(--g);border-radius:4px;font-family:var(--body);font-size:12px;font-style:italic;color:var(--gd);text-align:center;line-height:1.5;overflow:hidden;max-height:0;opacity:0;transition:opacity .3s,max-height .3s,padding .3s,margin-top .3s;}
-#pc .pane-spn.v{opacity:1;max-height:80px;margin-top:10px;padding:9px 11px;}
+/* Begin button per pane */
+.pane-begin{display:block;width:100%;margin-top:20px;padding:12px 18px;
+  font-family:var(--serif);font-size:16px;font-weight:400;letter-spacing:.3px;
+  border-radius:10px;cursor:pointer;border:none;transition:opacity .15s;}
+.pane-begin:hover{opacity:.88;}
+.pane-rr .pane-begin{background:#4E1B4F;color:#F2DCB5;}
+.pane-hr .pane-begin,.pane-rom .pane-begin{background:#D9A55A;color:#2A0F2C;}
+.pane-par .pane-begin{background:#C8D8E8;color:#0D0D1A;}
 
-/* wildcard custom */
-#pc .pane-wci{display:none;width:100%;margin-top:9px;padding:10px 12px;font-size:13px;border:1px solid var(--cd);border-radius:3px;background:rgba(255,255,255,.5);color:var(--p);font-family:var(--sans);outline:none;}
-#pc .pane-wci.v{display:block;}
-#pc .pane-wci:focus{border-color:var(--pm);}
-#pc .pane-wci::placeholder{color:var(--pl);}
+/* Pane spice */
+.pane-sps{width:100%;accent-color:#D9A55A;cursor:pointer;margin-bottom:4px;}
+.pane-spv{font-size:12px;font-weight:500;color:#D9A55A;text-align:center;margin-top:4px;}
+.pane-spd{font-size:11px;font-style:italic;opacity:.7;text-align:center;margin-top:2px;}
+.pane-spn{margin-top:8px;padding:7px 10px;border-radius:7px;font-size:11px;
+  line-height:1.5;text-align:center;background:rgba(217,165,90,.18);
+  border:0.5px solid #D9A55A;color:#A87A38;opacity:0;max-height:0;overflow:hidden;
+  transition:opacity .3s,max-height .3s,padding .3s,margin-top .3s;}
+.pane-spn.v{opacity:1;max-height:80px;margin-top:8px;padding:7px 10px;}
+.pane-hr .pane-spn,.pane-rom .pane-spn,.pane-par .pane-spn{color:#D9A55A;}
 
-/* CTA bar */
-.cc-cta-bar{padding:13px 16px 16px;border-top:1px solid var(--cd);background:var(--paper2);flex-shrink:0;}
-.cc-recap{font-family:var(--body);font-size:13px;line-height:1.5;color:var(--pm);margin-bottom:11px;text-align:center;font-style:italic;}
-.cc-recap b{color:var(--p);font-weight:400;}
-.cc-begin{display:block;width:100%;padding:14px;background:var(--cta);color:var(--c);border:none;border-radius:4px;font-family:var(--display);font-size:19px;letter-spacing:.2px;cursor:pointer;transition:opacity .15s,transform .15s;box-shadow:0 4px 14px rgba(177,47,58,.3);}
-.cc-begin:hover{opacity:.94;}
-.cc-begin:active{transform:scale(.99);}
+/* Wild card custom input */
+.pane-wci{display:none;width:100%;margin-top:8px;padding:7px 10px;border-radius:7px;
+  border:0.5px solid;background:rgba(0,0,0,.1);font-size:12px;color:inherit;
+  font-family:var(--sans);outline:none;}
+.pane-wci.v{display:block;}
+.pane-rr .pane-wci{border-color:rgba(78,27,79,.35);color:#4E1B4F;background:rgba(255,255,255,.4);}
+.pane-hr .pane-wci,.pane-rom .pane-wci,.pane-par .pane-wci{border-color:rgba(242,220,181,.3);color:#F2DCB5;background:rgba(0,0,0,.22);}
+.pane-wci::placeholder{opacity:.5;}
 
-/* recap sheet */
-.cc-scrim{position:absolute;inset:0;background:rgba(28,14,18,.6);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:flex;align-items:flex-end;z-index:30;animation:ccfade .2s ease;}
-@keyframes ccfade{from{opacity:0}to{opacity:1}}
-.cc-sheet{background:var(--cf);width:100%;border-radius:14px 14px 0 0;padding:22px 20px;box-shadow:0 -10px 40px rgba(0,0,0,.4);animation:ccrise .26s cubic-bezier(.2,.7,.3,1);}
-@keyframes ccrise{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.cc-grip{width:38px;height:4px;border-radius:2px;background:var(--cd);margin:0 auto 16px;}
-.cc-sheet-eye{font-family:var(--mono);font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:var(--gd);margin-bottom:5px;text-align:center;}
-.cc-sheet-ttl{font-family:var(--display);font-size:26px;font-style:italic;color:var(--p);text-align:center;line-height:1.15;margin-bottom:18px;}
-.cc-rlist{display:flex;flex-direction:column;margin-bottom:18px;border-top:1px solid var(--cd);}
-.cc-rrow{display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding:10px 2px;border-bottom:1px solid var(--cd);}
-.cc-rk{font-family:var(--mono);font-size:9.5px;letter-spacing:1px;text-transform:uppercase;color:var(--gd);flex-shrink:0;}
-.cc-rv{font-family:var(--body);font-size:14.5px;color:var(--p);text-align:right;line-height:1.35;}
-.cc-rv.sur{font-style:italic;color:var(--oxblood);}
-.cc-keep{display:block;text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--pm);cursor:pointer;margin-top:14px;}
+/* Page dots */
+.pdots{position:absolute;bottom:62px;left:50%;transform:translateX(-50%);
+  display:flex;gap:8px;z-index:12;align-items:center;
+  background:rgba(0,0,0,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  padding:7px 13px;border-radius:20px;border:0.5px solid rgba(255,255,255,.08);}
+.pdot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.45);
+  cursor:pointer;border:none;padding:0;transition:all .3s;}
+.pdot.active{width:28px;border-radius:4px;background:#F2DCB5;}
 
-/* settings gear in headers */
-.tb-gear{background:none;border:none;cursor:pointer;color:var(--cd);padding:4px;display:flex;align-items:center;transition:color .15s;}
-.tb-gear:hover{color:var(--g);}
-.tb-gear svg{display:block;width:20px;height:20px;}
-.rh-gear{position:absolute;top:11px;right:14px;z-index:3;}
+/* Surprise Me pane */
+.fate-card{background:rgba(0,0,0,.3);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:0.5px solid rgba(255,255,255,.16);border-radius:20px;
+  padding:34px 22px 28px;text-align:center;max-width:310px;width:100%;}
+.fate-ico{font-size:18px;color:#D9A55A;margin-bottom:12px;letter-spacing:6px;
+  animation:fp 3s ease-in-out infinite;}
+@keyframes fp{0%,100%{opacity:.6;transform:scale(1);}50%{opacity:1;transform:scale(1.06);}}
+.fate-ttl{font-family:var(--serif);font-size:38px;line-height:1;font-weight:400;
+  margin-bottom:10px;color:#fff;}
+.fate-sub{font-family:var(--body);font-size:13px;line-height:1.55;font-style:italic;
+  opacity:.85;margin-bottom:22px;}
+.fate-btn{background:#D9A55A;color:#2A0F2C;padding:12px 28px;border-radius:999px;
+  border:none;cursor:pointer;font-family:var(--serif);font-size:16px;font-weight:400;
+  letter-spacing:.3px;transition:transform .18s;}
+.fate-btn:hover{transform:translateY(-2px);}
 
 /* Reader footer — two-button row */
 .nbrow{display:flex;gap:7px;margin-bottom:8px;}
@@ -382,16 +375,20 @@ html,body{height:100%;overflow:hidden;background:#000;}
 
 </head>
 <body>
+<div class="shell-deco" aria-hidden="true">
+  <svg class="sd-nib" viewBox="0 0 100 100"><use href="#ico"></use></svg>
+  <div class="sd-mark"><b>NibLit</b>Come for the classics. Stay for the chaos.</div>
+</div>
 <div id="app">
 <svg style="display:none"><defs>
 <symbol id="ico" viewBox="0 0 100 100">
-  <rect width="100" height="100" rx="22" fill="#2C1722"/>
-  <path d="M50 10C46 15 40 22 37 30C34 37 34 43 37 49C32 45 30 38 31 30C27 37 26 46 29 54C24 49 23 41 25 33C21 41 21 52 25 61C29 70 36 77 44 81C42 70 42 60 44 51C44 60 45 70 47 81C49 70 51 60 53 51C53 60 55 70 57 81C65 77 72 70 76 61C80 52 80 41 76 33C78 41 77 49 72 54C75 46 74 37 70 30C71 38 69 45 64 49C67 43 67 37 64 30C61 22 55 15 50 10Z" fill="#F0CE6A"/>
-  <path d="M50 80L43 67L45 57L50 53L55 57L57 67Z" fill="#F0CE6A"/>
-  <path d="M50 80L39 73L43 67Z" fill="#F0CE6A"/><path d="M50 80L61 73L57 67Z" fill="#F0CE6A"/>
-  <line x1="50" y1="53" x2="50" y2="80" stroke="#2C1722" stroke-width="1.1" stroke-linecap="round"/>
-  <line x1="44" y1="63" x2="56" y2="63" stroke="#2C1722" stroke-width="1.1" stroke-linecap="round"/>
-  <circle cx="50" cy="63" r="2.3" fill="#2C1722"/>
+  <rect width="100" height="100" rx="22" fill="#4E1B4F"/>
+  <path d="M50 10C46 15 40 22 37 30C34 37 34 43 37 49C32 45 30 38 31 30C27 37 26 46 29 54C24 49 23 41 25 33C21 41 21 52 25 61C29 70 36 77 44 81C42 70 42 60 44 51C44 60 45 70 47 81C49 70 51 60 53 51C53 60 55 70 57 81C65 77 72 70 76 61C80 52 80 41 76 33C78 41 77 49 72 54C75 46 74 37 70 30C71 38 69 45 64 49C67 43 67 37 64 30C61 22 55 15 50 10Z" fill="#F2DCB5"/>
+  <path d="M50 80L43 67L45 57L50 53L55 57L57 67Z" fill="#F2DCB5"/>
+  <path d="M50 80L39 73L43 67Z" fill="#F2DCB5"/><path d="M50 80L61 73L57 67Z" fill="#F2DCB5"/>
+  <line x1="50" y1="53" x2="50" y2="80" stroke="#4E1B4F" stroke-width="1.1" stroke-linecap="round"/>
+  <line x1="44" y1="63" x2="56" y2="63" stroke="#4E1B4F" stroke-width="1.1" stroke-linecap="round"/>
+  <circle cx="50" cy="63" r="2.3" fill="#4E1B4F"/>
 </symbol>
 </defs></svg>
 
@@ -417,120 +414,315 @@ html,body{height:100%;overflow:hidden;background:#000;}
 
 
 <div id="pc" class="pg">
-  <div class="cc-header">
-    <div class="topbar">
-      <div class="tb-l" id="cc-tbl"><svg class="tb-ico" viewBox="0 0 100 100"><use href="#ico"/></svg><span class="tb-name">NibLit</span></div>
-      <button class="cc-back" id="cc-back" style="display:none" onclick="ccToGenre()"><span style="font-size:14px;line-height:1">&lsaquo;</span> Worlds</button>
-      <button class="tb-gear" aria-label="Settings" onclick="G('ps')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></button>
+  <div class="carousel" id="pc-carousel">
+    <div class="pane pane-rr" data-mood="Regency Romance">
+      <div class="pane-eye">1 of 5</div>
+      <h1 class="pane-ttl">Regency<br>romance</h1>
+      <p class="pane-tag">Wit, longing, and very good manners.</p>
+
+      <div class="pane-lbl">Dynamic</div>
+      <div class="cs">
+        <div class="cp on" data-g="d">Slow burn</div>
+        <div class="cp" data-g="d">Enemies &amp; rivals</div>
+        <div class="cp" data-g="d">Forbidden love</div>
+        <div class="cp" data-g="d">Friends to lovers</div>
+        <div class="cp sur" data-g="d">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Protagonist</div>
+      <div class="cs">
+        <div class="cp on" data-g="l">Woman lead</div>
+        <div class="cp" data-g="l">Man lead</div>
+        <div class="cp" data-g="l">Non-binary lead</div>
+        <div class="cp sur" data-g="l">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Love interest</div>
+      <div class="cs">
+        <div class="cp on" data-g="li">Man</div>
+        <div class="cp" data-g="li">Woman</div>
+        <div class="cp" data-g="li">Non-binary</div>
+        <div class="cp sur" data-g="li">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">The scandal</div>
+      <div class="cs">
+        <div class="cp on" data-g="fl">A ruined reputation</div>
+        <div class="cp" data-g="fl">A secret betrothal</div>
+        <div class="cp" data-g="fl">A marriage of convenience</div>
+        <div class="cp" data-g="fl">A debt kept hidden</div>
+        <div class="cp sur" data-g="fl">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Protagonist arc</div>
+      <div class="cs">
+        <div class="cp on" data-g="arc">Discovers a truth</div>
+        <div class="cp" data-g="arc">Grows into someone new</div>
+        <div class="cp" data-g="arc">Loses something real</div>
+        <div class="cp" data-g="arc">Holds their ground</div>
+        <div class="cp sur" data-g="arc">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Spice</div>
+      <input type="range" class="pane-sps" min="1" max="5" step="1" value="2">
+      <div class="spls"><span class="spl">Gentle</span><span class="spl">Sweet</span><span class="spl">Warm</span><span class="spl lk">Steamy</span><span class="spl lk">Explicit</span></div>
+      <div class="pane-spv">2 &mdash; Sweet</div>
+      <div class="pane-spd">Tender longing, charged silences.</div>
+      <div class="pane-spn">Spice 4&ndash;5 is coming soon. For now NibLit reaches up to Warm.</div>
+
+      <div class="pane-lbl">Wild card</div>
+      <div class="cs pane-wc-chips">
+        <div class="cp on" data-g="wc">None</div>
+        <div class="cp" data-g="wc">All characters are animals</div>
+        <div class="cp" data-g="wc">Set on a pirate ship</div>
+        <div class="cp" data-g="wc">Told entirely in letters</div>
+        <div class="cp" data-g="wc">Cold War spy world</div>
+        <div class="cp" data-g="wc">The narrator is unreliable</div>
+        <div class="cp" data-g="wc">Set in a single room — no one can leave</div>
+        <div class="cp" data-g="wc">The love interest is a ghost</div>
+        <div class="cp sur" data-g="wc">&#9733; Surprise me</div>
+        <div class="cp" data-g="wc">Custom</div>
+      </div>
+      <input class="pane-wci" placeholder="Write your own constraint&hellip;" maxlength="80">
+      <button class="pane-begin" onclick="begin()">Begin your story &rsaquo;</button>
     </div>
-    <div class="cc-steps">
-      <span class="cc-stepnum" id="cc-stepnum">I / II</span>
-      <div class="cc-seg active" id="cc-seg1"><span></span></div>
-      <div class="cc-seg" id="cc-seg2"><span></span></div>
+
+    <div class="pane pane-hr" data-mood="Historical Romance">
+      <div class="pane-eye">2 of 5</div>
+      <h1 class="pane-ttl">Historical<br>romance</h1>
+      <p class="pane-tag">Another time. The same pull.</p>
+
+      <div class="pane-lbl">Dynamic</div>
+      <div class="cs">
+        <div class="cp on" data-g="d">Forbidden love</div>
+        <div class="cp" data-g="d">Slow burn</div>
+        <div class="cp" data-g="d">Enemies &amp; rivals</div>
+        <div class="cp" data-g="d">Friends to lovers</div>
+        <div class="cp sur" data-g="d">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Protagonist</div>
+      <div class="cs">
+        <div class="cp on" data-g="l">Woman lead</div>
+        <div class="cp" data-g="l">Man lead</div>
+        <div class="cp" data-g="l">Non-binary lead</div>
+        <div class="cp sur" data-g="l">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Love interest</div>
+      <div class="cs">
+        <div class="cp on" data-g="li">Man</div>
+        <div class="cp" data-g="li">Woman</div>
+        <div class="cp" data-g="li">Non-binary</div>
+        <div class="cp sur" data-g="li">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">The setting</div>
+      <div class="cs">
+        <div class="cp on" data-g="fl">A great estate</div>
+        <div class="cp" data-g="fl">Wartime</div>
+        <div class="cp" data-g="fl">The high seas</div>
+        <div class="cp" data-g="fl">A remote frontier</div>
+        <div class="cp sur" data-g="fl">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Protagonist arc</div>
+      <div class="cs">
+        <div class="cp on" data-g="arc">Grows into someone new</div>
+        <div class="cp" data-g="arc">Discovers a truth</div>
+        <div class="cp" data-g="arc">Loses something real</div>
+        <div class="cp" data-g="arc">Holds their ground</div>
+        <div class="cp sur" data-g="arc">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Spice</div>
+      <input type="range" class="pane-sps" min="1" max="5" step="1" value="2">
+      <div class="spls"><span class="spl">Gentle</span><span class="spl">Sweet</span><span class="spl">Warm</span><span class="spl lk">Steamy</span><span class="spl lk">Explicit</span></div>
+      <div class="pane-spv">2 &mdash; Sweet</div>
+      <div class="pane-spd">Tender longing, charged silences.</div>
+      <div class="pane-spn">Spice 4&ndash;5 is coming soon. For now NibLit reaches up to Warm.</div>
+
+      <div class="pane-lbl">Wild card</div>
+      <div class="cs pane-wc-chips">
+        <div class="cp on" data-g="wc">None</div>
+        <div class="cp" data-g="wc">All characters are animals</div>
+        <div class="cp" data-g="wc">Set on a pirate ship</div>
+        <div class="cp" data-g="wc">Told entirely in letters</div>
+        <div class="cp" data-g="wc">Cold War spy world</div>
+        <div class="cp" data-g="wc">The narrator is unreliable</div>
+        <div class="cp" data-g="wc">Set in a single room — no one can leave</div>
+        <div class="cp" data-g="wc">The love interest is a ghost</div>
+        <div class="cp sur" data-g="wc">&#9733; Surprise me</div>
+        <div class="cp" data-g="wc">Custom</div>
+      </div>
+      <input class="pane-wci" placeholder="Write your own constraint&hellip;" maxlength="80">
+      <button class="pane-begin" onclick="begin()">Begin your story &rsaquo;</button>
+    </div>
+
+    <div class="pane pane-rom" data-mood="Romantasy">
+      <div class="pane-eye">3 of 5</div>
+      <h1 class="pane-ttl">Romantasy</h1>
+      <p class="pane-tag">Magic is the least of it.</p>
+
+      <div class="pane-lbl">Dynamic</div>
+      <div class="cs">
+        <div class="cp on" data-g="d">Enemies &amp; rivals</div>
+        <div class="cp" data-g="d">Slow burn</div>
+        <div class="cp" data-g="d">Forbidden love</div>
+        <div class="cp" data-g="d">Friends to lovers</div>
+        <div class="cp sur" data-g="d">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Protagonist</div>
+      <div class="cs">
+        <div class="cp on" data-g="l">Woman lead</div>
+        <div class="cp" data-g="l">Man lead</div>
+        <div class="cp" data-g="l">Non-binary lead</div>
+        <div class="cp sur" data-g="l">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Love interest</div>
+      <div class="cs">
+        <div class="cp on" data-g="li">Man</div>
+        <div class="cp" data-g="li">Woman</div>
+        <div class="cp" data-g="li">Non-binary</div>
+        <div class="cp sur" data-g="li">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">The magic</div>
+      <div class="cs">
+        <div class="cp on" data-g="fl">Elemental power</div>
+        <div class="cp" data-g="fl">Blood &amp; bargains</div>
+        <div class="cp" data-g="fl">An ancient prophecy</div>
+        <div class="cp" data-g="fl">The fae courts</div>
+        <div class="cp sur" data-g="fl">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Protagonist arc</div>
+      <div class="cs">
+        <div class="cp on" data-g="arc">Grows into someone new</div>
+        <div class="cp" data-g="arc">Discovers a truth</div>
+        <div class="cp" data-g="arc">Loses something real</div>
+        <div class="cp" data-g="arc">Holds their ground</div>
+        <div class="cp sur" data-g="arc">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Spice</div>
+      <input type="range" class="pane-sps" min="1" max="5" step="1" value="2">
+      <div class="spls"><span class="spl">Gentle</span><span class="spl">Sweet</span><span class="spl">Warm</span><span class="spl lk">Steamy</span><span class="spl lk">Explicit</span></div>
+      <div class="pane-spv">2 &mdash; Sweet</div>
+      <div class="pane-spd">Tender longing, charged silences.</div>
+      <div class="pane-spn">Spice 4&ndash;5 is coming soon. For now NibLit reaches up to Warm.</div>
+
+      <div class="pane-lbl">Wild card</div>
+      <div class="cs pane-wc-chips">
+        <div class="cp on" data-g="wc">None</div>
+        <div class="cp" data-g="wc">All characters are animals</div>
+        <div class="cp" data-g="wc">Set on a pirate ship</div>
+        <div class="cp" data-g="wc">Told entirely in letters</div>
+        <div class="cp" data-g="wc">Cold War spy world</div>
+        <div class="cp" data-g="wc">The narrator is unreliable</div>
+        <div class="cp" data-g="wc">Set in a single room — no one can leave</div>
+        <div class="cp" data-g="wc">The love interest is a ghost</div>
+        <div class="cp sur" data-g="wc">&#9733; Surprise me</div>
+        <div class="cp" data-g="wc">Custom</div>
+      </div>
+      <input class="pane-wci" placeholder="Write your own constraint&hellip;" maxlength="80">
+      <button class="pane-begin" onclick="begin()">Begin your story &rsaquo;</button>
+    </div>
+
+    <div class="pane pane-par" data-mood="Paranormal Romance">
+      <div class="pane-eye">4 of 5</div>
+      <h1 class="pane-ttl">Paranormal<br>romance</h1>
+      <p class="pane-tag">Love is stranger than it seems.</p>
+
+      <div class="pane-lbl">Dynamic</div>
+      <div class="cs">
+        <div class="cp on" data-g="d">Forbidden love</div>
+        <div class="cp" data-g="d">Slow burn</div>
+        <div class="cp" data-g="d">Enemies &amp; rivals</div>
+        <div class="cp" data-g="d">Friends to lovers</div>
+        <div class="cp sur" data-g="d">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Protagonist</div>
+      <div class="cs">
+        <div class="cp on" data-g="l">Woman lead</div>
+        <div class="cp" data-g="l">Man lead</div>
+        <div class="cp" data-g="l">Non-binary lead</div>
+        <div class="cp sur" data-g="l">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Love interest</div>
+      <div class="cs">
+        <div class="cp on" data-g="li">Man</div>
+        <div class="cp" data-g="li">Woman</div>
+        <div class="cp" data-g="li">Non-binary</div>
+        <div class="cp sur" data-g="li">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">The love interest is&hellip;</div>
+      <div class="cs">
+        <div class="cp on" data-g="fl">A vampire</div>
+        <div class="cp" data-g="fl">A ghost</div>
+        <div class="cp" data-g="fl">A shapeshifter</div>
+        <div class="cp" data-g="fl">Cursed with immortality</div>
+        <div class="cp sur" data-g="fl">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Protagonist arc</div>
+      <div class="cs">
+        <div class="cp on" data-g="arc">Discovers a truth</div>
+        <div class="cp" data-g="arc">Grows into someone new</div>
+        <div class="cp" data-g="arc">Loses something real</div>
+        <div class="cp" data-g="arc">Holds their ground</div>
+        <div class="cp sur" data-g="arc">&#9733; Surprise me</div>
+      </div>
+
+      <div class="pane-lbl">Spice</div>
+      <input type="range" class="pane-sps" min="1" max="5" step="1" value="2">
+      <div class="spls"><span class="spl">Gentle</span><span class="spl">Sweet</span><span class="spl">Warm</span><span class="spl lk">Steamy</span><span class="spl lk">Explicit</span></div>
+      <div class="pane-spv">2 &mdash; Sweet</div>
+      <div class="pane-spd">Tender longing, charged silences.</div>
+      <div class="pane-spn">Spice 4&ndash;5 is coming soon. For now NibLit reaches up to Warm.</div>
+
+      <div class="pane-lbl">Wild card</div>
+      <div class="cs pane-wc-chips">
+        <div class="cp on" data-g="wc">None</div>
+        <div class="cp" data-g="wc">All characters are animals</div>
+        <div class="cp" data-g="wc">Set on a pirate ship</div>
+        <div class="cp" data-g="wc">Told entirely in letters</div>
+        <div class="cp" data-g="wc">Cold War spy world</div>
+        <div class="cp" data-g="wc">The narrator is unreliable</div>
+        <div class="cp" data-g="wc">Set in a single room — no one can leave</div>
+        <div class="cp" data-g="wc">The love interest is a ghost</div>
+        <div class="cp sur" data-g="wc">&#9733; Surprise me</div>
+        <div class="cp" data-g="wc">Custom</div>
+      </div>
+      <input class="pane-wci" placeholder="Write your own constraint&hellip;" maxlength="80">
+      <button class="pane-begin" onclick="begin()">Begin your story &rsaquo;</button>
+    </div>
+
+    <div class="pane pane-sur" data-mood="Surprise me">
+      <!-- Hidden chips so getCfg() returns Surprise me for all dimensions -->
+      <div style="display:none">
+        <div class="cp on" data-g="d">&#9733; Surprise me</div>
+        <div class="cp on" data-g="l">&#9733; Surprise me</div>
+        <div class="cp on" data-g="li">&#9733; Surprise me</div>
+        <div class="cp on" data-g="arc">&#9733; Surprise me</div>
+        <div class="cp on" data-g="fl">&#9733; Surprise me</div>
+        <div class="cp on" data-g="wc">&#9733; Surprise me</div>
+        <input class="pane-sps" value="2">
+      </div>
+      <div class="fate-card">
+        <div class="fate-ico">&#10022; &#10022; &#10022;</div>
+        <h1 class="fate-ttl">Surprise me</h1>
+        <p class="fate-sub">A random genre. A random spark.<br>Discover something you didn&rsquo;t know you wanted.</p>
+        <button class="fate-btn" onclick="begin()">Let fate decide</button>
+      </div>
     </div>
   </div>
-
-  <div class="cc-body cc-anim" id="cc-step1">
-    <div class="cc-pad">
-      <div class="cc-eyebrow">Five worlds &middot; choose one</div>
-      <h1 class="cc-title">Choose your world</h1>
-      <p class="cc-sub">Five doors. Each one changes everything that follows.</p>
-      <div class="genre-stack" id="cc-genres"></div>
-    </div>
-  </div>
-
-  <div class="cc-body cc-anim" id="cc-step2" style="display:none">
-    <div class="cc-pad">
-      <div class="cfg-genre" id="cc-banner" onclick="ccToGenre()"></div>
-      <div class="cc-eyebrow" style="margin-top:18px">Shape the details</div>
-      <h1 class="cc-title" style="font-size:28px">Shape your story</h1>
-      <p class="cc-sub">Tune what you like &mdash; your choices carry across every world.</p>
-
-      <div class="fld">
-        <div class="fld-lbl" id="cc-dyn-lbl">Dynamic</div>
-        <div class="cs" data-dim="d">
-          <div class="cp on" data-g="d">Slow burn</div>
-          <div class="cp" data-g="d">Enemies &amp; rivals</div>
-          <div class="cp" data-g="d">Forbidden love</div>
-          <div class="cp" data-g="d">Friends to lovers</div>
-          <div class="cp sur" data-g="d">&#9733; Surprise me</div>
-        </div>
-      </div>
-
-      <div class="fld">
-        <div class="fld-lbl">Protagonist</div>
-        <div class="cs" data-dim="l">
-          <div class="cp on" data-g="l">Woman lead</div>
-          <div class="cp" data-g="l">Man lead</div>
-          <div class="cp" data-g="l">Non-binary lead</div>
-          <div class="cp sur" data-g="l">&#9733; Surprise me</div>
-        </div>
-      </div>
-
-      <div class="fld">
-        <div class="fld-lbl">Love interest</div>
-        <div class="cs" data-dim="li">
-          <div class="cp on" data-g="li">Man</div>
-          <div class="cp" data-g="li">Woman</div>
-          <div class="cp" data-g="li">Non-binary</div>
-          <div class="cp sur" data-g="li">&#9733; Surprise me</div>
-        </div>
-      </div>
-
-      <div class="fld">
-        <div class="fld-lbl">Protagonist arc</div>
-        <div class="cs" data-dim="arc">
-          <div class="cp on" data-g="arc">Discovers a truth</div>
-          <div class="cp" data-g="arc">Grows into someone new</div>
-          <div class="cp" data-g="arc">Loses something real</div>
-          <div class="cp" data-g="arc">Holds her ground</div>
-          <div class="cp sur" data-g="arc">&#9733; Surprise me</div>
-        </div>
-      </div>
-
-      <div class="fld">
-        <div class="fld-lbl">Spice</div>
-        <input type="range" class="pane-sps" id="cc-sps" min="1" max="5" step="1" value="2">
-        <div class="spls"><span class="spl">Gentle</span><span class="spl">Sweet</span><span class="spl">Warm</span><span class="spl lk">Steamy</span><span class="spl lk">Explicit</span></div>
-        <div class="pane-spv" id="cc-spv">2 &mdash; Sweet</div>
-        <div class="pane-spd" id="cc-spd">Tender longing, charged silences.</div>
-        <div class="pane-spn" id="cc-spn">Spice 4&ndash;5 is coming soon. For now NibLit reaches up to Warm.</div>
-      </div>
-
-      <div class="fld">
-        <div class="fld-lbl">Wild card <span class="opt">optional</span></div>
-        <div class="cs" data-dim="wc">
-          <div class="cp on" data-g="wc">None</div>
-          <div class="cp" data-g="wc">All characters are animals</div>
-          <div class="cp" data-g="wc">Set on a pirate ship</div>
-          <div class="cp" data-g="wc">Told entirely in letters</div>
-          <div class="cp" data-g="wc">Cold War spy world</div>
-          <div class="cp" data-g="wc">The narrator is unreliable</div>
-          <div class="cp" data-g="wc">Set in a single room — no one can leave</div>
-          <div class="cp" data-g="wc">The love interest is a ghost</div>
-          <div class="cp sur" data-g="wc">&#9733; Surprise me</div>
-          <div class="cp" data-g="wc">Custom</div>
-        </div>
-        <input class="pane-wci" id="cc-wci" placeholder="Write your own constraint&hellip;" maxlength="80">
-      </div>
-    </div>
-  </div>
-
-  <div class="cc-cta-bar" id="cc-cta" style="display:none">
-    <div class="cc-recap" id="cc-recap"></div>
-    <button class="cc-begin" onclick="ccConfirm()">Begin your story &rsaquo;</button>
-  </div>
-
-  <div class="cc-scrim" id="cc-sheet" style="display:none" onclick="if(event.target===this)ccCloseSheet()">
-    <div class="cc-sheet">
-      <div class="cc-grip"></div>
-      <div class="cc-sheet-eye">You&rsquo;re about to create</div>
-      <div class="cc-sheet-ttl">A story all your own</div>
-      <div class="cc-rlist" id="cc-rlist"></div>
-      <button class="cc-begin" onclick="begin()">Begin your story &rsaquo;</button>
-      <span class="cc-keep" onclick="ccCloseSheet()">Keep tweaking</span>
-    </div>
-  </div>
+  <div class="pdots" id="pdots"><button class="pdot active" data-idx="0" aria-label="Pane 1"></button><button class="pdot" data-idx="1" aria-label="Pane 2"></button><button class="pdot" data-idx="2" aria-label="Pane 3"></button><button class="pdot" data-idx="3" aria-label="Pane 4"></button><button class="pdot" data-idx="4" aria-label="Pane 5"></button></div>
 </div>
 
 <div id="ps" class="pg">
@@ -558,7 +750,6 @@ html,body{height:100%;overflow:hidden;background:#000;}
 
 <div id="pr" class="pg">
   <div class="rh">
-    <button class="tb-gear rh-gear" aria-label="Settings" onclick="G('ps')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></button>
     <div class="tbd"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="#C8A060" stroke-width=".8"/><path d="M5 3v2.5" stroke="#C8A060" stroke-width=".9" stroke-linecap="round"/><circle cx="5" cy="7" r=".5" fill="#C8A060"/></svg><span class="tbt" id="tbt">Pre-1928 literary tradition</span></div>
     <div class="en" id="en">Episode 1</div>
     <div class="st" id="st" style="display:none;"></div>
@@ -582,6 +773,7 @@ html,body{height:100%;overflow:hidden;background:#000;}
         <div class="t-row"><span class="t-lbl">Protag arc</span><span class="t-val" id="tr-at">&mdash;</span></div>
         <div class="t-row"><span class="t-lbl">Ending</span><span class="t-val" id="tr-tol">&mdash;</span></div>
         <div class="t-row"><span class="t-lbl">Engine</span><span class="t-val" id="tr-eng">&mdash;</span></div>
+        <div class="t-row"><span class="t-lbl">Premise</span><span class="t-val" id="tr-fl">&mdash;</span></div>
         <div class="t-sec">Relationship</div>
         <div class="t-bw"><div class="t-bl" id="tr-rl">Closeness: distant</div><div class="t-b"><div class="t-bf" id="tr-rb" style="width:10%;"></div></div></div>
         <div class="t-row"><span class="t-lbl">Last shift</span><span class="t-val" id="tr-rls">&mdash;</span></div>
@@ -626,8 +818,8 @@ html,body{height:100%;overflow:hidden;background:#000;}
 </div>
 
 <div id="pel" class="pg">
-  <div class="topbar"><div class="tb-l"><svg class="tb-ico" viewBox="0 0 100 100"><use href="#ico"/></svg><span class="tb-name">NibLit</span></div><button class="tb-gear" aria-label="Settings" onclick="G('ps')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></button></div>
-  <div class="sc" style="padding:0;">
+  <div class="topbar"><div class="tb-l"><svg class="tb-ico" viewBox="0 0 100 100"><use href="#ico"/></svg><span class="tb-name">NibLit</span></div><span class="tb-r">Table of contents</span></div>
+  <div class="pel-hdr">
     <div class="pel-hdr-mood" id="pel-hdr-mood">—</div>
     <div class="pel-hdr-ttl" id="pel-hdr-ttl">—</div>
     <div class="pel-hdr-meta" id="pel-hdr-meta">—</div>
@@ -641,7 +833,7 @@ html,body{height:100%;overflow:hidden;background:#000;}
 </div>
 
 <div id="pli" class="pg">
-  <div class="topbar"><div class="tb-l"><svg class="tb-ico" viewBox="0 0 100 100"><use href="#ico"/></svg><span class="tb-name">NibLit</span></div><button class="tb-gear" aria-label="Settings" onclick="G('ps')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></button></div>
+  <div class="topbar"><div class="tb-l"><svg class="tb-ico" viewBox="0 0 100 100"><use href="#ico"/></svg><span class="tb-name">NibLit</span></div><span class="tb-r">Your library</span></div>
   <div class="sc">
     <div id="liblist"></div>
   </div>
@@ -649,12 +841,16 @@ html,body{height:100%;overflow:hidden;background:#000;}
 
 <div id="bnav" style="display:none;">
   <button class="bnt" id="bn-options" onclick="G('pc')">
-    <svg class="bnt-ico" viewBox="0 0 24 24" fill="none" stroke="#C8A060" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17.5" y1="15" x2="9" y2="15"/></svg>
+    <svg class="bnt-ico" viewBox="0 0 24 24" fill="none" stroke="#C8A060" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
     <span class="bnt-lbl">Story</span><div class="bnt-pip"></div>
   </button>
   <button class="bnt" id="bn-library" onclick="G('pli')">
     <svg class="bnt-ico" viewBox="0 0 24 24" fill="none" stroke="#C8A060" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
     <span class="bnt-lbl">Library</span><div class="bnt-pip"></div>
+  </button>
+  <button class="bnt" id="bn-settings" onclick="G('ps')">
+    <svg class="bnt-ico" viewBox="0 0 24 24" fill="none" stroke="#C8A060" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="18" y2="18"/></svg>
+    <span class="bnt-lbl">Settings</span><div class="bnt-pip"></div>
   </button>
   <button class="bnt" id="bn-reader" onclick="G('pr')">
     <svg class="bnt-ico" viewBox="0 0 24 24" fill="none" stroke="#C8A060" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
@@ -677,7 +873,7 @@ const MOODS={
   'Romantasy':{tr:'Le Guin & Tolkien',sx:'world-building threaded through action; magic with cost and consequence; wonder earned not given; the impossible made inevitable; internal logic that never wavers'},
   'Paranormal Romance':{tr:'Shelley & Stoker',sx:'the uncanny named precisely; dread through accumulation of wrong detail; love that crosses the boundary between worlds; atmosphere as character; what should not exist, does'}
 };
-const AM=Object.keys(MOODS),AL=['Woman lead','Man lead','Non-binary lead'],ALI=['Woman','Man','Non-binary'],AD=['Slow burn','Enemies & rivals','Forbidden love','Friends to lovers'],AA=['Grows into someone new','Loses something real','Discovers a truth','Holds her ground'];
+const AM=Object.keys(MOODS),AL=['Woman lead','Man lead','Non-binary lead'],ALI=['Woman','Man','Non-binary'],AD=['Slow burn','Enemies & rivals','Forbidden love','Friends to lovers'],AA=['Grows into someone new','Loses something real','Discovers a truth','Holds their ground'];
 const PROFESSIONS=[
   'musician','scientist','doctor','sailor','journalist','teacher',
   'merchant','artist','herbalist','soldier','diplomat','dressmaker',
@@ -732,120 +928,70 @@ function SW(el){document.querySelectorAll('.wop').forEach(w=>w.classList.remove(
 function AW(){const i=document.getElementById('wi');const v=(i?.value||'').trim();if(!v)return;const d=document.createElement('div');d.className='wop';d.innerHTML='<div class="wot">'+v+'</div><div class="wos">Custom</div>';d.onclick=function(){SW(this);};document.getElementById('wo').appendChild(d);SW(d);i.value='';}
 
 // ─── Carousel init ───────────────────────────────────────────
-// ─── Creation flow — genre rack → single config screen ───────
-const CC_GENRES=[
-  {key:'reg', mood:'mood-reg', glyph:'R', moodName:'Regency Romance',    eye:'The drawing room', name:'Regency romance',    tag:'Wit, longing, and very good manners.', sugg:'Slow burn'},
-  {key:'hist',mood:'mood-hist',glyph:'H', moodName:'Historical Romance', eye:'Another century',  name:'Historical romance', tag:'Another time. The same pull.',          sugg:'Forbidden love'},
-  {key:'rom', mood:'mood-rom', glyph:'F', moodName:'Romantasy',          eye:'Worlds unmade',    name:'Romantasy',          tag:'Magic is the least of it.',             sugg:'Enemies & rivals'},
-  {key:'par', mood:'mood-par', glyph:'P', moodName:'Paranormal Romance', eye:'After dark',       name:'Paranormal romance', tag:'Love is stranger than it seems.',       sugg:'Forbidden love'},
-  {key:'sur', mood:'mood-sur', glyph:'?', moodName:'Surprise me',        eye:'Let fate choose',  name:'Surprise me',        tag:'A random genre. A random spark.',       surprise:true}
-];
-// Add a key here (e.g. 'reg') once covers/<key>.jpg exists — it swaps the painted fallback for the scan.
-const CC_HAS_COVER=[];
-const CC_GBY=Object.fromEntries(CC_GENRES.map(g=>[g.key,g]));
-const CC_SPNMS=['1 — Gentle','2 — Sweet','3 — Warm','4 — Steamy','5 — Explicit'];
-const CC_SPDS=['A longing glance, a held breath.','Tender longing, charged silences.','Sensual awareness, physical proximity.','',''];
-let ccGenre=null, ccSelectedMood=null, ccDynTouched=false;
+function initCarousel(){
+  const c=document.getElementById('pc-carousel');
+  if(!c)return;
 
-function ccCoverHtml(g){
-  const fb='<div class="gcover-fb"><span class="ornament">'+(g.surprise?'\u2726':g.glyph)+'</span><span class="stamp">NibLit</span></div>';
-  if(!g.surprise && CC_HAS_COVER.indexOf(g.key)>-1)
-    return fb+'<img src="covers/'+g.key+'.jpg" alt="" onerror="this.remove()">';
-  return fb;
-}
-function ccRenderGenres(){
-  const wrap=document.getElementById('cc-genres'); if(!wrap||wrap.childElementCount)return;
-  wrap.innerHTML=CC_GENRES.map((g,i)=>
-    '<div class="gcard '+g.mood+'" onclick="ccPick(\''+g.key+'\')">'+
-      '<div class="gcover">'+ccCoverHtml(g)+'</div>'+
-      '<div class="gcard-body"><div class="gcard-no">&#8470; 0'+(i+1)+'</div>'+
-        '<div class="gcard-eye">'+g.eye+'</div><div class="gcard-ttl">'+g.name+'</div>'+
-        '<div class="gcard-tag">'+g.tag+'</div></div>'+
-    '</div>').join('');
-}
-function ccSetChip(dim,val){
-  document.querySelectorAll('#pc .cp[data-g="'+dim+'"]').forEach(x=>{
-    x.classList.toggle('on', x.textContent.replace(/\u2605\s*/g,'').trim()===val);
+  // Chip single-select within each pane
+  c.querySelectorAll('.cs').forEach(group=>{
+    group.addEventListener('click',e=>{
+      const chip=e.target.closest('.cp[data-g]');
+      if(!chip)return;
+      const g=chip.dataset.g;
+      group.querySelectorAll('.cp[data-g="'+g+'"]').forEach(x=>x.classList.remove('on'));
+      chip.classList.add('on');
+      // Custom wild card input visibility
+      if(g==='wc'){
+        const pane=chip.closest('.pane');
+        const inp=pane&&pane.querySelector('.pane-wci');
+        if(inp)inp.classList.toggle('v',chip.textContent.trim()==='Custom');
+      }
+    });
   });
-}
-function ccPick(key){
-  const g=CC_GBY[key]; ccGenre=key; ccSelectedMood=g.moodName;
-  if(g.surprise){ begin(); return; }
-  if(!ccDynTouched) ccSetChip('d', g.sugg);
-  const b=document.getElementById('cc-banner');
-  b.className='cfg-genre '+g.mood;
-  b.innerHTML='<div class="cfg-genre-l"><div class="cfg-genre-thumb">'+ccCoverHtml(g)+'</div>'+
-    '<div class="cfg-genre-txt"><div class="ge">Your world</div><div class="gn">'+g.name+'</div></div></div>'+
-    '<div class="cfg-genre-change">&lsaquo; Change</div>';
-  document.getElementById('cc-dyn-lbl').innerHTML='Dynamic'+(!ccDynTouched?' <span class="sugg">suggested for '+g.name.split(' ')[0]+'</span>':'');
-  ccShowStep(2);
-}
-function ccToGenre(){ ccShowStep(1); }
-function ccShowStep(n){
-  document.getElementById('cc-step1').style.display=n===1?'':'none';
-  document.getElementById('cc-step2').style.display=n===2?'':'none';
-  document.getElementById('cc-cta').style.display=n===2?'':'none';
-  document.getElementById('cc-tbl').style.display=n===1?'':'none';
-  document.getElementById('cc-back').style.display=n===2?'':'none';
-  document.getElementById('cc-stepnum').textContent=(n===1?'I':'II')+' / II';
-  document.getElementById('cc-seg1').className='cc-seg '+(n===1?'active':'done');
-  document.getElementById('cc-seg2').className='cc-seg '+(n===2?'active':'');
-  const body=document.getElementById('cc-step'+n);
-  if(body){body.classList.remove('cc-anim');void body.offsetWidth;body.classList.add('cc-anim');body.scrollTop=0;}
-  if(n===2) ccUpdateRecap();
-}
-function ccUpdateRecap(){
-  const el=document.getElementById('cc-recap'); if(!el)return;
-  const c=getCfg();
-  const lbl=CC_SPNMS[c.sp-1]; const spLbl=lbl.indexOf(' — ')>-1?lbl.split(' — ')[1]:lbl;
-  const parts=[ccGenre&&CC_GBY[ccGenre].name, c.d.includes('Surprise')?'a surprise':c.d, spLbl];
-  el.innerHTML=parts.filter(Boolean).map(p=>'<b>'+p+'</b>').join(' &middot; ');
-}
-function ccConfirm(){
-  if(ccGenre&&CC_GBY[ccGenre].surprise){ begin(); return; }
-  ccBuildSheet();
-  document.getElementById('cc-sheet').style.display='flex';
-}
-function ccCloseSheet(){ document.getElementById('cc-sheet').style.display='none'; }
-function ccBuildSheet(){
-  const c=getCfg(); const g=CC_GBY[ccGenre]; const f=!!(g&&g.surprise);
-  const rows=[['World',g?g.name:'—',f],
-    ['Dynamic',c.d,f||c.d.includes('Surprise')],
-    ['Protagonist',c.l,f||c.l.includes('Surprise')],
-    ['Love interest',c.li,f||c.li.includes('Surprise')],
-    ['Arc',c.arc,f||c.arc.includes('Surprise')],
-    ['Spice',CC_SPNMS[c.sp-1],f]];
-  if(!f){ if(c.wcs) rows.push(['Wild card','',true]); else if(c.wc) rows.push(['Wild card',c.wc,false]); }
-  document.getElementById('cc-rlist').innerHTML=rows.map(r=>
-    '<div class="cc-rrow"><span class="cc-rk">'+r[0]+'</span><span class="cc-rv'+(r[2]?' sur':'')+'">'+(r[2]?'let fate decide':r[1])+'</span></div>').join('');
-}
-function ccInit(){ ccRenderGenres(); ccGenre=null; ccSelectedMood=null; ccCloseSheet(); ccShowStep(1); }
 
-// Delegated chip-select + spice + wildcard wiring for the config screen
-document.addEventListener('click',e=>{
-  const chip=e.target.closest('#pc .cp[data-g]'); if(!chip)return;
-  const dim=chip.dataset.g;
-  document.querySelectorAll('#pc .cp[data-g="'+dim+'"]').forEach(x=>x.classList.remove('on'));
-  chip.classList.add('on');
-  if(dim==='d'){ ccDynTouched=true; const dl=document.getElementById('cc-dyn-lbl'); if(dl)dl.innerHTML='Dynamic'; }
-  if(dim==='wc'){ const inp=document.getElementById('cc-wci'); if(inp) inp.classList.toggle('v', chip.textContent.trim()==='Custom'); }
-  ccUpdateRecap();
-});
-(function(){
-  const sps=document.getElementById('cc-sps');
-  if(sps) sps.addEventListener('input',function(){
-    let v=parseInt(this.value);
-    const notice=document.getElementById('cc-spn');
-    if(v>=4){this.value=3;v=3;notice.classList.add('v');clearTimeout(window._ccspT);window._ccspT=setTimeout(()=>notice.classList.remove('v'),4500);}
-    else notice.classList.remove('v');
-    document.getElementById('cc-spv').textContent=CC_SPNMS[v-1];
-    document.getElementById('cc-spd').textContent=CC_SPDS[v-1];
-    ccUpdateRecap();
+  // Spice sliders
+  const SPNMS=['1 — Gentle','2 — Sweet','3 — Warm','4 — Steamy','5 — Explicit'];
+  const SPDS=['A longing glance, a held breath.','Tender longing, charged silences.','Sensual awareness, physical proximity.','',''];
+  c.querySelectorAll('.pane-sps').forEach(sl=>{
+    sl.addEventListener('input',function(){
+      const pane=this.closest('.pane');
+      let v=parseInt(this.value);
+      const notice=pane&&pane.querySelector('.pane-spn');
+      if(v>=4){this.value=3;v=3;if(notice){notice.classList.add('v');clearTimeout(this._spT);this._spT=setTimeout(()=>notice.classList.remove('v'),4500);}}
+      else if(notice)notice.classList.remove('v');
+      if(pane){
+        const vEl=pane.querySelector('.pane-spv');
+        const dEl=pane.querySelector('.pane-spd');
+        if(vEl)vEl.textContent=SPNMS[v-1];
+        if(dEl)dEl.textContent=SPDS[v-1];
+      }
+    });
   });
-  const wci=document.getElementById('cc-wci');
-  if(wci) wci.addEventListener('input',ccUpdateRecap);
-})();
-function G(id){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));document.getElementById(id).classList.add('on');const map={pc:'bn-options',pli:'bn-library',pel:'bn-library',pr:'bn-reader'};document.querySelectorAll('.bnt').forEach(b=>b.classList.remove('on'));if(map[id]){const b=document.getElementById(map[id]);if(b)b.classList.add('on');}document.getElementById('bnav').style.display=(id==='pw'||id==='pl')?'none':'flex';if(id==='pc')ccInit();if(id==='pli'){loadLibrary();trackEvent('library_opened',{});}if(id==='pel'){trackEvent('toc_opened',{story_id:currentStoryId});}if(id==='ps')trackEvent('settings_opened',{});if(id==='pw')ST();else KT();}
+
+  // Scroll → dots + theme
+  let scrollT;
+  c.addEventListener('scroll',()=>{
+    clearTimeout(scrollT);
+    scrollT=setTimeout(()=>updateDots(Math.round(c.scrollLeft/c.offsetWidth)),50);
+  },{passive:true});
+
+  // Dot navigation
+  document.querySelectorAll('.pdot').forEach(dot=>{
+    dot.addEventListener('click',()=>{
+      const idx=parseInt(dot.dataset.idx);
+      c.scrollTo({left:idx*c.offsetWidth,behavior:'smooth'});
+    });
+  });
+
+  updateDots(0);
+}
+
+function updateDots(idx){
+  document.querySelectorAll('.pdot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+}
+
+document.querySelectorAll('.cp').forEach(c=>{c.addEventListener('click',()=>{document.querySelectorAll('.cp[data-g="'+c.dataset.g+'"]').forEach(x=>x.classList.remove('on'));c.classList.add('on');});});
+function G(id){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));document.getElementById(id).classList.add('on');const map={pc:'bn-options',pli:'bn-library',pel:'bn-library',ps:'bn-settings',pr:'bn-reader'};document.querySelectorAll('.bnt').forEach(b=>b.classList.remove('on'));if(map[id]){const b=document.getElementById(map[id]);if(b)b.classList.add('on');}document.getElementById('bnav').style.display=(id==='pw'||id==='pl')?'none':'flex';if(id==='pc')initCarousel();if(id==='pli'){loadLibrary();trackEvent('library_opened',{});}if(id==='pel'){trackEvent('toc_opened',{story_id:currentStoryId});}if(id==='ps')trackEvent('settings_opened',{});if(id==='pw')ST();else KT();}
 function FS(sz,btn){document.querySelectorAll('.f1').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const m={sm:'13px',md:'15px',lg:'17px'};document.querySelectorAll('.prose').forEach(p=>{p.style.fontSize=m[sz];});}
 function LH(lh,btn){document.querySelectorAll('.f1').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const m={co:'1.65',cm:'1.95',ai:'2.3'};document.querySelectorAll('.prose').forEach(p=>{p.style.lineHeight=m[lh];});}
 const SHD=[{cat:'Violence & harm',items:['Physical violence / assault','Domestic abuse','Graphic gore','War or combat','Torture']},{cat:'Sexual content & abuse',items:['Sexual coercion','Infidelity / cheating'],always:['Child sexual abuse (always blocked)','Non-consensual sex presented positively (always blocked)']},{cat:'Mental health & self-harm',items:['Suicide or suicidal ideation','Self-harm','Eating disorders','Addiction']},{cat:'Loss & grief',items:['Death of a parent','Death of a child','Pregnancy loss','Terminal illness','Abandonment']},{cat:'Childhood & family trauma',items:['Child abuse','Child neglect','Parental addiction','Family separation']},{cat:'Identity & discrimination',items:['Racism / racial violence','Homophobia / transphobia','Religious persecution','Misogyny']}];
@@ -880,6 +1026,41 @@ const SG={
 const AGE={'Slow burn':'Establish proximity -- put two people in a space they cannot easily leave','Enemies & rivals':'Establish opposition -- make the conflict feel real and the dislike genuine','Forbidden love':'Establish the prohibition -- make clear what stands between them and why','Friends to lovers':'Establish the friendship -- make the reader understand what is at risk'};
 const ENG={'Slow burn':['Internal contradiction','Pure desire'],'Enemies & rivals':['Internal contradiction','External threat'],'Forbidden love':['External threat','Pure desire'],'Friends to lovers':['Internal contradiction','Mystery']};
 const SHAKES={'Slow burn':"As You Like It / The Winter's Tale",'Enemies & rivals':'Much Ado About Nothing / Othello','Forbidden love':'Romeo and Juliet / Cymbeline','Friends to lovers':'Twelfth Night'};
+// Genre-specific flavor. Each genre exposes one bespoke dimension in its builder pane.
+// .c = chip label (must match the chip textContent); .p = instruction injected into the prose prompt.
+const FLAVORS={
+  'Regency Romance':{label:'Scandal',opts:[
+    {c:'A ruined reputation',p:'CENTRAL STAKES: a ruined or threatened reputation drives the social danger.'},
+    {c:'A secret betrothal',p:'CENTRAL STAKES: a secret or contested betrothal complicates every choice.'},
+    {c:'A marriage of convenience',p:'CENTRAL PREMISE: a marriage of convenience binds the leads before love does.'},
+    {c:'A debt kept hidden',p:'CENTRAL STAKES: a hidden debt or financial ruin shadows the courtship.'}
+  ]},
+  'Historical Romance':{label:'Setting',opts:[
+    {c:'A great estate',p:'SETTING: a grand country estate and the life of its household.'},
+    {c:'Wartime',p:'SETTING: a time of war — its partings, dangers, and urgency.'},
+    {c:'The high seas',p:'SETTING: a sea voyage or port world of ships, tides, and distance.'},
+    {c:'A remote frontier',p:'SETTING: a remote frontier or outpost far from society.'}
+  ]},
+  'Romantasy':{label:'Magic',opts:[
+    {c:'Elemental power',p:'MAGIC SYSTEM: elemental power, with real cost and consequence.'},
+    {c:'Blood & bargains',p:'MAGIC SYSTEM: blood magic and binding bargains that exact a price.'},
+    {c:'An ancient prophecy',p:'MAGIC SYSTEM: an ancient prophecy the leads are caught inside.'},
+    {c:'The fae courts',p:'MAGIC SYSTEM: the fae courts — beautiful, treacherous, ruled by debt and glamour.'}
+  ]},
+  'Paranormal Romance':{label:'Love interest',opts:[
+    {c:'A vampire',p:'PARANORMAL: the love interest is a vampire — hunger, immortality, the peril of closeness.'},
+    {c:'A ghost',p:'PARANORMAL: the love interest is a ghost — love reaching across the boundary of death.'},
+    {c:'A shapeshifter',p:'PARANORMAL: the love interest is a shapeshifter — two natures, one heart.'},
+    {c:'Cursed with immortality',p:'PARANORMAL: the love interest is cursed with immortality — the weight of outliving everyone.'}
+  ]}
+};
+function resolveFlavor(genre, chip){
+  const meta=FLAVORS[genre]||FLAVORS['Regency Romance'];
+  let c=chip;
+  if(!c||c.includes('Surprise'))c=pick(meta.opts).c;
+  let o=meta.opts.find(x=>x.c===c);if(!o)o=pick(meta.opts);
+  return{label:meta.label,flR:o.c,flP:o.p};
+}
 
 // ════════════════════════════════════════════════════════════════
 // SUPABASE CONFIGURATION — UPDATE THESE TWO VALUES
@@ -977,9 +1158,7 @@ async function loadLibrary(){
     const title = s.story_title || 'Untitled story';
     const titleJs = title.replace(/\\/g, '\\\\').replace(/\'/g, "\\'");
     const moodClass = LIB_MOOD_CLASS[mood] || 'lgfb-light';
-    const coverHtml = s.cover_image_url
-      ? '<img class="lgcov-img" src="' + escapeHtml(s.cover_image_url) + '" loading="lazy" alt="">'
-      : '<div class="lgcov-fb ' + moodClass + '"><div class="lgcov-ttl">' + escapeHtml(title) + '</div></div>';
+    const coverHtml = coverFrameHtml({url: s.cover_image_url, title, mood, mat: s.cover_image_url ? PLUM_MAT : undefined, lazy: true});
     return '<div class="lgc" onclick="openLibCard(\'' + s.id + '\')">' +
       '<div class="lgcov">' +
         coverHtml +
@@ -989,6 +1168,9 @@ async function loadLibrary(){
     '</div>';
   }).join('') + '</div>';
   attachLibGridInteractions();
+  // Derive each real cover's mat from its background art (keeps plum on CORS failure).
+  const _cards = list.querySelectorAll('.lgc');
+  stories.forEach((s, i) => { if(s.cover_image_url && _cards[i]) applyDerivedMat(_cards[i].querySelector('.lgcov'), s.cover_image_url); });
 }
 
 // Tap-router: if any card is selected, a tap deselects instead of opening.
@@ -1256,7 +1438,7 @@ function getCfg(){
   const g=x=>scope.querySelector('.cp.on[data-g="'+x+'"]')?.textContent?.replace(/\u2605\s*/g,'').trim()||'';
   const spEl=scope.querySelector('.pane-sps')||document.getElementById('sps');
   const sp=parseInt(spEl?.value||2);
-  const m=ccSelectedMood||(pane?pane.dataset.mood:g('m'));
+  const m=pane?pane.dataset.mood:g('m');
   // Wild card from chip group
   const wcText=g('wc');
   let wc=null,wcs=false;
@@ -1265,7 +1447,7 @@ function getCfg(){
     if(wcText==='Custom'){const inp=scope.querySelector('.pane-wci');wc=inp&&inp.value.trim()?inp.value.trim():null;}
     else{wc=wcText;}
   }
-  return{m,l:g('l'),li:g('li'),d:g('d'),arc:g('arc'),sp,wc,wcs};
+  return{m,l:g('l'),li:g('li'),d:g('d'),arc:g('arc'),fl:g('fl'),sp,wc,wcs};
 }
 function SL(on){if(on){document.getElementById('ls').style.display='block';document.getElementById('pw2').style.display='none';let i=0;document.getElementById('lm').textContent=LMS[0];lT=setInterval(()=>{i=(i+1)%LMS.length;document.getElementById('lm').textContent=LMS[i];},2300);}else{if(lT){clearInterval(lT);lT=null;}document.getElementById('ls').style.display='none';document.getElementById('pw2').style.display='block';document.getElementById('rs').scrollTop=0;}document.getElementById('eb').style.display='none';}
 function SE(msg){if(lT){clearInterval(lT);lT=null;}document.getElementById('ls').style.display='none';document.getElementById('pw2').style.display='none';const e=document.getElementById('eb');e.style.display='block';e.textContent=msg;}
@@ -1278,6 +1460,7 @@ async function begin(){
   const liR=sCfg.li.includes('Surprise')?pick(ALI):sCfg.li;
   const arcR=sCfg.arc.includes('Surprise')?pick(AA):sCfg.arc;
   const wR=sCfg.wcs?pick(SWP).t:sCfg.wc;
+  const fl=resolveFlavor(mR,sCfg.fl);const flR=fl.flR,flP=fl.flP,flLabel=fl.label;
   const tol=pick(TOLS);
   const goal=pick(SG[mR]||SG['Regency Romance']);
   const arcGoal=AGE[dR]||'Establish the world and central tension';
@@ -1287,9 +1470,10 @@ async function begin(){
   const protagonistEthnicity=pick(ETHNICITY_POOL);
   const loveInterestEthnicity=pick(ETHNICITY_POOL);
   const opening=pick(OPENINGS);
-  gc={mR,dR,lR,liR,arcR,wR,tol,goal,arcGoal,engine,shakes,sp:sCfg.sp,profession,opening,protagonistEthnicity,loveInterestEthnicity};
+  gc={mR,dR,lR,liR,arcR,wR,tol,goal,arcGoal,engine,shakes,sp:sCfg.sp,profession,opening,protagonistEthnicity,loveInterestEthnicity,flR,flP,flLabel};
   tS={goal,arcGoal,arcType:arcR,tol,engine,rel:10,relLast:'--',know:'Nothing hidden yet',pow:50,gp:4,res:[]};
   UTR();
+  {const _f=document.getElementById('tr-fl');if(_f)_f.textContent=flR;}
   // 5-story limit check
   if(currentSession){
     const {count} = await sb.from('stories')
@@ -1306,7 +1490,7 @@ async function begin(){
   if(currentSession){
     const {data, error} = await sb.from('stories').insert({
       user_id: currentSession.user.id,
-      config: { mood:mR, dynamic:dR, protagonist:lR, loveInterest:liR, arc:arcR, wildCard:wR, spice:sCfg.sp, profession:profession, protagonistEthnicity:protagonistEthnicity, loveInterestEthnicity:loveInterestEthnicity },
+      config: { mood:mR, dynamic:dR, protagonist:lR, loveInterest:liR, arc:arcR, flavor:flR, wildCard:wR, spice:sCfg.sp, profession:profession, protagonistEthnicity:protagonistEthnicity, loveInterestEthnicity:loveInterestEthnicity },
       global_context: gc
     }).select().single();
     if(error){ SE('Could not save story: '+error.message); return; }
@@ -1316,11 +1500,11 @@ async function begin(){
     currentStoryId = 'story_'+Math.random().toString(36).slice(2);
     currentStoryMeta = { id: currentStoryId, config: {mood:gc.mR, dynamic:gc.dR}, global_context: gc };
   }
-  trackEvent('story_started',{mood:gc.mR,dynamic:gc.dR,protag_arc:gc.arcR,spice:gc.sp,wild_card:gc.wR||null});
+  trackEvent('story_started',{mood:gc.mR,dynamic:gc.dR,protag_arc:gc.arcR,flavor:gc.flR,spice:gc.sp,wild_card:gc.wR||null});
   const md=MOODS[mR]||MOODS['Regency Romance'];
   document.getElementById('en').textContent='Episode 1';
   document.getElementById('et').textContent='Gathering the threads...';
-  document.getElementById('ec').textContent=mR+' - '+lR+' - '+dR+(wR?' - '+wR.slice(0,30)+'...':'');
+  document.getElementById('ec').textContent=mR+' - '+lR+' - '+dR+(flR?' - '+flR:'')+(wR?' - '+wR.slice(0,30)+'...':'');
   document.getElementById('tbt').textContent='Pre-1928 - '+md.tr;
   document.getElementById('pf').style.width='0%';
   document.getElementById('pl2').textContent='0%';
@@ -1391,6 +1575,60 @@ const COVER_MOOD = {
   'Paranormal Romance': 'Moonlit cool blues and silver. Deep shadow with points of warm candlelight.'
 };
 
+// ── Framed paperback cover: shared renderer for library grid + reader ──
+const NIB_SVG = '<svg viewBox="0 0 100 100" fill="none"><path d="M50 12C46 18 41 26 38 35C35 43 36 50 40 56C34 51 32 43 33 34C29 42 28 52 32 61C36 71 43 78 50 83C57 78 64 71 68 61C72 52 71 42 67 34C68 43 66 51 60 56C64 50 65 43 62 35C59 26 54 18 50 12Z" fill="#e8c87a"/><path d="M50 60L44 72L50 86L56 72Z" fill="#e8c87a"/></svg>';
+const PLUM_MAT = '#3d1340';
+// Deep, gold-foil-friendly mats per genre — used for the fallback (no art yet) card.
+const GENRE_MAT = {'Regency Romance':'#3a1633','Historical Romance':'#3f1518','Romantasy':'#1b2150','Paranormal Romance':'#0e1320'};
+
+function coverFrameHtml(opts){
+  const mood = opts.mood || 'Romance';
+  const mat  = opts.mat || GENRE_MAT[mood] || PLUM_MAT;
+  const inner = opts.url
+    ? '<img class="nlcov-art-img" src="'+escapeHtml(opts.url)+'"'+(opts.lazy?' loading="lazy"':'')+' alt="">'
+    : '<div class="nlcov-art-ph">'+NIB_SVG+'</div>';
+  return '<div class="nlcov" style="--mat:'+mat+'">'
+    +   '<div class="nlcov-eyebrow">'+escapeHtml(mood)+'</div>'
+    +   '<div class="nlcov-art">'+inner+'</div>'
+    +   '<div class="nlcov-band">'
+    +     '<div class="nlcov-orn"><span class="r"></span><span class="s">&#10022;</span><span class="r"></span></div>'
+    +     '<div class="nlcov-title">'+escapeHtml(opts.title||'Untitled')+'</div>'
+    +   '</div>'
+    +   '<div class="nlcov-colophon">'+NIB_SVG+'<span>A NibLit Original</span></div>'
+    + '</div>';
+}
+
+// Pull a mat colour from the cover art's BACKGROUND (edge ring, skipping the
+// centre where the figures sit), then deepen it so the gold title always reads.
+// Zero API cost — sampled client-side. CORS-tainted images silently keep plum.
+function rgbToHsl(r,g,b){r/=255;g/=255;b/=255;const mx=Math.max(r,g,b),mn=Math.min(r,g,b);let h,s,l=(mx+mn)/2;if(mx===mn){h=s=0;}else{const d=mx-mn;s=l>.5?d/(2-mx-mn):d/(mx+mn);switch(mx){case r:h=(g-b)/d+(g<b?6:0);break;case g:h=(b-r)/d+2;break;default:h=(r-g)/d+4;}h/=6;}return[h,s,l];}
+function hslToRgb(h,s,l){let r,g,b;if(s===0){r=g=b=l;}else{const q=l<.5?l*(1+s):l+s-l*s,p=2*l-q;const f=(t)=>{if(t<0)t+=1;if(t>1)t-=1;if(t<1/6)return p+(q-p)*6*t;if(t<1/2)return q;if(t<2/3)return p+(q-p)*(2/3-t)*6;return p;};r=f(h+1/3);g=f(h);b=f(h-1/3);}return[Math.round(r*255),Math.round(g*255),Math.round(b*255)];}
+function applyDerivedMat(containerEl, url){
+  if(!containerEl || !url) return;
+  const target = containerEl.querySelector('.nlcov') || containerEl;
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = function(){
+    try{
+      const w=24,h=36,cv=document.createElement('canvas');cv.width=w;cv.height=h;
+      const cx=cv.getContext('2d');cx.drawImage(img,0,0,w,h);
+      const d=cx.getImageData(0,0,w,h).data;
+      let r=0,g=0,b=0,n=0;
+      for(let y=0;y<h;y++){for(let x=0;x<w;x++){
+        const edge=(y<h*0.30)||(x<w*0.16)||(x>=w*0.84);   // background ring only
+        if(!edge) continue;
+        const i=(y*w+x)*4;r+=d[i];g+=d[i+1];b+=d[i+2];n++;
+      }}
+      if(!n) return;
+      r/=n;g/=n;b/=n;
+      const hsl=rgbToHsl(r,g,b);
+      const out=hslToRgb(hsl[0], Math.min(.5,Math.max(.28,hsl[1])), 0.135);
+      target.style.setProperty('--mat','rgb('+out[0]+','+out[1]+','+out[2]+')');
+    }catch(e){ /* tainted canvas (CORS) — keep plum default */ }
+  };
+  img.src = url;
+}
+
 // Maps AL / ALI values to paintable gender presentation labels.
 function coverGenderLabel(val){
   if(!val) return 'a person';
@@ -1441,6 +1679,7 @@ function buildCoverPrompt(cfg){
     'Bold composition. Figures large in frame, close to viewer. Designed to be seen across a bookstore rack. ' +
     'Dramatic, not subtle. Emotionally heightened.',
     figureBlock,
+    'FRAMING FOR CROP: This painting will be displayed inside a near-square window that crops the very top and bottom edges. Compose for a centred safe zone — keep both figures and every important detail, above all the faces, within the central vertical two-thirds of the image. Place faces at or slightly above the vertical midline with generous headroom above. Leave the top ~12% and the bottom ~18% as quiet atmospheric space holding nothing essential, so nothing is lost when the edges are trimmed.',
     `Their world carries the atmosphere of a ${trade} — its light, texture, and feeling present in the scene.`,
     'Background soft and dissolved: warm colour washes, implied shapes emerging from atmospheric haze. ' +
     'Not sharply rendered. Not architecturally detailed. Figures dominate the frame; everything behind them dissolves into light and tone.',
@@ -1494,22 +1733,22 @@ function setReaderCover(){
   const url = meta.cover_image_url || null;
   const title = window._storyTitle || meta.story_title || 'Untitled story';
   const moodClass = LIB_MOOD_CLASS[cfg.mood] || 'lgfb-reg';
-  cov.innerHTML = url
-    ? '<img class="lgcov-img" src="' + escapeHtml(url) + '" alt="">'
-    : '<div class="lgcov-fb ' + moodClass + '"><div class="lgcov-ttl">' + escapeHtml(title) + '</div></div>';
+  cov.innerHTML = coverFrameHtml({url, title, mood: cfg.mood || 'Romance', mat: url ? PLUM_MAT : undefined});
+  if(url) applyDerivedMat(cov, url);
 }
 async function GE(){
   const sh=[...sS,...cSh];const shL=sh.length?'Avoid entirely: '+sh.join(', '):'';
   const wcL=gc.wR?'WILD CARD (syntactic precedence): '+gc.wR:'';
   const profL=gc.profession?"PROTAGONIST'S PROFESSION (mandatory — do not change): "+gc.profession+". Do not use a cartographer, mapmaker, librarian, or governess.":'';
+  const flL=gc.flP?gc.flP:'';
   const spL=['','Gentle','Sweet','Warm','Steamy','Explicit'];
   const ethP=gc.protagonistEthnicity?' Protagonist ethnicity: '+gc.protagonistEthnicity.prose+'.':'';
   const ethLI=gc.loveInterestEthnicity?' Love interest ethnicity: '+gc.loveInterestEthnicity.prose+'.':'';
   const pgL=proseGenderLabel(gc.lR, true);
   const liGL=proseGenderLabel(gc.liR, false);
   const pr=eN===1
-    ?'Write Episode 1. '+(profL?' '+profL:'')+' Protagonist: '+pgL+'.'+ethP+' '+(gc.liR==='No love interest'?'No love interest.':'Love interest: '+liGL+'.'+ethLI)+' Dynamic: '+gc.dR+'. Spice: '+(gc.sp||2)+'/5 ('+spL[gc.sp||2]+').'+( wcL?' '+wcL:'')+' '+(gc.opening||'')+' End on an unresolved hook that demands episode 2.'+(shL?' '+shL:'')
-    :'Continue Episode '+eN+'. '+gc.mR+'. Protagonist: '+pgL+'.'+ethP+' '+(gc.liR==='No love interest'?'No love interest.':'Love interest: '+liGL+'.'+ethLI)+' Dynamic: '+gc.dR+'. Spice: '+(gc.sp||2)+'/5.'+(profL?' '+profL:'')+(wcL?' '+wcL:'')+' Previous: '+aS.slice(0,600)+' Deepen tension. Advance the arc goal. End on a fresh hook.'+(shL?' '+shL:'');
+    ?'Write Episode 1. '+(profL?' '+profL:'')+' Protagonist: '+pgL+'.'+ethP+' '+(gc.liR==='No love interest'?'No love interest.':'Love interest: '+liGL+'.'+ethLI)+' Dynamic: '+gc.dR+'. Spice: '+(gc.sp||2)+'/5 ('+spL[gc.sp||2]+').'+(flL?' '+flL:'')+( wcL?' '+wcL:'')+' '+(gc.opening||'')+' End on an unresolved hook that demands episode 2.'+(shL?' '+shL:'')
+    :'Continue Episode '+eN+'. '+gc.mR+'. Protagonist: '+pgL+'.'+ethP+' '+(gc.liR==='No love interest'?'No love interest.':'Love interest: '+liGL+'.'+ethLI)+' Dynamic: '+gc.dR+'. Spice: '+(gc.sp||2)+'/5.'+(flL?' '+flL:'')+(profL?' '+profL:'')+(wcL?' '+wcL:'')+' Previous: '+aS.slice(0,600)+' Deepen tension. Advance the arc goal. End on a fresh hook.'+(shL?' '+shL:'');
   try{
     const r=await fetch('https://niblit-server-production.up.railway.app/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:BSY(),messages:[...sH,{role:'user',content:pr}]})});
     if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error||'Server error '+r.status);}
@@ -1601,7 +1840,7 @@ function SCI(ci){
   document.getElementById('cio').style.display='flex';
 }
 function DC(){const wasVisible=document.getElementById('cio').style.display==='flex';document.getElementById('cio').style.display='none';if(wasVisible)trackEvent('checkin_dismissed',{episode_num:eN});}
-function startNewStory(){trackEvent('start_new_story',{from_episode:eN});G('pc');}
+function startNewStory(){trackEvent('start_new_story',{from_episode:eN});G('po');}
 function RP(raw){const pb=document.getElementById('pb2');pb.classList.remove('ph');const ps=raw.split(/\n\n+/).filter(p=>p.trim());let h='';ps.forEach((para,i)=>{const t=para.trim();if(t.match(/^[*\s-]{1,5}$/)){h+='<div class="sb">&#10022; &nbsp; &#10022; &nbsp; &#10022;</div>';return;}const iL=i===ps.length-1;const iH=iL&&!t.startsWith('"')&&ps.length>3&&t.length>60;if(iH)h+='<div class="hl">'+t+'</div>';else if(i===0)h+='<p class="dc">'+t+'</p>';else h+='<p>'+t+'</p>';});pb.innerHTML=h;}
 async function TH(){
   lv=!lv;
@@ -1635,7 +1874,7 @@ async function TH(){
   try{
     const {data: {session}} = await sb.auth.getSession();
     currentSession = session;
-    if(session){ trackEvent('session_started', {}); G('pw'); setTimeout(ccRenderGenres,100); }
+    if(session){ trackEvent('session_started', {}); G('pw'); setTimeout(initCarousel,100); }
     else{ G('pl'); }
   }catch(e){
     console.error('Init failed:', e);
